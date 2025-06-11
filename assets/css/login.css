@@ -1,0 +1,40 @@
+
+  body {
+    /* Gradien background sesuai warna logo: merah ke orenan dan hijau muda */
+    background: linear-gradient(to bottom left, #d94e1f, #8fcc5e);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .custom-btn {
+    background-color: #1df61d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .custom-btn:hover {
+    background-color: #d98404;
+    color: white;
+  }
+
+  a {
+    color: #f69f1d; /* Warna hijau sesuai tombol */
+    text-decoration: none; /* Menghilangkan garis bawah */
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: #d98404; /* Warna lebih gelap saat hover */
+  }
+
