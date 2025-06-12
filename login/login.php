@@ -1,3 +1,42 @@
+<?php
+session_start();
+include '../koneksi.php';
+
+$error = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+
+    if (!empty($username) && !empty($password)) {
+        $db = new Database();
+        $pdo = $db->getConnection();
+        $sql = "SELECT * FROM users WHERE username = :username OR email = :username";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            if ($password == $user['password']) {
+                $_SESSION['id_user'] = $user['id_user'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = $user['role'];
+                header("Location: ../index.php");
+                exit();
+            } else {
+                $error = "Username atau password salah!";
+            }
+        } else {
+            $error = "Username atau password salah!";
+        }
+    } else {
+        $error = "Harap isi username/email dan password!";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="id">
 
