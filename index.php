@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_user'])) {
 }
 include "koneksi.php";
 include "template/header.php";
-include 'template/alert.php'; 
+// include 'template/alert.php'; 
 ?>
 <style>
     .row {
@@ -63,7 +63,7 @@ include 'template/alert.php';
         <!-- Konten utama -->
         <div class="col-md-9 col-lg-10 main-content"> <!-- Lebar konten agar sejajar dengan sidebar -->
             <?php
-            $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
+            $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             switch ($page) {
                 // perusahaan
                 case "profil_perusahaan":
@@ -219,7 +219,7 @@ include 'template/alert.php';
 
                 // default saat login berhasil
                 default:
-                    include "dashboard.php";
+                    include "home.php";
                     break;
             }
             ?>
