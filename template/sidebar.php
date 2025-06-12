@@ -20,7 +20,7 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Interface
+        Menu
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
@@ -57,14 +57,6 @@
             </div>
         </div>
     </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Addons
-    </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
