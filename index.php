@@ -1,7 +1,8 @@
 <?php
 session_start();
 if (!isset($_SESSION['id_user'])) {
-    header('location:login/login.php');
+    header('location:home.php');
+    // header('location:login/login.php');
 }
 include "koneksi.php";
 include "template/header.php";
