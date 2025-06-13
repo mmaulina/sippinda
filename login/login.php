@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         <form method="POST" action="">
-            <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+            <!-- <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>"> -->
 
             <div class="mb-3">
                 <label for="username" class="form-label">Username atau Email</label>
