@@ -1,0 +1,143 @@
+/* Reset dan dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Layout */
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: #d4edda; /* hijau muda */
+    color: #155724;       /* hijau gelap */
+    padding: 1rem;
+    overflow-y: auto;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+/* Brand */
+.sidebar-brand {
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #155724;
+    display: block;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* Divider */
+.sidebar-divider {
+    border-top: 1px solid #c3e6cb;
+    margin: 1rem 0;
+}
+
+/* Sidebar Heading */
+.sidebar-heading {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #155724;
+    margin-top: 1rem;
+}
+
+/* Nav Item */
+.sidebar .nav-item {
+    list-style: none;
+    margin: 0.3rem 0;
+}
+
+/* Nav Link */
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    color: #155724;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #c3e6cb;
+    border-left: 3px solid #28a745;
+    color: #0b2e13;
+}
+
+.sidebar .nav-link i {
+    margin-right: 0.5rem;
+}
+
+/* Active Link */
+.sidebar .nav-item.active .nav-link {
+    background-color: #a9dfbf;
+    border-left: 3px solid #28a745;
+    color: #0b2e13;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #ffffff;
+}
+
+/* Tombol Toggle Sidebar (Default: sembunyi) */
+.toggle-btn {
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    z-index: 1100;
+    border-radius: 4px;
+}
+
+/* Responsive Rules */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 1000;
+        width: 220px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 15px;
+    }
+
+    .toggle-btn {
+        display: block;
+    }
+}
+
+/* Utility Class */
+.hidden {
+    display: none !important;
+}
