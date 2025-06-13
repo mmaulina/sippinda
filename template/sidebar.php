@@ -16,7 +16,8 @@
     <li class="nav-item active">
         <a class="nav-link" href="?page=home">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Home</span></a>
+            <span>Home</span>
+        </a>
     </li>
 
     <!-- DATA I -->
@@ -28,18 +29,16 @@
         Data I
     </div>
 
-    <li class="nav-item <?= (@$_GET['page'] == 'profil_perusahaan') ? 'active' : ''; ?>">
-        <a class="nav-link collapsed" href="?page=profil_perusahaan" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
+    <li class="nav-item">
+        <a class="nav-link" href="?page=profil_perusahaan">
             <i class="fas fa-fw fa-cog"></i>
             <span>Profil Perusahaan</span>
         </a>
     </li>
-    <li class="nav-item <?= (@$_GET['page'] == 'profil_admin') ? 'active' : ''; ?>">
-        <a class="nav-link collapsed" href="?page=profil_admin" data-toggle="collapse" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
+    <li class="nav-item">
+        <a class="nav-link" href="?page=profil_admin">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>Data Perusahaan (Admin)</span>
+            <span>Data Perusahaan (A)</span>
         </a>
     </li>
 
@@ -52,18 +51,16 @@
         Data II
     </div>
 
-    <li class="nav-item <?= (@$_GET['page'] == 'profil_perusahaan') ? 'active' : ''; ?>">
-        <a class="nav-link collapsed" href="?page=profil_perusahaan" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
+    <li class="nav-item">
+        <a class="nav-link" href="?page=profil_perusahaan">
             <i class="fas fa-fw fa-cog"></i>
             <span>Profil Perusahaan</span>
         </a>
     </li>
-    <li class="nav-item <?= (@$_GET['page'] == 'profil_admin') ? 'active' : ''; ?>">
-        <a class="nav-link collapsed" href="?page=profil_admin" data-toggle="collapse" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
+    <li class="nav-item">
+        <a class="nav-link" href="?page=profil_admin">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>Data Perusahaan (Admin)</span>
+            <span>Data Perusahaan (A)</span>
         </a>
     </li>
 
@@ -76,18 +73,16 @@
         Data III
     </div>
 
-    <li class="nav-item <?= (@$_GET['page'] == 'profil_perusahaan') ? 'active' : ''; ?>">
-        <a class="nav-link collapsed" href="?page=profil_perusahaan" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
+    <li class="nav-item">
+        <a class="nav-link" href="?page=profil_perusahaan">
             <i class="fas fa-fw fa-cog"></i>
             <span>Profil Perusahaan</span>
         </a>
     </li>
-    <li class="nav-item <?= (@$_GET['page'] == 'profil_admin') ? 'active' : ''; ?>">
-        <a class="nav-link collapsed" href="?page=profil_admin" data-toggle="collapse" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
+    <li class="nav-item">
+        <a class="nav-link" href="?page=profil_admin">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>Data Perusahaan (Admin)</span>
+            <span>Data Perusahaan (A)</span>
         </a>
     </li>
 
