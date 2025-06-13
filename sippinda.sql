@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 12, 2025 at 07:31 AM
+-- Generation Time: Jun 13, 2025 at 08:08 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -20,6 +20,24 @@ SET time_zone = "+00:00";
 --
 -- Database: `sippinda`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `profil_perusahaan`
+--
+
+CREATE TABLE `profil_perusahaan` (
+  `id` int NOT NULL,
+  `id_user` int NOT NULL,
+  `nama_perusahaan` varchar(225) NOT NULL,
+  `alamat_kantor` varchar(225) NOT NULL,
+  `alamat_pabrik` varchar(225) NOT NULL,
+  `no_telpon` varchar(15) NOT NULL,
+  `no_fax` varchar(15) NOT NULL,
+  `jenis_lokasi_pabrik` varchar(225) NOT NULL,
+  `jenis_kuisioner` varchar(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -47,6 +65,12 @@ INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `role`) VALUES
 --
 
 --
+-- Indexes for table `profil_perusahaan`
+--
+ALTER TABLE `profil_perusahaan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -55,6 +79,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `profil_perusahaan`
+--
+ALTER TABLE `profil_perusahaan`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
