@@ -39,15 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="icon" href="../assets/img/kalsel.png" type="image/png">
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/login.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/login.css">
+
 </head>
 
 <body class="d-flex justify-content-center align-items-center vh-100">
@@ -65,8 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
         <form method="POST" action="">
-
-
             <div class="mb-3">
                 <label for="username" class="form-label">Username atau Email</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username atau email" required>

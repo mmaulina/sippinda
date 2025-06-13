@@ -1,40 +1,114 @@
-
-  body {
-    /* Gradien background sesuai warna logo: merah ke orenan dan hijau muda */
+body {
+    font-family: sans-serif;
     background: linear-gradient(to bottom left, #d94e1f, #8fcc5e);
     height: 100vh;
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
-    font-family: 'Inter', sans-serif;
-  }
+}
 
-  .custom-btn {
-    background-color: #1df61d;
-    color: white;
-    border: none;
-    padding: 12px 24px;
+/* Card transparan glass effect */
+.card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    width: 400px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Logo styling */
+.card .d-flex img {
+    max-height: 50px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.6));
+}
+
+/* Label dan input */
+.form-label {
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.form-control {
     border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 15px;
+    transition: 0.3s border-color, 0.3s box-shadow;
+}
 
-  .custom-btn:hover {
-    background-color: #d98404;
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.form-control:focus {
+    border-color: #8fcc5e;
+    box-shadow: 0 0 0 4px rgba(140, 204, 94, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
+    outline: none;
+    color: #fff;
+}
+
+/* Tombol login */
+.custom-btn {
+    background: linear-gradient(to right, #d94e1f, #8fcc5e);
     color: white;
-  }
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s transform, 0.3s background;
+}
 
-  a {
-    color: #f69f1d; /* Warna hijau sesuai tombol */
-    text-decoration: none; /* Menghilangkan garis bawah */
-    transition: color 0.3s ease;
-  }
+.custom-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to right, #c63e1a, #78b84d);
+}
 
-  a:hover {
-    color: #d98404; /* Warna lebih gelap saat hover */
-  }
+/* Input group untuk toggle password */
+.input-group {
+    position: relative;
+}
 
+.input-group-text {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #eee;
+    font-size: 18px;
+}
+
+/* Link daftar */
+a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #ffd3c3;
+    text-decoration: underline;
+}
