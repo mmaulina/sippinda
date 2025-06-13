@@ -1,238 +1,111 @@
-html,
+/* Reset dan dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-  height: 100vh; /* Maksimal setinggi layar */
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
 }
 
-/* HEADER */
-.content {
-  margin-left: 250px; /* Harus sama dengan lebar sidebar */
-  width: calc(100% - 250px);
+/* Layout */
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+    min-height: 100vh;
 }
 
-navbar {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1030;
-}
-
-/* Mengatur ukuran logo agar pas di header */
-.navbar-brand img {
-  height: 50px;
-  width: auto;
-}
-
-.nav-item .fa-bell {
-  font-size: 1.2rem;
-  /* Sesuaikan ukuran lonceng */
-}
-
-.nav-item .badge {
-  font-size: 0.7rem;
-  /* Ukuran badge notifikasi */
-}
-
-.nav-link i {
-  font-size: 1.2em; /* Ukuran ikon */
-  vertical-align: middle; /* Penjajaran vertikal */
-}
-
-.nav-link {
-  display: flex; /* Menggunakan flexbox untuk penjajaran */
-  align-items: center; /* Penjajaran item di tengah */
-  padding: 10px; /* Padding untuk link */
-  transition: color 0.3s; /* Efek transisi */
-}
-
-.nav-link:hover {
-  color: #fff; /* Efek hover */
-}
-
-/* SIDEBAR */
+/* Sidebar */
 .sidebar {
-  background-color: #f7f6bb; /* Kuning kalem */
-  transition: width 0.3s;
-  width: 300px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  padding: 1rem;
+    width: 250px;
+    background: #d4edda; /* hijau muda */
+    color: #155724; /* hijau gelap */
+    padding: 1rem;
+    overflow-y: auto;
 }
 
-.sidebar.collapsed {
-  width: 60px; /* Lebar saat ter-collapse */
+/* Brand */
+.sidebar-brand {
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #155724;
+    display: block;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
-.sidebar.collapsed .sidebar-text {
-  display: none; /* Sembunyikan teks saat ter-collapse */
+/* Divider */
+.sidebar-divider {
+    border-top: 1px solid #c3e6cb;
+    margin: 1rem 0;
 }
 
+/* Sidebar Heading */
+.sidebar-heading {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #155724;
+    margin-top: 1rem;
+}
+
+/* Nav Item */
+.sidebar .nav-item {
+    list-style: none;
+    margin: 0.3rem 0;
+}
+
+/* Nav Link */
 .sidebar .nav-link {
-  background-color: #ffffff; /* Putih */
-  color: #000 !important;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  display: block;
-  transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    color: #155724;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
 }
 
 .sidebar .nav-link:hover {
-  background-color: #fff176; /* Kuning kalem saat hover */
-  color: #000 !important;
+    background-color: #c3e6cb;
+    border-left: 3px solid #28a745;
+    color: #0b2e13;
 }
 
-
-/* Tombol aktif di sidebar */
-.sidebar .nav-link.active {
-  background-color: #008b47 !important; /* Hijau listrik */
-  color: #fff !important;
-  font-weight: bold;
-  border-radius: 5px;
+.sidebar .nav-link i {
+    margin-right: 0.5rem;
 }
 
-.sidebar-header {
-  display: flex;
-  justify-content: space-between; /* Menyebar logo dan tombol */
-  align-items: center; /* Penjajaran vertikal */
+/* Active Link */
+.sidebar .nav-item.active .nav-link {
+    background-color: #a9dfbf;
+    border-left: 3px solid #28a745;
+    color: #0b2e13;
 }
 
-.sidebar-header .logo {
-  width: 50px; /* Atur lebar logo */
-  height: auto; /* Tinggi otomatis untuk menjaga rasio */
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
 }
 
-.toggle-sidebar {
-  background: none; /* Menghilangkan latar belakang */
-  border: none; /* Menghilangkan border */
-  color: #000; /* Warna teks */
-  cursor: pointer; /* Menunjukkan bahwa ini dapat diklik */
-  z-index: 1000; /* Pastikan tombol berada di atas elemen lain */
-  position: relative; /* Pastikan tetap terlihat */
-}
-.card {
-  width: 100%; /* Pastikan card melebar penuh */
-  display: block; /* Pastikan tidak inline */
-}
+/* Responsive */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
 
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
 
-
-.timeline {
-  position: relative;
-  padding: 20px 0;
+    .main-content {
+        padding: 10px;
+    }
 }
-.timeline::before {
-  display: block !important; /* Paksa grid agar berbaris ke bawah */
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 4px;
-  height: 100%;
-  background-color: #ccc;
-  transform: translateX(-50%);
-}
-.timeline-item {
-  position: relative;
-  margin-bottom: 30px;
-}
-.timeline-item .circle {
-  width: 20px;
-  height: 20px;
-  background-color: #007bff;
-  border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  top: 10px;
-  transform: translateX(-50%);
-  border: 3px solid white;
-}
-.timeline-item .content {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* User card styling */
-.user-card {
-  background-color: #fff;
-  border: 1px solid #008b47;
-  padding: 10px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  transition: all 0.3s ease-in-out;
-}
-
-/* User icon */
-.user-icon {
-  width: 40px;
-  height: 40px;
-  background-color: #008b47;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  transition: all 0.3s ease-in-out;
-}
-
-/* Username text */
-.user-name {
-  color: #333;
-  font-weight: 600;
-  margin-left: 10px;
-  transition: opacity 0.3s ease-in-out;
-}
-
-/* Jika sidebar dalam keadaan collapsed */
-.sidebar.collapsed .user-card {
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.sidebar.collapsed .user-name {
-  display: none; /* Sembunyikan nama */
-}
-
-.sidebar.collapsed .user-icon {
-  width: 40px;
-  height: 40px;
-}
-
-form {
-  max-width: 100%;
-}
-
-
-.alert {
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border-left: 5px solid #28a745;
-}
-
-.alert-error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border-left: 5px solid #dc3545;
-}
-
-.alert i {
-  font-size: 20px;
-}
-

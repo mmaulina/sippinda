@@ -8,49 +8,8 @@ include "koneksi.php";
 include "template/header.php";
 // include 'template/alert.php'; 
 ?>
-<style>
-    .row {
-        display: flex;
-        /* Menggunakan Flexbox untuk baris */
-        flex-wrap: nowrap;
-        /* Mencegah baris membungkus */
-    }
 
-    .sidebar {
-        width: 250px;
-        /* Lebar sidebar */
-        height: 100vh;
-        /* Tinggi sidebar sesuai dengan tinggi viewport */
-        position: sticky;
-        /* Membuat sidebar tetap di posisi saat scroll */
-        top: 0;
-        /* Menjaga sidebar tetap di atas saat scroll */
-        overflow-y: auto;
-        /* Menambahkan scroll jika konten lebih tinggi dari viewport */
-    }
 
-    .main-content {
-        flex: 1;
-        /* Membuat konten utama mengambil sisa ruang */
-        padding: 20px;
-        /* Menambahkan padding untuk konten */
-        background-color: #f8f9fa;
-        /* Warna latar belakang konten */
-        overflow-y: auto;
-        /* Menambahkan scroll jika konten lebih tinggi dari viewport */
-    }
-
-    @media (max-width: 768px) {
-        .sidebar {
-            width: 100%;
-            /* Sidebar penuh lebar pada layar kecil */
-            height: auto;
-            /* Tinggi otomatis pada layar kecil */
-            position: relative;
-            /* Mengubah posisi pada layar kecil */
-        }
-    }
-</style>
 <link rel="stylesheet" href="assets/fa/css/all.min.css">
 <link rel="stylesheet" href="assets/css/bootstraps.min.css">
 <script src="assets/js/bootstrap.min.js"></script>

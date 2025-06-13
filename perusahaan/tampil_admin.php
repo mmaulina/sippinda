@@ -4,40 +4,10 @@ try {
     $database = new Database();
     $pdo = $database->getConnection(); // Dapatkan koneksi PDO
 
-    $query = "SELECT * FROM profil WHERE 1=1"; // supaya WHERE nya fleksibel
+    $query = "SELECT * FROM profil_perusahaan WHERE 1=1"; // supaya WHERE nya fleksibel
     $params = [];
 
-    if (isset($_GET['id_profil'])) {
-        $query .= " AND id_profil = :id_profil";
-        $params[':id_profil'] = $_GET['id_profil'];
-    }
-
-    if (!empty($_GET['keyword'])) {
-        $keyword = "%" . $_GET['keyword'] . "%";
-        $query .= " AND nama_perusahaan LIKE :keyword"; //fitur cari berdasarkan nama_perusahaan
-        $params[':keyword'] = $keyword;
-    }
-
-    $jenisUsaha = $_GET['jenis_usaha'] ?? '';
-    if (!empty($jenisUsaha)) {
-        $query .= " AND jenis_usaha = :jenis_usaha";
-        $params[':jenis_usaha'] = $jenisUsaha;
-    }
-
-    $kabupaten = $_GET['kabupaten'] ?? '';
-    if (!empty($kabupaten)) {
-        $query .= " AND kabupaten = :kabupaten";
-        $params[':kabupaten'] = $kabupaten;
-    }
-
-    // Ambil daftar jenis usaha dan kabupaten/kota untuk dropdown filter
-    $jenisUsahaStmt = $pdo->query("SELECT DISTINCT jenis_usaha FROM profil ORDER BY jenis_usaha");
-    $jenisUsahaList = $jenisUsahaStmt->fetchAll(PDO::FETCH_COLUMN);
-
-    $kabupatenStmt = $pdo->query("SELECT DISTINCT kabupaten FROM profil ORDER BY kabupaten");
-    $kabupatenList = $kabupatenStmt->fetchAll(PDO::FETCH_COLUMN);
-
-    $query .= " ORDER BY FIELD(status, 'diajukan', 'dikembalikan', 'diterima')";
+    // $query .= " ORDER BY FIELD(status, 'diajukan', 'dikembalikan', 'diterima')";
 
     // Eksekusi Query
     $stmt = $pdo->prepare($query);
@@ -72,53 +42,10 @@ try {
 ?>
 
 <div class="container mt-4">
-    <h3 class="text-center mb-3"><i class="fas fa-bolt" style="color: #ffc107;"></i>Data Profil Perusahaan<i class="fas fa-bolt" style="color: #ffc107;"></i></h3>
+    <h3 class="text-center mb-3">Data Profil Perusahaan</h3>
     <hr>
     <div class="card shadow" style="overflow-x: auto; max-height: calc(100vh - 150px); overflow-y: auto;">
         <div class="card-body">
-            <!-- Fitur pencarian dan filter -->
-            <form method="GET" class="mb-2">
-                <input type="hidden" name="page" value="profil_admin">
-                <div class="input-group mb-2">
-                    <input type="text" name="keyword" class="form-control" placeholder="Cari berdasarkan nama perusahaan" value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : '' ?>">
-                    <button type="submit" class="btn btn-success">Cari</button>
-                    <a href="?page=profil_admin" class="btn btn-secondary">Reset</a>
-                </div>
-                <div class="row mb-3 align-items-end">
-                    <div class="col">
-                        <label for="jenis_usaha" class="form-label">Jenis Usaha</label>
-                        <select name="jenis_usaha" id="jenis_usaha" class="form-select">
-                            <option value="">-- Pilih Jenis Usaha --</option>
-                            <?php foreach ($jenisUsahaList as $jenis): ?>
-                                <option value="<?= htmlspecialchars($jenis) ?>" <?= (isset($_GET['jenis_usaha']) && $_GET['jenis_usaha'] == $jenis) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($jenis) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="col">
-                        <label for="kabupaten" class="form-label">Kabupaten/Kota</label>
-                        <select name="kabupaten" id="kabupaten" class="form-select">
-                            <option value="">-- Pilih Kabupaten/Kota --</option>
-                            <?php foreach ($kabupatenList as $kab): ?>
-                                <option value="<?= htmlspecialchars($kab) ?>" <?= (isset($_GET['kabupaten']) && $_GET['kabupaten'] == $kab) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($kab) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="col d-flex gap-2">
-                        <button type="submit" class="btn btn-success w-100">Filter</button>
-                        <a href="?page=profil_admin" class="btn btn-secondary w-100">Reset</a>
-                    </div>
-                </div>
-            </form>
-
-            <!-- FILTER -->
-
-
             <!-- Tombol Tambah & Export Spreadsheet -->
             <div class="mb-3">
                 <?php if ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'adminbulanan' && $_SESSION['role'] !== 'adminsemester') { ?> <!-- hanya admin yang tidak bisa mengakses ini -->
@@ -128,7 +55,6 @@ try {
                 <?php } ?>
                 <a href="?page=excel_profil" class="btn btn-success">Ekspor ke Spreadsheet</a>
             </div>
-
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
                 <table class="table table-bordered" style="min-width: 1800px; white-space: nowrap;">
                     <thead class="table-dark text-center align-middle">
