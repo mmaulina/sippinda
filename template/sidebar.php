@@ -1,7 +1,7 @@
 <style>
     .sidebar .nav-item .nav-link span {
-    font-size: 0.875rem !important;
-}
+        font-size: 0.875rem !important;
+    }
 </style>
 
 <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
