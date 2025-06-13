@@ -15,7 +15,7 @@
     <!-- Nav List -->
     <ul class="nav flex-column">
         <!-- Nav Item - Home -->
-        <li class="nav-item <?= (!isset($_GET['page'])) ? 'active' : ''; ?>">
+        <li class="nav-item <?= (@$_GET['page'] == '') ? 'active' : ''; ?>">
             <a class="nav-link" href="?page">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
