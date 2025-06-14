@@ -2,17 +2,22 @@
 try {
     $role = $_SESSION['role'];
     $database = new Database();
+    
     $pdo = $database->getConnection(); // Dapatkan koneksi PDO
-
+    
     $query = "SELECT * FROM profil_perusahaan WHERE 1=1"; // supaya WHERE nya fleksibel
     $params = [];
-
-    // $query .= " ORDER BY FIELD(status, 'diajukan', 'dikembalikan', 'diterima')";
-
     // Eksekusi Query
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
     $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $query2 = "SELECT * FROM bidang_perusahaan WHERE 1=1"; // supaya WHERE nya fleksibel
+    $params2 = [];
+    // Eksekusi Query
+    $stmt2 = $pdo->prepare($query2);
+    $stmt2->execute($params2);
+    $bidang = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
@@ -51,6 +56,12 @@ try {
                         <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                     </span>
                     <span class="text">Tambah Data</span>
+                </a>
+                <a href="?page=tambah_bidang" class="btn btn-primary btn-icon-split btn-sm">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                    </span>
+                    <span class="text">Tambah Bidang Perusahaan</span>
                 </a>
                 <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
                     <span class="icon text-white-50">
@@ -102,6 +113,44 @@ try {
                                     <td>
                                         <a href="?page=update_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Edit</a>
                                         <a href="?page=delete_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
+                                    </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="14" class="text-center">Data tidak ditemukan</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                </table>
+            </div>
+            <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(2)">Bidang Perusahaan<i class="fa fa-sort"></i></th>
+                            <th rowspan="2">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(2)">Bidang Perusahaan<i class="fa fa-sort"></i></th>
+                            <th rowspan="2">Aksi</th>
+                        </tr>
+                        <tbody>
+                            <?php if (count($bidang) > 0): ?>
+                                <?php $no = 1;
+                                foreach ($bidang as $row): ?>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
+                                    <td><?= htmlspecialchars($row['bidang']); ?></td>
+                                    <td>
+                                        <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
                                     </td>
                                     </tr>
                                 <?php endforeach; ?>

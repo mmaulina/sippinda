@@ -20,6 +20,12 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
 $stmt->execute();
 $profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$sql2 = "SELECT bidang FROM bidang_perusahaan WHERE id_user = :id_user";
+$stmt2 = $pdo->prepare($sql2);
+$stmt2->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+$stmt2->execute();
+$bidanglist = $stmt2->fetchAll(PDO::FETCH_COLUMN); // Ambil semua nilai kolom 'bidang'
 ?>
 
 <div class="container mt-5">
@@ -27,7 +33,7 @@ $profil = $stmt->fetch(PDO::FETCH_ASSOC);
         <div class="card-body">
             <h2> Informasi Profil Perusahaan </h2>
 
-            <?php if ($profil): ?>
+            <?php if ($profil && $bidanglist): ?>
                 <table class="table table-bordered">
                     <tr>
                         <th>Nama Perusahaan</th>
@@ -40,6 +46,16 @@ $profil = $stmt->fetch(PDO::FETCH_ASSOC);
                     <tr>
                         <th>Alamat Pabrik</th>
                         <td><?php echo htmlspecialchars($profil['alamat_pabrik']); ?></td>
+                    </tr>
+                    <tr>
+                        <th>Bidang Perusahaan</th>
+                        <td>
+                            <ul class="mb-0">
+                                <?php foreach ($bidanglist as $bidang): ?>
+                                    <li><?= htmlspecialchars($bidang); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </td>
                     </tr>
                     <tr>
                         <th>Nomor Telepon</th>

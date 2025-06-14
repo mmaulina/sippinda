@@ -56,6 +56,15 @@ include "koneksi.php";
                         case "excel_profil":
                             include "perusahaan/ekspor.php";
                             break;
+                        case "tambah_bidang":
+                            include "perusahaan/tambah_bidang.php";
+                            break;
+                        case "edit_bidang":
+                            include "perusahaan/edit_bidang.php";
+                            break;
+                        case "hapus_bidang":
+                            include "perusahaan/hapus_bidang.php";
+                            break;
 
                         // Default (Home)
                         default:
