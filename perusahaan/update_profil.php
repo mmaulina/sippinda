@@ -15,7 +15,7 @@ $id_user = $_SESSION['id_user'];
 $db = new Database();
 $conn = $db->getConnection();
 // Ambil data profil perusahaan
-$sql = "SELECT * FROM profil WHERE id_user = :id_user";
+$sql = "SELECT * FROM profil_perusahaan WHERE id_user = :id_user";
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
 $stmt->execute();
@@ -23,44 +23,28 @@ $profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fungsi untuk sanitasi input
-    function sanitize_input($data)
-    {
-        return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
-    }
+function sanitize_input($data)
+{
+    return trim(strip_tags($data)); // Tidak mengubah karakter seperti &
+}
 
     $nama_perusahaan = sanitize_input($_POST['nama_perusahaan']);
-    $kabupaten = sanitize_input($_POST['kabupaten']);
-    $alamat = sanitize_input($_POST['alamat']);
-    $jenis_usaha = sanitize_input($_POST['jenis_usaha']);
-    $no_telp_kantor = sanitize_input($_POST['no_telp_kantor']);
-    $no_hp_pimpinan = sanitize_input($_POST['no_hp_pimpinan']);
-    $tenaga_teknik = sanitize_input($_POST['tenaga_teknik']);
-    $no_hp_teknik = sanitize_input($_POST['no_hp_teknik']);
-    $nama = sanitize_input($_POST['nama']);
-    $no_hp = sanitize_input($_POST['no_hp']);
-    $email = sanitize_input($_POST['email']);
+    $alamat_kantor = sanitize_input($_POST['alamat_kantor']);
+    $alamat_pabrik = sanitize_input($_POST['alamat_pabrik']);
+    $no_telpon = sanitize_input($_POST['no_telpon']);
+    $no_fax = sanitize_input($_POST['no_fax']);
+    $jenis_lokasi_pabrik = sanitize_input($_POST['jenis_lokasi_pabrik']);
+    $jenis_kuisioner = sanitize_input($_POST['jenis_kuisioner']);
 
     // Validasi nomor telepon hanya angka dan tanda +
-    if (!preg_match('/^[0-9\+]+$/', $no_telp_kantor) || !preg_match('/^[0-9\+]+$/', $no_hp)) {
+     if (!preg_match('/^[0-9\+]+$/', $no_telpon && $no_fax)) {
         echo "<script>alert('Kontak hanya boleh berisi angka dan tanda +!');</script>";
     } else {
-        // Update data profil
-        $sql = "UPDATE profil SET nama_perusahaan=:nama_perusahaan, kabupaten=:kabupaten, alamat=:alamat, jenis_usaha=:jenis_usaha, no_telp_kantor=:no_telp_kantor, no_hp_pimpinan=:no_hp_pimpinan, tenaga_teknik=:tenaga_teknik, no_hp_teknik=:no_hp_teknik, nama=:nama, no_hp=:no_hp, email=:email, status = 'Diajukan', keterangan = '-' WHERE id_user=:id_user";
+        $sql = "UPDATE profil_perusahaan SET nama_perusahaan=?, alamat_kantor=?, alamat_pabrik=?, no_telpon=?, no_fax=?, jenis_lokasi_pabrik=?, jenis_kuisioner=? WHERE id_user=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':nama_perusahaan', $nama_perusahaan);
-        $stmt->bindParam(':kabupaten', $kabupaten);
-        $stmt->bindParam(':alamat', $alamat);
-        $stmt->bindParam(':jenis_usaha', $jenis_usaha);
-        $stmt->bindParam(':no_telp_kantor', $no_telp_kantor);
-        $stmt->bindParam(':no_hp_pimpinan', $no_hp_pimpinan);
-        $stmt->bindParam(':tenaga_teknik', $tenaga_teknik);
-        $stmt->bindParam(':no_hp_teknik', $no_hp_teknik);
-        $stmt->bindParam(':nama', $nama);
-        $stmt->bindParam(':no_hp', $no_hp);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+        $success = $stmt->execute([$nama_perusahaan, $alamat_kantor, $alamat_pabrik, $no_telpon, $no_fax, $jenis_lokasi_pabrik, $jenis_kuisioner, $id_user]);
 
-        if ($stmt->execute()) {
+        if ($success) {
             echo "<script>alert('Profil berhasil diperbarui!'); window.location.href='?page=profil_perusahaan';</script>";
         } else {
             echo "<script>alert('Gagal memperbarui profil. Silakan coba lagi.');</script>";
@@ -78,97 +62,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form method="POST">
                 <div class="form-group mb-2">
                     <label>Nama Perusahaan</label>
-                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required value="<?php echo $profil['nama_perusahaan']; ?>">
+                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100" value="<?php echo $profil['nama_perusahaan']; ?>">
                     <small class="text-muted">
                         Catatan: nama perusahaan sesuai perizinan
                     </small>
                 </div>
 
                 <div class="form-group mb-2">
-                    <label>Kabupaten/Kota</label>
-                    <select class="form-control" name="kabupaten" required>
-                        <option value="<?php echo $profil['kabupaten']; ?>" selected><?php echo $profil['kabupaten']; ?></option>
-                        <option value="Balangan">Balangan</option>
-                        <option value="Banjar">Banjar</option>
-                        <option value="Barito Kuala">Barito Kuala</option>
-                        <option value="Hulu Sungai Selatan">Hulu Sungai Selatan</option>
-                        <option value="Hulu Sungai Tengah">Hulu Sungai Tengah</option>
-                        <option value="Hulu Sungai Utara">Hulu Sungai Utara</option>
-                        <option value="Kotabaru">Kotabaru</option>
-                        <option value="Tabalong">Tabalong</option>
-                        <option value="Tanah Bumbu">Tanah Bumbu</option>
-                        <option value="Tanah Laut">Tanah Laut</option>
-                        <option value="Tapin">Tapin</option>
-                        <option value="Kota Banjarmasin">Banjarmasin (Kota)</option>
-                        <option value="Kota Banjarbaru">Banjarbaru (Kota)</option>
-                    </select>
+                    <label>Alamat Kantor</label>
+                    <textarea class="form-control" name="alamat_kantor" placeholder="Masukkan alamat lengkap kantor" required maxlength="200"><?php echo htmlspecialchars($profil['alamat_kantor']); ?></textarea>
                 </div>
 
                 <div class="form-group mb-2">
-                    <label>Alamat</label>
-                    <textarea class="form-control" name="alamat" placeholder="Masukkan alamat lengkap perusahaan" required><?php echo $profil['alamat']; ?></textarea>
+                    <label>Alamat Pabrik</label>
+                    <textarea class="form-control" name="alamat_pabrik" placeholder="Masukkan alamat lengkap pabrik" required maxlength="200"><?php echo htmlspecialchars($profil['alamat_pabrik']); ?></textarea>
                 </div>
 
                 <div class="form-group mb-2">
-                    <label>Jenis Usaha</label>
-                    <select class="form-control" name="jenis_usaha" required>
-                        <option value="<?php echo $profil['jenis_usaha']; ?>" selected><?php echo $profil['jenis_usaha']; ?></option>
-                        <option value="Kesehatan dan Rumah Sakit">Kesehatan dan Rumah Sakit</option>
-                        <option value="Industri dan Manufaktur">Industri dan Manufaktur</option>
-                        <option value="Restoran">Restoran</option>
-                        <option value="Event Organizer">Event Organizer</option>
-                        <option value="Pendidikan">Pendidikan</option>
-                        <option value="Perdagangan">Perdagangan</option>
-                        <option value="Telekomunikasi dan Teknologi">Telekomunikasi dan Teknologi</option>
-                        <option value="Transportasi">Transportasi</option>
-                        <option value="Perhotelan">Perhotelan</option>
-                        <option value="Logistik">Logistik</option>
-                        <option value="Pertanian">Pertanian</option>
-                        <option value="Perikanan">Perikanan</option>
-                        <option value="Perternakan">Perternakan</option>
-                        <option value="Hiburan dan Wisata">Hiburan dan Wisata</option>
-                        <option value="Lingkungan">Lingkungan</option>
-                        <option value="Konstruksi dan Infrastruktur">Konstruksi dan Infrastruktur</option>
-                        <option value="Jasa">Jasa</option>
-                        <option value="Lainnya">Lainnya</option>
-                    </select>
-                </div>
-
-                <div class="form-group mb-2">
-                    <label>Nomor Telepon Kantor</label>
-                    <input type="text" class="form-control" name="no_telp_kantor" placeholder="Contoh : 081234567890" required value="<?php echo $profil['no_telp_kantor']; ?>">
-                </div>
-
-                <div class="form-group mb-2">
-                    <label>No HP Pimpinan</label>
-                    <input type="text" class="form-control" name="no_hp_pimpinan" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+" required value="<?php echo $profil['no_hp_pimpinan']; ?>">
-                </div>
-
-                <div class="form-group mb-2">
-                    <label>Tenaga Teknik</label>
-                    <input type="text" class="form-control" name="tenaga_teknik" placeholder="Masukkan nama tenaga teknik" required value="<?php echo $profil['tenaga_teknik']; ?>">
+                    <label>Nomor Telepon</label>
+                    <input type="text" class="form-control" name="no_telpon" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+" value="<?php echo $profil['no_telpon']; ?>">
                 </div>
                 <div class="form-group mb-2">
-                    <label>No HP Tenaga Teknik</label>
-                    <input type="text" class="form-control" name="no_hp_teknik" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+" required value="<?php echo $profil['no_hp_teknik']; ?>">
+                    <label>Nomor Fax</label>
+                    <input type="text" class="form-control" name="no_fax" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+" value="<?php echo $profil['no_fax']; ?>">
                 </div>
-
-                <div class="card-header mt-4">
-                    <h6>Kontak Person</h6>
-                </div>
-                <div class="form-group mt-2 mb-2">
-                    <label>Nama</label>
-                    <input type="text" class="form-control" name="nama" placeholder="Masukkan nama" required value="<?php echo $profil['nama']; ?>">
-                </div>
-
                 <div class="form-group mb-2">
-                    <label>Nomor HP</label>
-                    <input type="text" class="form-control" name="no_hp" placeholder="Masukkan nomor handphone/whatsapp" required maxlength="15" pattern="[0-9]+" required value="<?php echo $profil['no_hp']; ?>">
+                    <label>Jenis Lokasi Pabrik</label>
+                    <input type="text" class="form-control" name="jenis_lokasi_pabrik" placeholder="Masukkan Jenis Lokasi Pabrik" required maxlength="100" value="<?php echo $profil['jenis_lokasi_pabrik']; ?>">
                 </div>
-
                 <div class="form-group mb-2">
-                    <label>Email</label>
-                    <input type="email" class="form-control" name="email" placeholder="Masukkan email" required value="<?php echo $profil['email']; ?>">
+                    <label>Jenis Kuisioner</label>
+                    <input type="text" class="form-control" name="jenis_kuisioner" placeholder="Masukkan Jenis Kuisioner" required maxlength="100" value="<?php echo $profil['jenis_kuisioner']; ?>">
                 </div>
 
                 <div class="mt-3">

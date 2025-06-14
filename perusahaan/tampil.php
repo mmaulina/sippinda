@@ -34,66 +34,28 @@ $profil = $stmt->fetch(PDO::FETCH_ASSOC);
                         <td><?php echo htmlspecialchars($profil['nama_perusahaan']); ?></td>
                     </tr>
                     <tr>
-                        <th>Kabupaten</th>
-                        <td><?php echo htmlspecialchars($profil['kabupaten']); ?></td>
+                        <th>Alamat Kantor</th>
+                        <td><?php echo htmlspecialchars($profil['alamat_kantor']); ?></td>
                     </tr>
                     <tr>
-                        <th>Alamat</th>
-                        <td><?php echo htmlspecialchars($profil['alamat']); ?></td>
+                        <th>Alamat Pabrik</th>
+                        <td><?php echo htmlspecialchars($profil['alamat_pabrik']); ?></td>
                     </tr>
                     <tr>
-                        <th>Jenis Usaha</th>
-                        <td><?php echo htmlspecialchars($profil['jenis_usaha']); ?></td>
+                        <th>Nomor Telepon</th>
+                        <td><?php echo htmlspecialchars($profil['no_telpon']); ?></td>
                     </tr>
                     <tr>
-                        <th>Nomor Telepon Kantor</th>
-                        <td><?php echo htmlspecialchars($profil['no_telp_kantor']); ?></td>
+                        <th>Nomor Telepon</th>
+                        <td><?php echo htmlspecialchars($profil['no_fax']); ?></td>
                     </tr>
                     <tr>
-                        <th>No Hp Pimpinan</th>
-                        <td><?php echo htmlspecialchars($profil['no_hp_pimpinan']); ?></td>
+                        <th>Jenis Lokasi Pabrik</th>
+                        <td><?php echo htmlspecialchars($profil['jenis_lokasi_pabrik']); ?></td>
                     </tr>
                     <tr>
-                        <th>Email</th>
-                        <td><?php echo htmlspecialchars($profil['email']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Tenaga Teknik</th>
-                        <td><?php echo htmlspecialchars($profil['tenaga_teknik']); ?></td>
-                    </tr>
-                    <tr>
-                    <tr>
-                        <th>No Hp Tenaga Teknik</th>
-                        <td><?php echo htmlspecialchars($profil['no_hp_teknik']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Nama Admin</th>
-                        <td><?php echo htmlspecialchars($profil['nama']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Nomor HP</th>
-                        <td><?php echo htmlspecialchars($profil['no_hp']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Status</th>
-                        <td>
-                            <?php
-                            // Menampilkan status dengan ikon dan warna
-                            if ($profil['status'] == 'diajukan') {
-                                echo '<i class="fas fa-clock" style="color: yellow;"></i> Diajukan';
-                            } elseif ($profil['status'] == 'diterima') {
-                                echo '<i class="fas fa-check" style="color: green;"></i> Diterima';
-                            } elseif ($profil['status'] == 'ditolak') {
-                                echo '<i class="fas fa-times" style="color: red;"></i> Ditolak';
-                            } else {
-                                echo '<span class="text-muted">Status tidak diketahui</span>';
-                            }
-                            ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Keterangan</th>
-                        <td><?php echo htmlspecialchars($profil['keterangan']); ?></td>
+                        <th>Jenis Kuisioner</th>
+                        <td><?php echo htmlspecialchars($profil['jenis_kuisioner']); ?></td>
                     </tr>
                 </table>
                 <a href="?page=update_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-warning">Update Profil</a>

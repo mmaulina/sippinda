@@ -13,29 +13,6 @@ try {
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
     $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // Proses Persetujuan/Tolak
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        if (isset($_POST['terima_id'])) {
-            $id = $_POST['terima_id'];
-            $updateQuery = "UPDATE profil SET status = 'diterima' WHERE id_profil = :id_profil";
-        } elseif (isset($_POST['tolak_laporan'])) {
-            $id = $_POST['id_profil'];
-            $keterangan = $_POST['keterangan'];
-            $updateQuery = "UPDATE profil SET status = 'dikembalikan', keterangan = :keterangan WHERE id_profil = :id_profil";
-        }
-
-        if (isset($updateQuery)) {
-            $updateStmt = $pdo->prepare($updateQuery);
-            $updateStmt->bindParam(':id_profil', $id, PDO::PARAM_INT);
-            if (isset($keterangan)) {
-                $updateStmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);
-            }
-            $updateStmt->execute();
-            echo "<meta http-equiv='refresh' content='0; url=?page=profil_admin'>";
-            exit;
-        }
-    }
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
@@ -46,10 +23,6 @@ try {
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Data Profil Perusahaan</h1>
-    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-        For more information about DataTables, please visit the <a target="_blank"
-            href="https://datatables.net">official DataTables documentation</a>.</p>
-
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -93,52 +66,26 @@ try {
                         <tr>
                             <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Kabupaten/Kota <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">Alamat <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Jenis Usaha <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(5)">Email Kantor<i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(6)">Nomor Telepon Kantor <i class="fa fa-sort"></i></th>
-                            <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                                <th rowspan="2" onclick="sortTable(7)">No. Hp. Pimpinan<i class="fa fa-sort"></th>
-                            <?php endif; ?>
-                            <th rowspan="2" onclick="sortTable(8)">Tenaga Teknik <i class="fa fa-sort"></i></th>
-                            <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                                <th rowspan="2" onclick="sortTable(9)">No Hp. Tenaga Teknik <i class="fa fa-sort"></i></th>
-                            <?php endif; ?>
-                            <th colspan="2">Kontak Person</th>
-                            <th rowspan="2" onclick="sortTable(10)">Status <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(11)">Keterangan</th>
+                            <th rowspan="2" onclick="sortTable(2)">Alamat Kantor<i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(3)">Alamat Pabrik<i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(4)">No Telpon<i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(5)">No Fax<i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(6)">Jenis Lokasi Pabrik<i class="fa fa-sort"></i></th>
+                            <th rowspan="2">Jenis Kuisioner</th>
                             <th rowspan="2">Aksi</th>
-                        </tr>
-                        <tr>
-                            <th onclick="sortTable(12)">Nama <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(13)">No. HP <i class="fa fa-sort"></i></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Kabupaten/Kota <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">Alamat <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Jenis Usaha <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(5)">Email Kantor<i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(6)">Nomor Telepon Kantor <i class="fa fa-sort"></i></th>
-                            <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                                <th rowspan="2" onclick="sortTable(7)">No. Hp. Pimpinan<i class="fa fa-sort"></th>
-                            <?php endif; ?>
-                            <th rowspan="2" onclick="sortTable(8)">Tenaga Teknik <i class="fa fa-sort"></i></th>
-                            <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                                <th rowspan="2" onclick="sortTable(9)">No Hp. Tenaga Teknik <i class="fa fa-sort"></i></th>
-                            <?php endif; ?>
-                            <th colspan="2">Kontak Person</th>
-                            <th rowspan="2" onclick="sortTable(10)">Status <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(11)">Keterangan</th>
+                            <th rowspan="2" onclick="sortTable(2)">Alamat Kantor<i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(3)">Alamat Pabrik<i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(4)">No Telpon<i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(5)">No Fax<i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(6)">Jenis Lokasi Pabrik<i class="fa fa-sort"></i></th>
+                            <th rowspan="2">Jenis Kuisioner</th>
                             <th rowspan="2">Aksi</th>
-                        </tr>
-                        <tr>
-                            <th onclick="sortTable(12)">Nama <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(13)">No. HP <i class="fa fa-sort"></i></th>
                         </tr>
                         <tbody>
                             <?php if (count($profiles) > 0): ?>
@@ -146,74 +93,17 @@ try {
                                 foreach ($profiles as $row): ?>
                                     <td><?= $no++; ?></td>
                                     <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                    <td><?= htmlspecialchars($row['kabupaten']); ?></td>
-                                    <td><?= htmlspecialchars($row['alamat']); ?></td>
-                                    <td><?= htmlspecialchars($row['jenis_usaha']); ?></td>
-                                    <td><?= htmlspecialchars($row['email']); ?></td>
-                                    <td><?= htmlspecialchars($row['no_telp_kantor']); ?></td>
-                                    <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                                        <td><?= htmlspecialchars($row['no_hp_pimpinan']); ?></td>
-                                    <?php endif; ?>
-                                    <td><?= htmlspecialchars($row['tenaga_teknik']); ?></td>
-                                    <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                                        <td><?= htmlspecialchars($row['no_hp_teknik']); ?></td>
-                                    <?php endif; ?>
-                                    <td><?= htmlspecialchars($row['nama']); ?></td>
-                                    <td><?= htmlspecialchars($row['no_hp']); ?></td>
-                                    <td class="text-center">
-                                        <?php
-                                        // Menampilkan status dengan ikon dan warna
-                                        if ($row['status'] == 'diajukan') {
-                                            echo '<i class="fas fa-clock" style="color: yellow;"></i> Diajukan';
-                                        } elseif ($row['status'] == 'diterima') {
-                                            echo '<i class="fas fa-check" style="color: green;"></i> Diterima';
-                                        } elseif ($row['status'] == 'dikembalikan') {
-                                            echo '<i class="fas fa-times" style="color: red;"></i> dikembalikan';
-                                        } else {
-                                            echo '<span class="text-muted">Status tidak diketahui</span>';
-                                        }
-                                        ?>
-                                    </td>
-                                    <td><?php echo htmlspecialchars($row['keterangan']); ?></td>
-                                    <td class="text-center">
-                                        <?php if ($row['status'] == 'diajukan'): ?>
-                                            <!-- Tombol Terima menggunakan POST -->
-                                            <form method="POST" style="display: inline;">
-                                                <input type="hidden" name="terima_id" value="<?php echo $row['id_profil']; ?>">
-                                                <button type="submit" class="btn btn-success btn-sm">Terima</button>
-                                            </form>
-                                            <!-- Tombol Tolak dengan Modal -->
-                                            <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalTolak<?php echo $row['id_profil']; ?>">Kembalikan</a>
-                                        <?php endif; ?>
-
-                                        <?php if (($row['status'] == 'diterima' || $row['status'] == 'dikembalikan') && $role == 'superadmin'): ?>
-                                            <a href="?page=update_profil_admin&id_profil=<?= htmlspecialchars($row['id_profil']); ?>" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="?page=delete_profil_admin&id_profil=<?= htmlspecialchars($row['id_profil']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
-                                        <?php endif; ?>
+                                    <td><?= htmlspecialchars($row['alamat_kantor']); ?></td>
+                                    <td><?= htmlspecialchars($row['alamat_pabrik']); ?></td>
+                                    <td><?= htmlspecialchars($row['no_telpon']); ?></td>
+                                    <td><?= htmlspecialchars($row['no_fax']); ?></td>
+                                    <td><?= htmlspecialchars($row['jenis_lokasi_pabrik']); ?></td>
+                                    <td><?= htmlspecialchars($row['jenis_kuisioner']); ?></td>
+                                    <td>
+                                        <a href="?page=update_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="?page=delete_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
                                     </td>
                                     </tr>
-                                    <div class="modal fade" id="modalTolak<?php echo $row['id_profil']; ?>" tabindex="-1" role="dialog" aria-labelledby="modalTolakLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalTolakLabel">Kembalikan</h5>
-                                                </div>
-                                                <form action="" method="POST">
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="id_profil" value="<?php echo $row['id_profil']; ?>">
-                                                        <div class="form-group">
-                                                            <label for="keterangan<?php echo $row['id_profil']; ?>">Keterangan di kembalikan</label>
-                                                            <textarea class="form-control" id="keterangan<?php echo $row['id_profil']; ?>" name="keterangan" rows="3" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                        <button type="submit" name="tolak_laporan" class="btn btn-danger">Tolak</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>

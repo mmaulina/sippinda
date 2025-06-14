@@ -24,13 +24,13 @@ if (isset($_GET['id_user'])) {
         $db = new Database();
         $conn = $db->getConnection();
         // Periksa apakah profil ada
-        $sql_check = "SELECT id_user FROM profil WHERE id_user = ?";
+        $sql_check = "SELECT id_user FROM profil_perusahaan WHERE id_user = ?";
         $stmt_check = $conn->prepare($sql_check);
         $stmt_check->execute([$id_hapus]);
 
         if ($stmt_check->rowCount() > 0) {
             // Hapus profil
-            $sql_delete = "DELETE FROM profil WHERE id_user = ?";
+            $sql_delete = "DELETE FROM profil_perusahaan WHERE id_user = ?";
             $stmt_delete = $conn->prepare($sql_delete);
 
             if ($stmt_delete->execute([$id_hapus])) {

@@ -2,18 +2,18 @@
 include 'koneksi.php'; // Pastikan koneksi sudah tersedia
 
 // Pastikan ID ada di URL
-if (!isset($_GET['id_profil'])) {
+if (!isset($_GET['id'])) {
     echo "<script>alert('ID pengguna tidak ditemukan!'); window.location='?page=profil_admin';</script>";
     exit();
 }
 
-$id_profil = $_GET['id_profil'];
+$id_profil = $_GET['id'];
 
 try {
     $db = new Database();
     $conn = $db->getConnection();
     // Periksa apakah pengguna ada dalam database
-    $sql_check = "SELECT id_profil FROM profil WHERE id_profil = ?";
+    $sql_check = "SELECT id FROM profil_perusahaan WHERE id = ?";
     $stmt_check = $conn->prepare($sql_check);
     $stmt_check->execute([$id_profil]);
 
@@ -23,7 +23,7 @@ try {
     }
 
     // Hapus pengguna berdasarkan ID
-    $sql_delete = "DELETE FROM profil WHERE id_profil = ?";
+    $sql_delete = "DELETE FROM profil_perusahaan WHERE id = ?";
     $stmt_delete = $conn->prepare($sql_delete);
 
     if ($stmt_delete->execute([$id_profil])) {
