@@ -21,11 +21,11 @@ $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
 $stmt->execute();
 $profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$sql2 = "SELECT bidang FROM bidang_perusahaan WHERE id_user = :id_user";
+$sql2 = "SELECT id, bidang FROM bidang_perusahaan WHERE id_user = :id_user";
 $stmt2 = $pdo->prepare($sql2);
 $stmt2->bindParam(':id_user', $id_user, PDO::PARAM_INT);
 $stmt2->execute();
-$bidanglist = $stmt2->fetchAll(PDO::FETCH_COLUMN); // Ambil semua nilai kolom 'bidang'
+$bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bidang'
 ?>
 
 <div class="container mt-5">
@@ -47,16 +47,29 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_COLUMN); // Ambil semua nilai kolom 'b
                         <th>Alamat Pabrik</th>
                         <td><?php echo htmlspecialchars($profil['alamat_pabrik']); ?></td>
                     </tr>
-                    <tr>
-                        <th>Bidang Perusahaan</th>
-                        <td>
-                            <ul class="mb-0">
-                                <?php foreach ($bidanglist as $bidang): ?>
-                                    <li><?= htmlspecialchars($bidang); ?></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </td>
-                    </tr>
+<tr>
+    <th>Bidang Perusahaan</th>
+    <td>
+        <ul class="mb-0">
+            <?php foreach ($bidanglist as $row): ?>
+                <li class="d-flex justify-content-between align-items-center my-2">
+                    <span>• <?= htmlspecialchars($row['bidang']); ?></span>
+                    <span>
+                        <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                        <span class="text">Edit</span>
+                        </a>
+                        <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                            <span class="text">Hapus</span>
+                        </a>
+                    </span>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </td>
+</tr>
+
                     <tr>
                         <th>Nomor Telepon</th>
                         <td><?php echo htmlspecialchars($profil['no_telpon']); ?></td>

@@ -111,8 +111,14 @@ try {
                                     <td><?= htmlspecialchars($row['jenis_lokasi_pabrik']); ?></td>
                                     <td><?= htmlspecialchars($row['jenis_kuisioner']); ?></td>
                                     <td>
-                                        <a href="?page=update_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Edit</a>
-                                        <a href="?page=delete_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
+                                        <a href="?page=update_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                            <span class="text">Edit</span>
+                                        </a>
+                                        <a href="?page=delete_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                            <span class="text">Hapus</span>
+                                        </a>
                                     </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -149,8 +155,14 @@ try {
                                     <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
                                     <td><?= htmlspecialchars($row['bidang']); ?></td>
                                     <td>
-                                        <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-sm">Edit</a>
-                                        <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
+                                        <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                            <span class="text">Edit</span>
+                                        </a>
+                                        <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                        <span class="text">Hapus</span>
+                                        </a>
                                     </td>
                                     </tr>
                                 <?php endforeach; ?>
