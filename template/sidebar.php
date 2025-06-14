@@ -2,6 +2,22 @@
     .sidebar .nav-item .nav-link span {
         font-size: 0.875rem !important;
     }
+
+    body .bg-gradient-success {
+        background-color: #8fcc5e !important;
+        background-image: linear-gradient(180deg, #8fcc5e 0%, #6ea64a 100%) !important;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: #fff;
+    }
+
+    body .bg-gradient-danger {
+        background-color: #d94e1f !important;
+        background-image: linear-gradient(180deg, #d94e1f 0%, #a63e18 100%) !important;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: #fff;
+    }
 </style>
 
 <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
