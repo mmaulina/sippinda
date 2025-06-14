@@ -51,6 +51,12 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
     <th>Bidang Perusahaan</th>
     <td>
         <ul class="mb-0">
+            <a href="?page=tambah_bidang" class="btn btn-primary btn-icon-split btn-sm">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                    </span>
+                    <span class="text">Tambah Bidang Perusahaan</span>
+                </a>
             <?php foreach ($bidanglist as $row): ?>
                 <li class="d-flex justify-content-between align-items-center my-2">
                     <span>• <?= htmlspecialchars($row['bidang']); ?></span>

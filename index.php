@@ -66,6 +66,10 @@ include "koneksi.php";
                             include "perusahaan/hapus_bidang.php";
                             break;
 
+                        case "data_umum_tampil":
+                            include "data_umum/tampil.php";
+                            break;
+
                         // Default (Home)
                         default:
                             include "home.php";
