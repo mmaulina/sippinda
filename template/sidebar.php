@@ -35,14 +35,20 @@
 
     <li class="nav-item">
         <a class="nav-link" href="?page=profil_perusahaan">
-            <i class="fas fa-fw fa-cog"></i>
+            <i class="fas fa-fw fa-industry"></i>
             <span>Profil Perusahaan</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="?page=profil_admin">
-            <i class="fas fa-fw fa-wrench"></i>
+            <i class="fas fa-fw fa-file"></i>
             <span>Data Perusahaan (A)</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="?page=data_umum_tampil">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Data Umum</span>
         </a>
     </li>
 
