@@ -51,24 +51,26 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
                     <tr>
                         <th>Bidang Perusahaan</th>
                         <td>
-                            <ul class="mb-0">
-                                <a href="?page=tambah_bidang" class="btn btn-primary btn-icon-split btn-sm">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                                    </span>
-                                    <span class="text">Tambah Bidang Perusahaan</span>
-                                </a>
+                            <!-- Tombol tambah diletakkan di luar ul agar valid -->
+                            <a href="?page=tambah_bidang" class="btn btn-primary btn-icon-split btn-sm mb-3">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span class="text">Tambah Bidang Perusahaan</span>
+                            </a>
+
+                            <!-- List bidang -->
+                            <ul class="mb-0 ps-3">
                                 <?php foreach ($bidanglist as $row): ?>
                                     <li class="d-flex justify-content-between align-items-center my-2">
                                         <span>• <?= htmlspecialchars($row['bidang']); ?></span>
                                         <span>
-                                            <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                                <span class="icon text-white-50">
-                                                    <i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                            <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm me-1">
+                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt"></i></span>
                                                 <span class="text">Edit</span>
                                             </a>
                                             <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="icon text-white-50"><i class="fa fa-trash"></i></span>
                                                 <span class="text">Hapus</span>
                                             </a>
                                         </span>
@@ -77,13 +79,12 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
                             </ul>
                         </td>
                     </tr>
-
                     <tr>
                         <th>Nomor Telepon</th>
                         <td><?php echo htmlspecialchars($profil['no_telpon']); ?></td>
                     </tr>
                     <tr>
-                        <th>Nomor Telepon</th>
+                        <th>Nomor Fax</th> <!-- diperbaiki -->
                         <td><?php echo htmlspecialchars($profil['no_fax']); ?></td>
                     </tr>
                     <tr>
@@ -98,14 +99,12 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
                 <a href="?page=update_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-warning">Update Profil</a>
                 <a href="?page=delete_profil&id_user=<?= $_SESSION['id_user']; ?>"
                     onclick="return confirmHapus(event)"
-                    class="btn btn-danger">
-                    Hapus Profil
-                </a>
+                    class="btn btn-danger">Hapus Profil</a>
             <?php else: ?>
                 <p>Profil perusahaan belum diisi.</p>
                 <a href="?page=tambah_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-primary btn-icon-split">
                     <span class="icon text-white-50">
-                        <i class="fas fa-info-circle" style="vertical-align: middle; margin-top: 5px;"></i>
+                        <i class="fas fa-info-circle"></i>
                     </span>
                     <span class="text">Isi Profil</span>
                 </a>
@@ -113,6 +112,7 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
         </div>
     </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

@@ -2,9 +2,9 @@
 try {
     $role = $_SESSION['role'];
     $database = new Database();
-    
+
     $pdo = $database->getConnection(); // Dapatkan koneksi PDO
-    
+
     $query = "SELECT * FROM data_umum WHERE 1=1"; // supaya WHERE nya fleksibel
     $params = [];
     // Eksekusi Query
@@ -75,24 +75,12 @@ try {
                             <th rowspan="2">Aksi</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Periode Laporan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Aksi</th>
-                        </tr>
-                        <tbody>
-                            <?php if (count($data_umum) > 0): ?>
-                                <?php $no = 1;
-                                foreach ($data_umum as $row): ?>
+
+                    <tbody>
+                        <?php if (count($data_umum) > 0): ?>
+                            <?php $no = 1;
+                            foreach ($data_umum as $row): ?>
+                                <tr>
                                     <td><?= $no++; ?></td>
                                     <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
                                     <td><?= htmlspecialchars($row['periode_laporan']); ?></td>
@@ -105,23 +93,41 @@ try {
                                     <td><?= htmlspecialchars($row['menyediakan_maklon']); ?></td>
                                     <td>
                                         <a href="?page=update_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt"></i></span>
                                             <span class="text">Edit</span>
                                         </a>
                                         <a href="?page=delete_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                            <span class="icon text-white-50"><i class="fa fa-trash"></i></span>
                                             <span class="text">Hapus</span>
                                         </a>
                                     </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="14" class="text-center">Data tidak ditemukan</td>
                                 </tr>
-                            <?php endif; ?>
-                        </tbody>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="11" class="text-center">Data tidak ditemukan</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+
+                    <!-- FOOT TABEL -->
+                    <tfoot>
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama Perusahaan</th>
+                            <th>Periode Laporan</th>
+                            <th>Nilai Investasi Mesin</th>
+                            <th>Nilai Investasi Lainnya</th>
+                            <th>Modal Kerja</th>
+                            <th>Investasi Tanpa Tanah Dan Bangunan</th>
+                            <th>Status</th>
+                            <th>Menggunakan Maklon</th>
+                            <th>Menyediakan Maklon</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </tfoot>
                 </table>
+
             </div>
         </div>
     </div>
