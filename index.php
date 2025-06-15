@@ -72,6 +72,9 @@ include "koneksi.php";
                         case "tambah_data_umum":
                             include "data_umum/tambah.php";
                             break;
+                        case "update_data_umum":
+                            include "data_umum/edit.php";
+                            break;
 
                         // Default (Home)
                         default:
