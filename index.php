@@ -79,6 +79,19 @@ include "koneksi.php";
                             include "data_umum/edit.php";
                             break;
 
+                        case "data_khusus_tampil":
+                            include "data_khusus/tampil.php";
+                            break;
+                        case "tambah_data_khusus":
+                            include "data_khusus/tambah.php";
+                            break;
+                        case "update_data_khusus":
+                            include "data_khusus/edit.php";
+                            break;
+                        case "hapus_data_khusus":
+                            include "data_khusus/edit.php";
+                            break;
+
                         // Default (Home)
                         default:
                             include "home.php";

@@ -10,7 +10,7 @@ try {
     // Eksekusi Query
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
-    $data_umum = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $data_khusus = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
@@ -80,9 +80,9 @@ try {
                             <th rowspan="2">Aksi</th>
                         </tr>
                         <tbody>
-                            <?php if (count($data_umum) > 0): ?>
+                            <?php if (count($data_khusus) > 0): ?>
                                 <?php $no = 1;
-                                foreach ($data_umum as $row): ?>
+                                foreach ($data_khusus as $row): ?>
                                     <td><?= $no++; ?></td>
                                     <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
                                     <td><?= htmlspecialchars($row['nama_penanda_tangan_laporan']); ?></td>
