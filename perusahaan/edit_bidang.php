@@ -11,9 +11,21 @@ if (!isset($_SESSION['id_user'])) {
 }
 
 if (!isset($_GET['id'])) {
-    echo "<script>alert('Data tidak ditemukan!'); window.location.href='?page=profil_admin';</script>";
+    echo "<script>alert('Data tidak ditemukan!');";
+
+    if ($_SESSION['role'] == 'superadmin') {
+        echo "window.location.href='?page=profil_admin';";
+    } elseif ($_SESSION['role'] == 'umum') {
+        echo "window.location.href='?page=profil_perusahaan';";
+    } else {
+        // Role lain, misalnya kominfo atau instansi, bisa diarahkan ke halaman umum
+        echo "window.location.href='?page=beranda';";
+    }
+
+    echo "</script>";
     exit();
 }
+
 
 $id = $_GET['id'];
 $id_user = $_SESSION['id_user'];

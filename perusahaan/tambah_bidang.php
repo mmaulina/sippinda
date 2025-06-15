@@ -54,8 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<script>alert('Gagal menambahkan Bidang Perusahaan.');</script>";
             }
         } else {
-            echo "<script>alert('Profil perusahaan tidak ditemukan. Silakan lengkapi terlebih dahulu.'); 
-            window.location.href='?page=edit_profil';</script>";
+            echo "<script>alert('Profil perusahaan tidak ditemukan. Silakan lengkapi terlebih dahulu.');</script>";
         }
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
@@ -80,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group mb-2">
                     <label>Bidang Perusahaanr</label>
-                    <textarea class="form-control" name="bidang" placeholder="Masukkan Bidang Perusahaan" required maxlength="200"></textarea>
+                    <input type="text" class="form-control" name="bidang" placeholder="Masukkan Bidang Perusahaan" required maxlength="200"></input>
                 </div>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-success">Simpan</button>

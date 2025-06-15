@@ -5,19 +5,12 @@ try {
     
     $pdo = $database->getConnection(); // Dapatkan koneksi PDO
     
-    $query = "SELECT * FROM profil_perusahaan WHERE 1=1"; // supaya WHERE nya fleksibel
+    $query = "SELECT * FROM data_umum WHERE 1=1"; // supaya WHERE nya fleksibel
     $params = [];
     // Eksekusi Query
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
-    $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $query2 = "SELECT * FROM bidang_perusahaan WHERE 1=1"; // supaya WHERE nya fleksibel
-    $params2 = [];
-    // Eksekusi Query
-    $stmt2 = $pdo->prepare($query2);
-    $stmt2->execute($params2);
-    $bidang = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+    $data_umum = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
@@ -27,11 +20,11 @@ try {
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Data Profil Perusahaan</h1>
+    <h1 class="h3 mb-2 text-gray-800">Data Umum Perusahaan</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Profil Perusahaan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data Umum</h6>
         </div>
         <div class="card-body">
             <!-- Fitur Search -->
@@ -51,17 +44,11 @@ try {
 
             <!-- Tombol Tambah & Ekspor -->
             <div class="mb-3">
-                <a href="?page=tambah_profil" class="btn btn-primary btn-icon-split btn-sm">
+                <a href="?page=tambah_data_umum" class="btn btn-primary btn-icon-split btn-sm">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                     </span>
                     <span class="text">Tambah Data</span>
-                </a>
-                <a href="?page=tambah_bidang" class="btn btn-primary btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Tambah Bidang Perusahaan</span>
                 </a>
                 <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
                     <span class="icon text-white-50">
@@ -77,71 +64,53 @@ try {
                         <tr>
                             <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(2)">Periode Laporan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
+                            <th rowspan="2">Aksi</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(2)">Periode Laporan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
+                            <th rowspan="2">Aksi</th>
                         </tr>
                         <tbody>
-                            <?php if (count($profiles) > 0): ?>
+                            <?php if (count($data_umum) > 0): ?>
                                 <?php $no = 1;
-                                foreach ($profiles as $row): ?>
+                                foreach ($data_umum as $row): ?>
                                     <td><?= $no++; ?></td>
                                     <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
+                                    <td><?= htmlspecialchars($row['periode_laporan']); ?></td>
+                                    <td><?= htmlspecialchars($row['nilai_investasi_mesin']); ?></td>
+                                    <td><?= htmlspecialchars($row['nilai_investasi_lainnya']); ?></td>
+                                    <td><?= htmlspecialchars($row['modal_kerja']); ?></td>
+                                    <td><?= htmlspecialchars($row['investasi_tanpa_tanah_bangunan']); ?></td>
+                                    <td><?= htmlspecialchars($row['status']); ?></td>
+                                    <td><?= htmlspecialchars($row['menggunakan_maklon']); ?></td>
+                                    <td><?= htmlspecialchars($row['menyediakan_maklon']); ?></td>
                                     <td>
-                                        <a href="?page=update_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                        <a href="?page=update_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                             <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Edit</span>
                                         </a>
-                                        <a href="?page=delete_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                        <a href="?page=delete_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                             <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Hapus</span>
-                                        </a>
-                                    </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="14" class="text-center">Data tidak ditemukan</td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                </table>
-            </div>
-            <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
-                    <thead>
-                        <tr>
-                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Bidang Perusahaan<i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Bidang Perusahaan<i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Aksi</th>
-                        </tr>
-                        <tbody>
-                            <?php if (count($bidang) > 0): ?>
-                                <?php $no = 1;
-                                foreach ($bidang as $row): ?>
-                                    <td><?= $no++; ?></td>
-                                    <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                    <td><?= htmlspecialchars($row['bidang']); ?></td>
-                                    <td>
-                                        <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                            <span class="text">Edit</span>
-                                        </a>
-                                        <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Hapus</span>
                                         </a>
                                     </td>
                                     </tr>

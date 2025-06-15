@@ -33,7 +33,7 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
         <div class="card-body">
             <h2> Informasi Profil Perusahaan </h2>
 
-            <?php if ($profil && $bidanglist): ?>
+            <?php if ($profil): ?>
                 <table class="table table-bordered">
                     <tr>
                         <th>Nama Perusahaan</th>
