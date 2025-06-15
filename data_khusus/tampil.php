@@ -62,22 +62,22 @@ try {
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Nama Penanda Tangan Laporan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">jabatan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Nama Perusahaan Induk <i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Aksi</th>
+                            <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(2)">Nama Penanda Tangan Laporan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(3)">jabatan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(4)">Nama Perusahaan Induk <i class="fa fa-sort"></i></th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Nama Penanda Tangan Laporan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">jabatan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Nama Perusahaan Induk <i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Aksi</th>
+                            <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(2)">Nama Penanda Tangan Laporan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(3)">jabatan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(4)">Nama Perusahaan Induk <i class="fa fa-sort"></i></th>
+                            <th>Aksi</th>
                         </tr>
                         <tbody>
                             <?php if (count($data_khusus) > 0): ?>

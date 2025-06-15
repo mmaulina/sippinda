@@ -62,32 +62,32 @@ try {
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Periode Laporan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Aksi</th>
+                            <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(2)">Periode Laporan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Periode Laporan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Aksi</th>
+                            <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(2)">Periode Laporan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
+                            <th>Aksi</th>
                         </tr>
                         <tbody>
                             <?php if (count($data_umum) > 0): ?>
