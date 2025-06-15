@@ -1,8 +1,3 @@
-body{
-  vertical-align: top !important;
-  align-items: flex-start !important;
-}
-
 body .bg-gradient-success {
   background-color: #8fcc5e !important;
   background-image: linear-gradient(180deg, #8fcc5e 0%, #6ea64a 50%) !important;

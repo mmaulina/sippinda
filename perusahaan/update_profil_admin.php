@@ -57,9 +57,10 @@ function sanitize_input($data)
 
 <!-- UPDATE PROFIL PERUSAHAAN -->
 <div class="container mt-4">
-    <h3 class="text-center mb-3"></i> Update Profil Perusahaan </i></h3>
-    <hr>
-    <div class="card shadow" style="overflow-x: auto; max-height: calc(100vh - 150px); overflow-y: auto;">
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Update Profil Perusahaan</h6>
+        </div>
         <div class="card-body">
             <form method="POST">
                 <div class="form-group mb-2">

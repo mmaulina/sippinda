@@ -7,7 +7,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon">
-            <img src="assets/img/LOGO KEMENTERIAN PERINDUSTRIAN.png" alt="Logo Kemenperin"
+            <img src="assets/img/kemenperin.png" alt="Logo Kemenperin"
                 style="height: 40px; width: auto; background-color: white; padding: 5px; border-radius: 8px;">
         </div>
         <div class="sidebar-brand-text mx-3">SIPPINDA</div>
@@ -49,6 +49,12 @@
         <a class="nav-link" href="?page=data_umum_tampil">
             <i class="fas fa-fw fa-book"></i>
             <span>Data Umum</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="?page=investasi_tampil">
+            <i class="fas fa-solid fa-money-bill"></i>
+            <span>Investasi</span>
         </a>
     </li>
 

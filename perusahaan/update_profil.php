@@ -23,10 +23,10 @@ $profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fungsi untuk sanitasi input
-function sanitize_input($data)
-{
-    return trim(strip_tags($data)); // Tidak mengubah karakter seperti &
-}
+    function sanitize_input($data)
+    {
+        return trim(strip_tags($data)); // Tidak mengubah karakter seperti &
+    }
 
     $nama_perusahaan = sanitize_input($_POST['nama_perusahaan']);
     $alamat_kantor = sanitize_input($_POST['alamat_kantor']);
@@ -37,7 +37,7 @@ function sanitize_input($data)
     $jenis_kuisioner = sanitize_input($_POST['jenis_kuisioner']);
 
     // Validasi nomor telepon hanya angka dan tanda +
-     if (!preg_match('/^[0-9\+]+$/', $no_telpon && $no_fax)) {
+    if (!preg_match('/^[0-9\+]+$/', $no_telpon && $no_fax)) {
         echo "<script>alert('Kontak hanya boleh berisi angka dan tanda +!');</script>";
     } else {
         $sql = "UPDATE profil_perusahaan SET nama_perusahaan=?, alamat_kantor=?, alamat_pabrik=?, no_telpon=?, no_fax=?, jenis_lokasi_pabrik=?, jenis_kuisioner=? WHERE id_user=?";
@@ -55,9 +55,10 @@ function sanitize_input($data)
 
 <!-- UPDATE PROFIL PERUSAHAAN -->
 <div class="container mt-4">
-    <h3 class="text-center mb-3"></i> Update Profil Perusahaan </i></h3>
-    <hr>
-    <div class="card shadow" style="overflow-x: auto; max-height: calc(100vh - 150px); overflow-y: auto;">
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Update Profil Perusahaan</h6>
+        </div>
         <div class="card-body">
             <form method="POST">
                 <div class="form-group mb-2">

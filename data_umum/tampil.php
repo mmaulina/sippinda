@@ -60,19 +60,19 @@ try {
 
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
-                    <thead>
+                    <thead class="text-center">
                         <tr>
-                            <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">Periode Laporan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Aksi</th>
+                            <th class="align-middle" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
+                            <th class="align-middle" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
+                            <th class="align-middle" onclick="sortTable(2)">Periode Laporan <i class="fa fa-sort"></i></th>
+                            <th class="align-middle" onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
+                            <th class="align-middle" onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
+                            <th class="align-middle" onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
+                            <th class="align-middle" onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
+                            <th class="align-middle" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
+                            <th class="align-middle" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
+                            <th class="align-middle" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
+                            <th class="align-middle">Aksi</th>
                         </tr>
                     </thead>
 
@@ -93,11 +93,11 @@ try {
                                     <td><?= htmlspecialchars($row['menyediakan_maklon']); ?></td>
                                     <td>
                                         <a href="?page=update_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt"></i></span>
+                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Edit</span>
                                         </a>
                                         <a href="?page=delete_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                            <span class="icon text-white-50"><i class="fa fa-trash"></i></span>
+                                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Hapus</span>
                                         </a>
                                     </td>
@@ -111,7 +111,7 @@ try {
                     </tbody>
 
                     <!-- FOOT TABEL -->
-                    <tfoot>
+                    <tfoot class="text-center">
                         <tr>
                             <th>No.</th>
                             <th>Nama Perusahaan</th>

@@ -54,7 +54,7 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
                             <!-- Tombol tambah diletakkan di luar ul agar valid -->
                             <a href="?page=tambah_bidang" class="btn btn-primary btn-icon-split btn-sm mb-3">
                                 <span class="icon text-white-50">
-                                    <i class="fas fa-plus"></i>
+                                    <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                                 </span>
                                 <span class="text">Tambah Bidang Perusahaan</span>
                             </a>
@@ -66,11 +66,11 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
                                         <span>• <?= htmlspecialchars($row['bidang']); ?></span>
                                         <span>
                                             <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm me-1">
-                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt"></i></span>
+                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                                 <span class="text">Edit</span>
                                             </a>
                                             <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                <span class="icon text-white-50"><i class="fa fa-trash"></i></span>
+                                                <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                                 <span class="text">Hapus</span>
                                             </a>
                                         </span>

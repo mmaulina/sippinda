@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <title>SIPPINDA</title>
-    <link rel="icon" type="image/png" href="assets/css/img/kemenperin.png">
+    <link rel="icon" href="assets/img/kemenperin.png" type="image/png">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -34,9 +34,9 @@
         }
 
         /* Hilangkan efek tengah dari flexbox jika ada */
-        .d-flex.align-items-center {
+        /* .d-flex.align-items-center {
             align-items: flex-start !important;
-        }
+        } */
 
         /* Pastikan section utama tidak center secara vertikal */
         #content-wrapper {

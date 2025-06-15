@@ -93,9 +93,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="container mt-4">
-    <h3 class="text-center"> Edit Data Ummum Perusahaan </h3>
-    <hr>
-    <div class="card shadow" style="overflow-x: auto; max-height: calc(100vh - 150px); overflow-y: auto;">
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Edit Data Umum Perusahaan</h6>
+        </div>
         <div class="card-body">
             <form method="POST">
                 <div class="form-group mb-2">

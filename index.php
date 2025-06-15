@@ -32,6 +32,7 @@ include "koneksi.php";
                     $page = $_GET['page'] ?? 'home';
 
                     switch ($page) {
+                        // PROFIL PERUSAHAAN
                         case "profil_perusahaan":
                             include "perusahaan/tampil.php";
                             break;
@@ -66,6 +67,7 @@ include "koneksi.php";
                             include "perusahaan/hapus_bidang.php";
                             break;
 
+                        // DATA UMUM
                         case "data_umum_tampil":
                             include "data_umum/tampil.php";
                             break;
@@ -74,6 +76,17 @@ include "koneksi.php";
                             break;
                         case "update_data_umum":
                             include "data_umum/edit.php";
+                            break;
+
+                        // INVESTASI
+                        case "investasi_tampil":
+                            include "investasi/tampil.php";
+                            break;
+                        case "tambah_investasi":
+                            include "investasi/tambah.php";
+                            break;
+                        case "update_investasi":
+                            include "investasi/edit.php";
                             break;
 
                         // Default (Home)
