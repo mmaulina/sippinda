@@ -75,6 +75,9 @@ include "koneksi.php";
                         case "update_data_umum":
                             include "data_umum/edit.php";
                             break;
+                        case "hapus_data_umum":
+                            include "data_umum/edit.php";
+                            break;
 
                         // Default (Home)
                         default:

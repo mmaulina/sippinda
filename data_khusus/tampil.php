@@ -64,14 +64,9 @@ try {
                         <tr>
                             <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">jabatan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(2)">Nama Penanda Tangan Laporan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(3)">jabatan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(4)">Nama Perusahaan Induk <i class="fa fa-sort"></i></th>
                             <th rowspan="2">Aksi</th>
                         </tr>
                     </thead>
@@ -79,14 +74,9 @@ try {
                         <tr>
                             <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(2)">jabatan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(3)">Nilai Investasi Mesin <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(4)">Nilai Investasi Lainnya <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(5)">Modal Kerja <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(6)">Investasi Tanpa Tanah Dan Bangunan <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
-                            <th rowspan="2" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(2)">Nama Penanda Tangan Laporan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(3)">jabatan <i class="fa fa-sort"></i></th>
+                            <th rowspan="2" onclick="sortTable(4)">Nama Perusahaan Induk <i class="fa fa-sort"></i></th>
                             <th rowspan="2">Aksi</th>
                         </tr>
                         <tbody>
@@ -95,20 +85,15 @@ try {
                                 foreach ($data_umum as $row): ?>
                                     <td><?= $no++; ?></td>
                                     <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                    <td><?= htmlspecialchars($row['periode_laporan']); ?></td>
-                                    <td><?= htmlspecialchars($row['nilai_investasi_mesin']); ?></td>
-                                    <td><?= htmlspecialchars($row['nilai_investasi_lainnya']); ?></td>
-                                    <td><?= htmlspecialchars($row['modal_kerja']); ?></td>
-                                    <td><?= htmlspecialchars($row['investasi_tanpa_tanah_bangunan']); ?></td>
-                                    <td><?= htmlspecialchars($row['status']); ?></td>
-                                    <td><?= htmlspecialchars($row['menggunakan_maklon']); ?></td>
-                                    <td><?= htmlspecialchars($row['menyediakan_maklon']); ?></td>
+                                    <td><?= htmlspecialchars($row['nama_penanda_tangan_laporan']); ?></td>
+                                    <td><?= htmlspecialchars($row['jabatan']); ?></td>
+                                    <td><?= htmlspecialchars($row['nama_perusahaan_induk']); ?></td>
                                     <td>
-                                        <a href="?page=update_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                        <a href="?page=update_data_khusus&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                             <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Edit</span>
                                         </a>
-                                        <a href="?page=delete_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                        <a href="?page=delete_data_khusus&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                             <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Hapus</span>
                                         </a>
