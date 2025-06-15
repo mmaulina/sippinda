@@ -9,11 +9,11 @@ if (!isset($_SESSION['id_user'])) {
     exit();
 }
 
-    $id_user = $_SESSION['id_user'];
-    $role = $_SESSION['role'];
-    $nama_perusahaan = ''; 
+$id_user = $_SESSION['id_user'];
+$role = $_SESSION['role'];
+$nama_perusahaan = '';
 
-    try {
+try {
     $db = new Database();
     $conn = $db->getConnection();
 
@@ -79,14 +79,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- TAMBAH PROFIL PERUSAHAAN -->
 <div class="container mt-4">
-    <h3 class="text-center"> Tambah Data Ummum Perusahaan </h3>
-    <hr>
-    <div class="card shadow" style="overflow-x: auto; max-height: calc(100vh - 150px); overflow-y: auto;">
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Data Umum Perusahaan</h6>
+        </div>
         <div class="card-body">
             <form method="POST">
                 <div class="form-group mb-2">
                     <label>Nama Perusahaan</label>
-                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100"  value="<?= htmlspecialchars($nama_perusahaan) ?>" readonly>
+                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100" value="<?= htmlspecialchars($nama_perusahaan) ?>" readonly>
                     <small class="text-muted">
                         Catatan: nama perusahaan sesuai perizinan
                     </small>
@@ -115,29 +116,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Status</label>
                     <input type="text" class="form-control" name="status" placeholder="Masukkan Status" required maxlength="200"></input>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Menggunakan Maklon</label>
-                    <select name="menggunakan_maklon" class="form-select" required>
+                <div class="form-group mb-3">
+                    <label for="menggunakan_maklon">Menggunakan Maklon</label>
+                    <select name="menggunakan_maklon" id="menggunakan_maklon" class="form-control" required>
                         <option value="">-- Pilih --</option>
-                        <option value="iya">iya</option>
-                        <option value="tidak">tidak</option>
+                        <option value="iya">Iya</option>
+                        <option value="tidak">Tidak</option>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Menyediakan Maklon</label>
-                    <select name="menyediakan_maklon" class="form-select" required>
+                <div class="form-group mb-3">
+                    <label for="menyediakan_maklon">Menyediakan Maklon</label>
+                    <select name="menyediakan_maklon" id="menyediakan_maklon" class="form-control" required>
                         <option value="">-- Pilih --</option>
-                        <option value="iya">iya</option>
-                        <option value="tidak">tidak</option>
+                        <option value="iya">Iya</option>
+                        <option value="tidak">Tidak</option>
                     </select>
                 </div>
-                <div class="mt-3">
+                <!-- Tombol Simpan dan Batal -->
+                <div class="mb-3">
                     <button type="submit" class="btn btn-success">Simpan</button>
                     <?php
                     $role = $_SESSION['role'];
                     $page = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
                     ?>
-                    <a href="?page=<?php echo htmlspecialchars($page); ?>" class="btn btn-secondary">Batal</a>
+                    <a href="?page=<?= htmlspecialchars($page); ?>" class="btn btn-secondary">Batal</a>
                 </div>
             </form>
         </div>

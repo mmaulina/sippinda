@@ -15,13 +15,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $role = $_SESSION['role'];
 
     // Fungsi untuk sanitasi input
-function sanitize_input($data)
-{
-    return trim(strip_tags($data)); // Tidak mengubah karakter seperti &
-}
+    function sanitize_input($data)
+    {
+        return trim(strip_tags($data)); // Tidak mengubah karakter seperti &
+    }
 
 
-// Menyimpan (tidak mengubah &)
+    // Menyimpan (tidak mengubah &)
     $nama_perusahaan = sanitize_input($_POST['nama_perusahaan']);
     $alamat_kantor = sanitize_input($_POST['alamat_kantor']);
     $alamat_pabrik = sanitize_input($_POST['alamat_pabrik']);
@@ -72,51 +72,53 @@ function sanitize_input($data)
 
 <!-- TAMBAH PROFIL PERUSAHAAN -->
 <div class="container mt-4">
-    <h3 class="text-center"> Tambah Profil Perusahaan </h3>
-    <hr>
-    <div class="card shadow" style="overflow-x: auto; max-height: calc(100vh - 150px); overflow-y: auto;">
-        <div class="card-body">
-            <form method="POST">
-                <div class="form-group mb-2">
-                    <label>Nama Perusahaan</label>
-                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100">
-                    <small class="text-muted">
-                        Catatan: nama perusahaan sesuai perizinan
-                    </small>
-                </div>
-                <div class="form-group mb-2">
-                    <label>Alamat Kantor</label>
-                    <textarea class="form-control" name="alamat_kantor" placeholder="Masukkan alamat lengkap kantor" required maxlength="200"></textarea>
-                </div>
-                <div class="form-group mb-2">
-                    <label>Alamat Pabrik</label>
-                    <textarea class="form-control" name="alamat_pabrik" placeholder="Masukkan alamat lengkap pabrik" required maxlength="200"></textarea>
-                </div>
-                <div class="form-group mb-2">
-                    <label>Nomor Telepon</label>
-                    <input type="text" class="form-control" name="no_telpon" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+">
-                </div>
-                <div class="form-group mb-2">
-                    <label>Nomor Fax</label>
-                    <input type="text" class="form-control" name="no_fax" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+">
-                </div>
-                <div class="form-group mb-2">
-                    <label>Jenis Lokasi Pabrik</label>
-                    <input type="text" class="form-control" name="jenis_lokasi_pabrik" placeholder="Masukkan Jenis Lokasi Pabrik" required maxlength="100">
-                </div>
-                <div class="form-group mb-2">
-                    <label>Jenis Kuisioner</label>
-                    <input type="text" class="form-control" name="jenis_kuisioner" placeholder="Masukkan Jenis Kuisioner" required maxlength="100">
-                </div>
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-success">Simpan</button>
-                    <?php
-                    $role = $_SESSION['role'];
-                    $page = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
-                    ?>
-                    <a href="?page=<?php echo htmlspecialchars($page); ?>" class="btn btn-secondary">Batal</a>
-                </div>
-            </form>
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Profil Perusahaan</h6>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+                <form method="POST">
+                    <div class="form-group mb-2">
+                        <label>Nama Perusahaan</label>
+                        <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100">
+                        <small class="text-muted">
+                            Catatan: nama perusahaan sesuai perizinan
+                        </small>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Alamat Kantor</label>
+                        <textarea class="form-control" name="alamat_kantor" placeholder="Masukkan alamat lengkap kantor" required maxlength="200"></textarea>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Alamat Pabrik</label>
+                        <textarea class="form-control" name="alamat_pabrik" placeholder="Masukkan alamat lengkap pabrik" required maxlength="200"></textarea>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Nomor Telepon</label>
+                        <input type="text" class="form-control" name="no_telpon" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Nomor Fax</label>
+                        <input type="text" class="form-control" name="no_fax" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Jenis Lokasi Pabrik</label>
+                        <input type="text" class="form-control" name="jenis_lokasi_pabrik" placeholder="Masukkan Jenis Lokasi Pabrik" required maxlength="100">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Jenis Kuisioner</label>
+                        <input type="text" class="form-control" name="jenis_kuisioner" placeholder="Masukkan Jenis Kuisioner" required maxlength="100">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                        <?php
+                        $role = $_SESSION['role'];
+                        $page = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
+                        ?>
+                        <a href="?page=<?php echo htmlspecialchars($page); ?>" class="btn btn-secondary">Batal</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>

@@ -10,6 +10,7 @@
     <meta name="author" content="">
 
     <title>SIPPINDA</title>
+    <link rel="icon" href="assets/css/img/kemenperin.png" type="image/png">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

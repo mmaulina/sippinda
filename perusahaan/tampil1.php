@@ -27,13 +27,12 @@ $stmt2->bindParam(':id_user', $id_user, PDO::PARAM_INT);
 $stmt2->execute();
 $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bidang'
 ?>
-<div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800">Profil Perusahaan</h1>
-    <div class="card shadow">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Informasi Profil Perusahaan</h6>
-        </div>
+
+<div class="container mt-5">
+    <div class="card shadow" style="overflow-x: auto; max-height: calc(100vh - 150px); overflow-y: auto;">
         <div class="card-body">
+            <h2> Informasi Profil Perusahaan </h2>
+
             <?php if ($profil): ?>
                 <table class="table table-bordered">
                     <tr>
@@ -63,8 +62,7 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
                                         <span>• <?= htmlspecialchars($row['bidang']); ?></span>
                                         <span>
                                             <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                                <span class="icon text-white-50">
-                                                    <i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                                 <span class="text">Edit</span>
                                             </a>
                                             <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
@@ -103,12 +101,7 @@ $bidanglist = $stmt2->fetchAll(PDO::FETCH_ASSOC); // Ambil semua nilai kolom 'bi
                 </a>
             <?php else: ?>
                 <p>Profil perusahaan belum diisi.</p>
-                <a href="?page=tambah_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-info-circle" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Isi Profil</span>
-                </a>
+                <a href="?page=tambah_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-primary">Isi Profil</a>
             <?php endif; ?>
         </div>
     </div>

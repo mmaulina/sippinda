@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="icon" href="../assets/img/kalsel.png" type="image/png">
+    <link rel="icon" href="../assets/img/kemenperin.png" type="image/png">
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/login.css">
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="card shadow p-4" style="width: 400px;">
         <div class="d-flex justify-content-between mb-3">
             <img src="../assets/img/kalsel.png" alt="Logo Kalsel" style="width: 50px;">
-            <img src="../assets/img/LOGO KEMENTERIAN PERINDUSTRIAN.png" alt="Logo Kementerian" style="width: 80px;">
+            <img src="../assets/img/kemenperin.png" alt="Logo Kementerian Perindustrian" style="width: 80px;">
         </div>
         <h3 class="text-center"><i class="me-1">Login SIPPINDA</h3>
         <hr>

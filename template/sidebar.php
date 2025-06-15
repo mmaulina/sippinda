@@ -41,7 +41,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="?page=profil_admin">
-            <i class="fas fa-fw fa-file"></i>
+            <i class="fas fa-fw fa-industry"></i>
             <span>Data Perusahaan (A)</span>
         </a>
     </li>

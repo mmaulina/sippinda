@@ -2,9 +2,9 @@
 try {
     $role = $_SESSION['role'];
     $database = new Database();
-    
+
     $pdo = $database->getConnection(); // Dapatkan koneksi PDO
-    
+
     $query = "SELECT * FROM profil_perusahaan WHERE 1=1"; // supaya WHERE nya fleksibel
     $params = [];
     // Eksekusi Query
@@ -160,8 +160,8 @@ try {
                                             <span class="text">Edit</span>
                                         </a>
                                         <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Hapus</span>
+                                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                            <span class="text">Hapus</span>
                                         </a>
                                     </td>
                                     </tr>
@@ -176,7 +176,6 @@ try {
             </div>
         </div>
     </div>
-
 </div>
 <!-- /.container-fluid -->
 

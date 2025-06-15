@@ -67,11 +67,11 @@ try {
                             <th rowspan="2" onclick="sortTable(5)">Email Kantor<i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(6)">Nomor Telepon Kantor <i class="fa fa-sort"></i></th>
                             <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                            <th rowspan="2" onclick="sortTable(7)">No. Hp. Pimpinan<i class="fa fa-sort"></th>
+                                <th rowspan="2" onclick="sortTable(7)">No. Hp. Pimpinan<i class="fa fa-sort"></th>
                             <?php endif; ?>
                             <th rowspan="2" onclick="sortTable(8)">Tenaga Teknik <i class="fa fa-sort"></i></th>
                             <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                            <th rowspan="2" onclick="sortTable(9)">No Hp. Tenaga Teknik <i class="fa fa-sort"></i></th>
+                                <th rowspan="2" onclick="sortTable(9)">No Hp. Tenaga Teknik <i class="fa fa-sort"></i></th>
                             <?php endif; ?>
                             <th colspan="2">Kontak Person</th>
                             <th rowspan="2" onclick="sortTable(10)">Status <i class="fa fa-sort"></i></th>
@@ -96,11 +96,11 @@ try {
                                     <td><?= htmlspecialchars($row['email']); ?></td>
                                     <td><?= htmlspecialchars($row['no_telp_kantor']); ?></td>
                                     <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                                    <td><?= htmlspecialchars($row['no_hp_pimpinan']); ?></td>
+                                        <td><?= htmlspecialchars($row['no_hp_pimpinan']); ?></td>
                                     <?php endif; ?>
                                     <td><?= htmlspecialchars($row['tenaga_teknik']); ?></td>
                                     <?php if ($_SESSION['role'] == 'superadmin'): ?>
-                                    <td><?= htmlspecialchars($row['no_hp_teknik']); ?></td>
+                                        <td><?= htmlspecialchars($row['no_hp_teknik']); ?></td>
                                     <?php endif; ?>
                                     <td><?= htmlspecialchars($row['nama']); ?></td>
                                     <td><?= htmlspecialchars($row['no_hp']); ?></td>
@@ -130,7 +130,7 @@ try {
                                             <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalTolak<?php echo $row['id_profil']; ?>">Kembalikan</a>
                                         <?php endif; ?>
 
-                                        <?php if (($row['status'] == 'diterima' || $row['status'] == 'dikembalikan')&& $role=='superadmin'): ?>
+                                        <?php if (($row['status'] == 'diterima' || $row['status'] == 'dikembalikan') && $role == 'superadmin'): ?>
                                             <a href="?page=update_profil_admin&id_profil=<?= htmlspecialchars($row['id_profil']); ?>" class="btn btn-warning btn-sm">Edit</a>
                                             <a href="?page=delete_profil_admin&id_profil=<?= htmlspecialchars($row['id_profil']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
                                         <?php endif; ?>
