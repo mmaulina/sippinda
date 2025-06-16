@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tambah Data Umum Perusahaan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Data Khusus Perusahaan</h6>
         </div>
         <div class="card-body">
             <form method="POST">
@@ -90,12 +90,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Jabatan</label>
                     <input type="text" class="form-control" name="jabatan" placeholder="Masukkan Jabatan" required maxlength="200"></input>
                 </div>
-                <div class="form-group mb-2">
+                <div class="form-group mb-3">
                     <label>Nama Perusahaan Induk</label>
                     <input type="text" class="form-control" name="nama_perusahaan_induk" placeholder="Masukkan Nama Perusahaan Induk" required maxlength="200"></input>
                 </div>
                 <!-- Tombol Simpan dan Batal -->
-                <div class="mb-3">
+                <div class="mb-0">
                     <button type="submit" class="btn btn-success">Simpan</button>
                     <?php
                     $role = $_SESSION['role'];

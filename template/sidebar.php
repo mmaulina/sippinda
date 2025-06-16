@@ -8,7 +8,7 @@
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="?page=home">
         <div class="sidebar-brand-icon">
             <img src="assets/img/kemenperin.png" alt="Logo Kemenperin"
-                style="height: 40px; width: auto; background-color: white; padding: 5px; border-radius: 8px;">
+                style="height: 40px; width: auto; background-color: white; padding: 5px; border-radius: 20px;">
         </div>
         <div class="sidebar-brand-text mx-3">SIPPINDA</div>
     </a>
@@ -53,19 +53,19 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="?page=data_khusus_tampil">
-            <i class="fas fa-solid fa-book"></i>
+            <i class="fas fa-fw fa-folder"></i>
             <span>Data Khusus</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="?page=investasi_tampil">
-            <i class="fas fa-solid fa-money-bill"></i>
+            <i class="fas fa-fw fa-money-bill"></i>
             <span>Investasi</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="?page=pekerja_tampil">
-            <i class="fas fa-solid fa-user-tie"></i>
+            <i class="fas fa-fw fa-user-tie"></i>
             <span>Pekerja Per Hari</span>
         </a>
     </li>
