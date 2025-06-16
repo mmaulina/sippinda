@@ -13,7 +13,7 @@ if (!isset($_SESSION['id_user'])) {
 // Cek apakah ID tersedia di URL
 if (!isset($_GET['id'])) {
     $role = $_SESSION['role'] ?? 'umum';
-    $redirectPage = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
+    $redirectPage = ($role === 'superadmin') ? 'investasi_tampil' : 'profil_perusahaan';
     echo "<script>alert('ID tidak ditemukan!'); window.location.href='?page=$redirectPage';</script>";
     exit();
 }
@@ -25,23 +25,23 @@ $database = new Database();
 $pdo = $database->getConnection();
 
 // Pastikan data bidang benar-benar ada sebelum menghapus
-$sql = "SELECT * FROM data_umum WHERE id = ?";
+$sql = "SELECT * FROM investasi WHERE id = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$id]);
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$data) {
-    echo "<script>alert('Data tidak ditemukan!'); window.location.href='?page=data_umum_tampil';</script>";
+    echo "<script>alert('Data tidak ditemukan!'); window.location.href='?page=investasi_tampil';</script>";
     exit();
 }
 
 // Eksekusi penghapusan
-$sqlDelete = "DELETE FROM data_umum WHERE id = ?";
+$sqlDelete = "DELETE FROM investasi WHERE id = ?";
 $stmtDelete = $pdo->prepare($sqlDelete);
 $success = $stmtDelete->execute([$id]);
 
 if ($success) {
-    echo "<script>alert('Data berhasil dihapus!'); window.location.href='?page=" . ($role === 'superadmin' ? 'data_umum_tampil' : 'profil_perusahaan') . "';</script>";
+    echo "<script>alert('Data berhasil dihapus!'); window.location.href='?page=" . ($role === 'superadmin' ? 'investasi_tampil' : 'profil_perusahaan') . "';</script>";
 } else {
     echo "<script>alert('Gagal menghapus bidang. Silakan coba lagi.'); window.history.back();</script>";
 }

@@ -41,7 +41,7 @@ $stmtDelete = $pdo->prepare($sqlDelete);
 $success = $stmtDelete->execute([$id]);
 
 if ($success) {
-    echo "<script>alert('Bidang berhasil dihapus!'); window.location.href='?page=" . ($role === 'superadmin' ? 'data_khusus_tampil' : 'profil_perusahaan') . "';</script>";
+    echo "<script>alert('Data berhasil dihapus!'); window.location.href='?page=" . ($role === 'superadmin' ? 'data_khusus_tampil' : 'profil_perusahaan') . "';</script>";
 } else {
     echo "<script>alert('Gagal menghapus bidang. Silakan coba lagi.'); window.history.back();</script>";
 }

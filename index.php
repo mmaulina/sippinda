@@ -77,8 +77,8 @@ include "koneksi.php";
                         case "update_data_umum":
                             include "data_umum/edit.php";
                             break;
-                        case "hapus_data_umum":
-                            include "data_umum/edit.php";
+                        case "delete_data_umum":
+                            include "data_umum/hapus.php";
                             break;
 
                         // DATA KHUSUS
@@ -91,8 +91,8 @@ include "koneksi.php";
                         case "update_data_khusus":
                             include "data_khusus/edit.php";
                             break;
-                        case "hapus_data_khusus":
-                            include "data_khusus/edit.php";
+                        case "delete_data_khusus":
+                            include "data_khusus/hapus.php";
                             break;
 
                         // INVESTASI
@@ -104,6 +104,9 @@ include "koneksi.php";
                             break;
                         case "update_investasi":
                             include "investasi/edit.php";
+                            break;
+                        case "delete_investasi":
+                            include "investasi/hapus.php";
                             break;
 
                         // PEKERJA

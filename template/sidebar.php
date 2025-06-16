@@ -52,6 +52,12 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="?page=data_khusus_tampil">
+            <i class="fas fa-solid fa-book"></i>
+            <span>Data Khusus</span>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="?page=investasi_tampil">
             <i class="fas fa-solid fa-money-bill"></i>
             <span>Investasi</span>
@@ -60,7 +66,7 @@
     <li class="nav-item">
         <a class="nav-link" href="?page=pekerja_tampil">
             <i class="fas fa-solid fa-user-tie"></i>
-            <span>Pekerja</span>
+            <span>Pekerja Per Hari</span>
         </a>
     </li>
 
