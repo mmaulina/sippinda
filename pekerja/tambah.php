@@ -34,41 +34,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return trim(strip_tags($data));
     }
 
-    $periode_laporan = sanitize_input($_POST['periode_laporan']);
-    $nilai_investasi_mesin = sanitize_input($_POST['nilai_investasi_mesin']);
-    $nilai_investasi_lainnya = sanitize_input($_POST['nilai_investasi_lainnya']);
-    $modal_kerja = sanitize_input($_POST['modal_kerja']);
-    $investasi_tanpa_tanah_bangunan = sanitize_input($_POST['investasi_tanpa_tanah_bangunan']);
-    $status = sanitize_input($_POST['status']);
-    $menggunakan_maklon = sanitize_input($_POST['menggunakan_maklon']);
-    $menyediakan_maklon = sanitize_input($_POST['menyediakan_maklon']);
+    $laki_laki_pro_tetap = sanitize_input($_POST['laki_laki_pro_tetap']);
+    $perempuan_pro_tetap = sanitize_input($_POST['perempuan_pro_tetap']);
+    $laki_laki_pro_tidak_tetap = sanitize_input($_POST['laki_laki_pro_tidak_tetap']);
+    $perempuan_pro_tidak_tetap = sanitize_input($_POST['perempuan_pro_tidak_tetap']);
+    $laki_laki_lainnya = sanitize_input($_POST['laki_laki_lainnya']);
+    $perempuan_lainnya = sanitize_input($_POST['perempuan_lainnya']);
+    $sd = sanitize_input($_POST['sd']);
+    $smp = sanitize_input($_POST['smp']);
+    $sma = sanitize_input($_POST['sma']);
+    $d1_d2_d3 = sanitize_input($_POST['d1_d2_d3']);
+    $s1_d4 = sanitize_input($_POST['s1_d4']);
+    $s2 = sanitize_input($_POST['s2']);
+    $s3 = sanitize_input($_POST['s3']);
 
     try {
         if ($profil && !empty($profil['nama_perusahaan'])) {
             $nama_perusahaan = $profil['nama_perusahaan'];
 
-            $sql = "INSERT INTO data_umum (id_user, nama_perusahaan, periode_laporan, nilai_investasi_mesin, nilai_investasi_lainnya, modal_kerja, investasi_tanpa_tanah_bangunan, status, menggunakan_maklon, menyediakan_maklon) 
-                    VALUES (:id_user, :nama_perusahaan, :periode_laporan, :nilai_investasi_mesin, :nilai_investasi_lainnya, :modal_kerja, :investasi_tanpa_tanah_bangunan, :status, :menggunakan_maklon, :menyediakan_maklon)";
+            $sql = "INSERT INTO data_umum (id_user, nama_perusahaan, laki_laki_pro_tetap, perempuan_pro_tetap, laki_laki_pro_tidak_tetap, perempuan_pro_tidak_tetap, laki_laki_lainnya, perempuan_lainnya, sd, smp, sma, d1_d2_d3, s1_d4, s2, s3) 
+                    VALUES (:id_user, :nama_perusahaan, :laki_laki_pro_tetap, :perempuan_pro_tetap, :laki_laki_pro_tidak_tetap, :perempuan_pro_tidak_tetap, :laki_laki_lainnya, :perempuan_lainnya, :sd, :smp, :sma, :d1_d2_d3, :s1_d4, :s2, :s3)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
             $stmt->bindParam(':nama_perusahaan', $nama_perusahaan, PDO::PARAM_STR);
-            $stmt->bindParam(':periode_laporan', $periode_laporan, PDO::PARAM_STR);
-            $stmt->bindParam(':nilai_investasi_mesin', $nilai_investasi_mesin, PDO::PARAM_STR);
-            $stmt->bindParam(':nilai_investasi_lainnya', $nilai_investasi_lainnya, PDO::PARAM_STR);
-            $stmt->bindParam(':modal_kerja', $modal_kerja, PDO::PARAM_STR);
-            $stmt->bindParam(':investasi_tanpa_tanah_bangunan', $investasi_tanpa_tanah_bangunan, PDO::PARAM_STR);
-            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-            $stmt->bindParam(':menggunakan_maklon', $menggunakan_maklon, PDO::PARAM_STR);
-            $stmt->bindParam(':menyediakan_maklon', $menyediakan_maklon, PDO::PARAM_STR);
+            $stmt->bindParam(':laki_laki_pro_tetap', $laki_laki_pro_tetap, PDO::PARAM_STR);
+            $stmt->bindParam(':perempuan_pro_tetap', $perempuan_pro_tetap, PDO::PARAM_STR);
+            $stmt->bindParam(':laki_laki_pro_tidak_tetap', $laki_laki_pro_tidak_tetap, PDO::PARAM_STR);
+            $stmt->bindParam(':perempuan_pro_tidak_tetap', $perempuan_pro_tidak_tetap, PDO::PARAM_STR);
+            $stmt->bindParam(':laki_laki_lainnya', $laki_laki_lainnya, PDO::PARAM_STR);
+            $stmt->bindParam(':perempuan_lainnya', $perempuan_lainnya, PDO::PARAM_STR);
+            $stmt->bindParam(':sd', $sd, PDO::PARAM_STR);
+            $stmt->bindParam(':smp', $smp, PDO::PARAM_STR);
+            $stmt->bindParam(':sma', $sma, PDO::PARAM_STR);
+            $stmt->bindParam(':d1_d2_d3', $d1_d2_d3, PDO::PARAM_STR);
+            $stmt->bindParam(':s1_d4', $s1_d4, PDO::PARAM_STR);
+            $stmt->bindParam(':s2', $s2, PDO::PARAM_STR);
+            $stmt->bindParam(':s3', $s3, PDO::PARAM_STR);
 
             if ($stmt->execute()) {
-                $redirect = ($role === 'superadmin') ? 'data_umum_tampil' : 'profil_perusahaan';
+                $redirect = ($role === 'superadmin') ? 'pekerja_tampil' : 'profil_perusahaan';
                 echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=$redirect';</script>";
             } else {
                 echo "<script>alert('Gagal menambahkan Data.');</script>";
             }
         } else {
-            echo "<script>alert('Profil perusahaan tidak ditemukan. Silakan lengkapi terlebih dahulu.');</script>";
+            echo "<script>alert('Pekerja tidak ditemukan. Silakan lengkapi terlebih dahulu.');</script>";
         }
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
@@ -100,11 +110,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Laki-Laki</label>
-                            <input type="text" class="form-control" name="periode_laporan" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
+                            <input type="text" class="form-control" name="laki_laki_pro_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>Perempuan</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
+                            <input type="text" class="form-control" name="perempuan_pro_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
                         </div>
                     </div>
                 </div> 
@@ -116,11 +126,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Laki-Laki</label>
-                            <input type="text" class="form-control" name="periode_laporan" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
+                            <input type="text" class="form-control" name="laki_laki_pro_tidak_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>Perempuan</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
+                            <input type="text" class="form-control" name="perempuan_pro_tidak_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
                         </div>
                     </div>
                 </div>
@@ -132,11 +142,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Laki-Laki</label>
-                            <input type="text" class="form-control" name="periode_laporan" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
+                            <input type="text" class="form-control" name="laki_laki_lainnya" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>Perempuan</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
+                            <input type="text" class="form-control" name="perempuan_lainnya" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
                         </div>
                     </div>
                 </div>
@@ -148,31 +158,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>SD</label>
-                            <input type="text" class="form-control" name="periode_laporan" placeholder="Masukkan Jumlah SD" required maxlength="200">
+                            <input type="text" class="form-control" name="sd" placeholder="Masukkan Jumlah SD" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>SMP</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Jumlah SMP" required maxlength="200">
+                            <input type="text" class="form-control" name="smp" placeholder="Masukkan Jumlah SMP" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>SMA</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Jumlah SMA" required maxlength="200">
+                            <input type="text" class="form-control" name="sma" placeholder="Masukkan Jumlah SMA" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>D1 sampai D3</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Jumlah D1 sampai D3" required maxlength="200">
+                            <input type="text" class="form-control" name="d1_d2_d3" placeholder="Masukkan Jumlah D1 sampai D3" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>S1/D4</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Jumlah S1/D4" required maxlength="200">
+                            <input type="text" class="form-control" name="s1_d4" placeholder="Masukkan Jumlah S1/D4" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>S2</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Jumlah S2" required maxlength="200">
+                            <input type="text" class="form-control" name="s2" placeholder="Masukkan Jumlah S2" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>S3</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Jumlah S3" required maxlength="200">
+                            <input type="text" class="form-control" name="s3" placeholder="Masukkan Jumlah S3" required maxlength="200">
                         </div>
                     </div>
                 </div>
