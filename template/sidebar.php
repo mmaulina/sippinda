@@ -57,6 +57,12 @@
             <span>Investasi</span>
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="?page=data_khusus_tampil">
+            <i class="fas fa-solid fa-book"></i>
+            <span>Data Khusus</span>
+        </a>
+    </li>
 
     <!-- DATA II -->
     <!-- Divider -->

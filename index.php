@@ -77,8 +77,8 @@ include "koneksi.php";
                         case "update_data_umum":
                             include "data_umum/edit.php";
                             break;
-                        case "hapus_data_umum":
-                            include "data_umum/edit.php";
+                        case "delete_data_umum":
+                            include "data_umum/hapus.php";
                             break;
 
                         case "data_khusus_tampil":
@@ -90,8 +90,8 @@ include "koneksi.php";
                         case "update_data_khusus":
                             include "data_khusus/edit.php";
                             break;
-                        case "hapus_data_khusus":
-                            include "data_khusus/edit.php";
+                        case "delete_data_khusus":
+                            include "data_khusus/hapus.php";
                             break;
 
                         // INVESTASI
