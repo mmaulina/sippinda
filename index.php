@@ -81,6 +81,7 @@ include "koneksi.php";
                             include "data_umum/edit.php";
                             break;
 
+                        // DATA KHUSUS
                         case "data_khusus_tampil":
                             include "data_khusus/tampil.php";
                             break;
@@ -103,6 +104,17 @@ include "koneksi.php";
                             break;
                         case "update_investasi":
                             include "investasi/edit.php";
+                            break;
+
+                        // PEKERJA
+                        case "pekerja_tampil":
+                            include "pekerja/tampil.php";
+                            break;
+                        case "tambah_pekerja":
+                            include "pekerja/tambah.php";
+                            break;
+                        case "update_pekerja":
+                            include "pekerja/edit.php";
                             break;
 
                         // Default (Home)

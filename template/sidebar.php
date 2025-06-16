@@ -5,7 +5,7 @@
 <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="?page=home">
         <div class="sidebar-brand-icon">
             <img src="assets/img/kemenperin.png" alt="Logo Kemenperin"
                 style="height: 40px; width: auto; background-color: white; padding: 5px; border-radius: 8px;">
@@ -55,6 +55,12 @@
         <a class="nav-link" href="?page=investasi_tampil">
             <i class="fas fa-solid fa-money-bill"></i>
             <span>Investasi</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="?page=pekerja_tampil">
+            <i class="fas fa-solid fa-user-tie"></i>
+            <span>Pekerja</span>
         </a>
     </li>
 
