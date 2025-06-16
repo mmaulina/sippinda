@@ -14,7 +14,7 @@ if (!isset($_GET['id'])) {
     echo "<script>alert('Data tidak ditemukan!');";
 
     if ($_SESSION['role'] == 'superadmin') {
-        echo "window.location.href='?page=profil_admin';";
+        echo "window.location.href='?page=investasi_tampil';";
     } elseif ($_SESSION['role'] == 'umum') {
         echo "window.location.href='?page=profil_perusahaan';";
     } else {
@@ -34,16 +34,16 @@ $database = new Database();
 $pdo = $database->getConnection();
 
 // Ambil data bidang berdasarkan ID
-$sql = "SELECT * FROM data_umum WHERE id = ?";
+$sql = "SELECT * FROM investasi WHERE id = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$id]);
-$data_umum = $stmt->fetch(PDO::FETCH_ASSOC);
+$investasi = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!isset($_GET['id'])) {
     echo "<script>alert('Data tidak ditemukan!');";
 
     if ($_SESSION['role'] == 'superadmin') {
-        echo "window.location.href='?page=data_umum_tampil';";
+        echo "window.location.href='?page=investasi_tampil';";
     } elseif ($_SESSION['role'] == 'umum') {
         echo "window.location.href='?page=profil_perusahaan';";
     } else {
@@ -63,23 +63,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $nama_perusahaan = sanitize_input($_POST['nama_perusahaan']);
-    $periode_laporan = sanitize_input($_POST['periode_laporan']);
-    $nilai_investasi_mesin = sanitize_input($_POST['nilai_investasi_mesin']);
-    $nilai_investasi_lainnya = sanitize_input($_POST['nilai_investasi_lainnya']);
-    $modal_kerja = sanitize_input($_POST['modal_kerja']);
-    $investasi_tanpa_tanah_bangunan = sanitize_input($_POST['investasi_tanpa_tanah_bangunan']);
-    $status = sanitize_input($_POST['status']);
-    $menggunakan_maklon = sanitize_input($_POST['menggunakan_maklon']);
-    $menyediakan_makon = sanitize_input($_POST['menyediakan_maklon']);
+    $pemerintah_pusat = sanitize_input($_POST['pemerintah_pusat']);
+    $pemerintah_daerah = sanitize_input($_POST['pemerintah_daerah']);
+    $swasta_nasional = sanitize_input($_POST['swasta_nasional']);
+    $asing = sanitize_input($_POST['asing']);
+    $negara_asal = sanitize_input($_POST['negara_asal']);
+    $nilai_investasi_tanah = sanitize_input($_POST['nilai_investasi_tanah']);
+    $nilai_investasi_bangunan = sanitize_input($_POST['nilai_investasi_bangunan']);
 
     if (!empty($nama_perusahaan)) {
-        $sql = "UPDATE data_umum SET nama_perusahaan = ?, periode_laporan = ?, nilai_investasi_mesin = ?, nilai_investasi_lainnya = ?, modal_kerja = ?, investasi_tanpa_tanah_bangunan = ?, status = ?, menggunakan_maklon = ?, menyediakan_maklon = ? WHERE id = ?";
+        $sql = "UPDATE investasi SET nama_perusahaan = ?, pemerintah_pusat = ?, pemerintah_daerah = ?, swasta_nasional = ?, asing = ?, negara_asal = ?, nilai_investasi_tanah = ?, nilai_investasi_bangunan = ? WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        $success = $stmt->execute([$nama_perusahaan, $periode_laporan, $nilai_investasi_mesin, $nilai_investasi_lainnya, $modal_kerja, $investasi_tanpa_tanah_bangunan, $status, $menggunakan_maklon, $menyediakan_makon, $id]);
+        $success = $stmt->execute([$nama_perusahaan, $pemerintah_pusat, $pemerintah_daerah, $swasta_nasional, $asing, $negara_asal, $nilai_investasi_tanah, $nilai_investasi_bangunan, $id]);
 
         if ($success) {
             if ($role === 'superadmin') {
-                echo "<script>alert('data berhasil diperbarui!'); window.location.href='?page=data_umum_tampil';</script>";
+                echo "<script>alert('data berhasil diperbarui!'); window.location.href='?page=investasi_tampil';</script>";
             } else {
                 echo "<script>alert('data berhasil diperbarui!'); window.location.href='?page=profil_perusahaan';</script>";
             }
@@ -101,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form method="POST">
                 <div class="form-group mb-2">
                     <label>Nama Perusahaan</label>
-                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100" value="<?php echo $data_umum['nama_perusahaan']; ?>" readonly>
+                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100" value="<?php echo $investasi['nama_perusahaan']; ?>" readonly>
                     <small class="text-muted">
                         Catatan: nama perusahaan sesuai perizinan
                     </small>
@@ -114,31 +113,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Pemerintah Pusat</label>
-                            <input type="text" class="form-control" name="periode_laporan" placeholder="Masukkan Pemerintah Pusat" required maxlength="200" value="<?php echo $data_umum['periode_laporan']; ?>"></input>
+                            <input type="text" class="form-control" name="pemerintah_pusat" placeholder="Masukkan Pemerintah Pusat" required maxlength="200" value="<?php echo $investasi['pemerintah_pusat']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>Pemerintah Daerah</label>
-                            <input type="text" class="form-control" name="nilai_investasi_mesin" placeholder="Masukkan Pemerintah Daerah" required maxlength="200" value="<?php echo $data_umum['nilai_investasi_mesin']; ?>"></input>
+                            <input type="text" class="form-control" name="pemerintah_daerah" placeholder="Masukkan Pemerintah Daerah" required maxlength="200" value="<?php echo $investasi['pemerintah_daerah']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>Swasta Nasional</label>
-                            <input type="text" class="form-control" name="nilai_investasi_lainnya" placeholder="Masukkan Swasta Nasional" required maxlength="200" value="<?php echo $data_umum['nilai_investasi_lainnya']; ?>"></input>
+                            <input type="text" class="form-control" name="swasta_nasional" placeholder="Masukkan Swasta Nasional" required maxlength="200" value="<?php echo $investasi['swasta_nasional']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>Asing</label>
-                            <input type="text" class="form-control" name="modal_kerja" placeholder="Masukkan Asing" required maxlength="200" value="<?php echo $data_umum['modal_kerja']; ?>"></input>
+                            <input type="text" class="form-control" name="asing" placeholder="Masukkan Asing" required maxlength="200" value="<?php echo $investasi['asing']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>Negara Asal</label>
-                            <input type="text" class="form-control" name="investasi_tanpa_tanah_bangunan" placeholder="Masukkan Negara Asal" required maxlength="200" value="<?php echo $data_umum['investasi_tanpa_tanah_bangunan']; ?>"></input>
+                            <input type="text" class="form-control" name="negara_asal" placeholder="Masukkan Negara Asal" required maxlength="200" value="<?php echo $investasi['negara_asal']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>Nilai Investasi Tanah</label>
-                            <input type="text" class="form-control" name="status" placeholder="Masukkan Nilai Investasi Tanah" required maxlength="200" value="<?php echo $data_umum['status']; ?>"></input>
+                            <input type="text" class="form-control" name="nilai_investasi_tanah" placeholder="Masukkan Nilai Investasi Tanah" required maxlength="200" value="<?php echo $investasi['nilai_investasi_tanah']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>Nilai Investasi Bangunan</label>
-                            <input type="text" class="form-control" name="status" placeholder="Masukkan Nilai Investasi Bangunan" required maxlength="200" value="<?php echo $data_umum['status']; ?>"></input>
+                            <input type="text" class="form-control" name="nilai_investasi_bangunan" placeholder="Masukkan Nilai Investasi Bangunan" required maxlength="200" value="<?php echo $investasi['nilai_investasi_bangunan']; ?>"></input>
                         </div>
                     </div>
                 </div>
@@ -147,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" class="btn btn-success">Simpan</button>
                     <?php
                     $role = $_SESSION['role'];
-                    $page = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
+                    $page = ($role === 'superadmin') ? 'investasi_tampil' : 'profil_perusahaan';
                     ?>
                     <a href="?page=<?php echo htmlspecialchars($page); ?>" class="btn btn-secondary">Batal</a>
                 </div>

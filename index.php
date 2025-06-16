@@ -104,6 +104,9 @@ include "koneksi.php";
                         case "update_investasi":
                             include "investasi/edit.php";
                             break;
+                        case "delete_investasi":
+                            include "investasi/hapus.php";
+                            break;
 
                         // Default (Home)
                         default:
