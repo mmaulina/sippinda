@@ -40,9 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $upload_berkas = uploadFile('upload_berkas', $jenis_laporan, $nama_perusahaan, $no_izin);
 
     if ($upload_berkas === null) {
-    echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/doc/docx/xls/xlsx) dan ukuran maksimal 10MB.'); history.back();</script>";
-    exit;
-}
+        echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/doc/docx/xls/xlsx) dan ukuran maksimal 10MB.'); history.back();</script>";
+        exit;
+    }
 
     $verifikasi = 'diajukan';
     $keterangan = '-';
@@ -115,13 +115,19 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
     }
     return null;
 }
-
 ?>
 
+<!-- TAMBAH PERIZINAN -->
 <div class="container mt-4">
     <div class="card shadow">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Upload Berkas</h6>
+            <a href="?page=perizinan_tampil" class="btn btn-primary btn-icon-split btn-sm">
+                <span class="icon text-white-50">
+                    <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
+                </span>
+                <span class="text">Kembali</span>
+            </a>
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data">
@@ -158,22 +164,22 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
                     </select>
                 </div>
                 <div class="form-group mb-2">
-                    <label>No.Izin</label>
-                    <input type="text" class="form-control" name="no_izin" placeholder="Masukkan No.Izin" required maxlength="200"></input>
+                    <label>No. Izin</label>
+                    <input type="text" class="form-control" name="no_izin" placeholder="Masukkan No. Izin" required maxlength="200"></input>
                 </div>
                 <div class="form-group mb-2">
                     <label>Tanggal Dokumen</label>
                     <input type="date" class="form-control" name="tgl_dokumen" required></input>
                 </div>
                 <div class="form-group mb-2">
-                    <label class="form-label">Upload Berkas (PDF, DOC , DOCX, XLS, XLSX)</label>
+                    <label for="upload_berkas">Upload Berkas (PDF, DOC , DOCX, XLS, XLSX)</label>
                     <input type="file" name="upload_berkas" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx">
                     <small class="text-danger">Max File 10Mb</small>
                 </div>
                 <!-- Tombol Simpan dan Batal -->
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success">Simpan</button>
-                    <a href="?page=perizinan_tampil" class="btn btn-secondary">Batal</a>
+                    <button type="reset" class="btn btn-secondary">Batal</button>
                 </div>
             </form>
         </div>

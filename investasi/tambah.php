@@ -76,10 +76,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <!-- TAMBAH PROFIL PERUSAHAAN -->
+<?php
+$role = $_SESSION['role'];
+$page = ($role === 'superadmin') ? 'investasi_tampil' : 'profil_perusahaan';
+?>
 <div class="container mt-4">
     <div class="card shadow">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Tambah Data Investasi</h6>
+            <a href="?page=<?= htmlspecialchars($page); ?>" class="btn btn-primary btn-icon-split btn-sm">
+                <span class="icon text-white-50">
+                    <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
+                </span>
+                <span class="text">Kembali</span>
+            </a>
         </div>
         <div class="card-body">
             <form method="POST">
@@ -125,16 +135,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="text" class="form-control" name="nilai_investasi_bangunan" placeholder="Masukkan Nilai Investasi Bangunan" required maxlength="200">
                         </div>
                     </div>
-                </div> 
+                </div>
 
                 <!-- Tombol Simpan dan Batal -->
                 <div class="mb-0">
                     <button type="submit" class="btn btn-success">Simpan</button>
-                    <?php
-                    $role = $_SESSION['role'];
-                    $page = ($role === 'superadmin') ? 'investasi_tampil' : 'profil_perusahaan';
-                    ?>
-                    <a href="?page=<?= htmlspecialchars($page); ?>" class="btn btn-secondary">Batal</a>
+                    <button type="reset" class="btn btn-secondary">Batal</button>
                 </div>
             </form>
         </div>

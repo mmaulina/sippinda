@@ -54,10 +54,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!-- UPDATE PROFIL PERUSAHAAN -->
+<?php
+$role = $_SESSION['role'];
+$page = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
+?>
 <div class="container mt-4">
     <div class="card shadow">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Update Profil Perusahaan</h6>
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Edit Profil Perusahaan</h6>
+            <a href="?page=<?= htmlspecialchars($page); ?>" class="btn btn-primary btn-icon-split btn-sm">
+                <span class="icon text-white-50">
+                    <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
+                </span>
+                <span class="text">Kembali</span>
+            </a>
         </div>
         <div class="card-body">
             <form method="POST">
@@ -98,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="mt-3">
                     <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
-                    <a href="?page=profil_perusahaan" class="btn btn-secondary">Batal</a>
+                    <button type="reset" class="btn btn-secondary">Batal</button>
                 </div>
             </form>
         </div>

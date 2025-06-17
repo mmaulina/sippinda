@@ -92,16 +92,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<!-- UPDATE DATA UMUM PERUSAHAAN -->
+<?php
+$role = $_SESSION['role'];
+$page = ($role === 'superadmin') ? 'data_umum_tampil' : 'profil_perusahaan';
+?>
 <div class="container mt-4">
     <div class="card shadow">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Edit Data Umum Perusahaan</h6>
+            <a href="?page=<?= htmlspecialchars($page); ?>" class="btn btn-primary btn-icon-split btn-sm">
+                <span class="icon text-white-50">
+                    <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
+                </span>
+                <span class="text">Kembali</span>
+            </a>
         </div>
         <div class="card-body">
             <form method="POST">
                 <div class="form-group mb-2">
                     <label>Nama Perusahaan</label>
-                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100"  value="<?php echo $data_umum['nama_perusahaan']; ?>" readonly>
+                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100" value="<?php echo $data_umum['nama_perusahaan']; ?>" readonly>
                     <small class="text-muted">
                         Catatan: nama perusahaan sesuai perizinan
                     </small>
@@ -148,11 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-success">Simpan</button>
-                    <?php
-                    $role = $_SESSION['role'];
-                    $page = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
-                    ?>
-                    <a href="?page=<?php echo htmlspecialchars($page); ?>" class="btn btn-secondary">Batal</a>
+                    <button type="reset" class="btn btn-secondary">Batal</button>
                 </div>
             </form>
         </div>
