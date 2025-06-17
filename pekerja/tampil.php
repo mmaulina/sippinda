@@ -93,18 +93,18 @@ try {
                             foreach ($pekerja as $row): ?>
                                 <td><?= $no++; ?></td>
                                 <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                <td><?= htmlspecialchars($row['laki_laki_pro_tetap']); ?></td>
-                                <td><?= htmlspecialchars($row['perempuan_pro_tetap']); ?></td>
-                                <td><?= htmlspecialchars($row['laki_laki_pro_tidak_tetap']); ?></td>
-                                <td><?= htmlspecialchars($row['laki_laki_lainnya']); ?></td>
-                                <td><?= htmlspecialchars($row['perempuan_lainnya']); ?></td>
-                                <td><?= htmlspecialchars($row['sd']); ?></td>
-                                <td><?= htmlspecialchars($row['smp']); ?></td>
-                                <td><?= htmlspecialchars($row['sma']); ?></td>
-                                <td><?= htmlspecialchars($row['d1_d2_d3']); ?></td>
-                                <td><?= htmlspecialchars($row['s1_d4']); ?></td>
-                                <td><?= htmlspecialchars($row['s2']); ?></td>
-                                <td><?= htmlspecialchars($row['s3']); ?></td>
+                                <td><?= htmlspecialchars($row['laki_laki_pro_tetap']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['perempuan_pro_tetap']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['laki_laki_pro_tidak_tetap']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['laki_laki_lainnya']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['perempuan_lainnya']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['sd']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['smp']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['sma']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['d1_d2_d3']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['s1_d4']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['s2']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['s3']); ?> orang</td>
                                 <td>
                                     <a href="?page=update_pekerja&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                         <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>

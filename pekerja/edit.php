@@ -129,11 +129,11 @@ $page = ($role === 'superadmin') ? 'pekerja_tampil' : 'profil_perusahaan';
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Laki-Laki</label>
-                            <input type="text" class="form-control" name="laki_laki_pro_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200" value="<?php echo $pekerja['laki_laki_pro_tetap']; ?>"></input>
+                            <input type="number" class="form-control" name="laki_laki_pro_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200" value="<?php echo $pekerja['laki_laki_pro_tetap']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>Perempuan</label>
-                            <input type="text" class="form-control" name="perempuan_pro_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200" value="<?php echo $pekerja['perempuan_pro_tetap']; ?>"></input>
+                            <input type="number" class="form-control" name="perempuan_pro_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200" value="<?php echo $pekerja['perempuan_pro_tetap']; ?>"></input>
                         </div>
                     </div>
                 </div>
@@ -145,11 +145,11 @@ $page = ($role === 'superadmin') ? 'pekerja_tampil' : 'profil_perusahaan';
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Laki-Laki</label>
-                            <input type="text" class="form-control" name="laki_laki_pro_tidak_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200" value="<?php echo $pekerja['laki_laki_pro_tidak_tetap']; ?>"></input>
+                            <input type="number" class="form-control" name="laki_laki_pro_tidak_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200" value="<?php echo $pekerja['laki_laki_pro_tidak_tetap']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>Perempuan</label>
-                            <input type="text" class="form-control" name="perempuan_pro_tidak_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200" value="<?php echo $pekerja['perempuan_pro_tidak_tetap']; ?>"></input>
+                            <input type="number" class="form-control" name="perempuan_pro_tidak_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200" value="<?php echo $pekerja['perempuan_pro_tidak_tetap']; ?>"></input>
                         </div>
                     </div>
                 </div>
@@ -161,11 +161,11 @@ $page = ($role === 'superadmin') ? 'pekerja_tampil' : 'profil_perusahaan';
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Laki-Laki</label>
-                            <input type="text" class="form-control" name="laki_laki_lainnya" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200" value="<?php echo $pekerja['laki_laki_lainnya']; ?>"></input>
+                            <input type="number" class="form-control" name="laki_laki_lainnya" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200" value="<?php echo $pekerja['laki_laki_lainnya']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>Perempuan</label>
-                            <input type="text" class="form-control" name="perempuan_lainnya" placeholder="Masukkan Jumlah Perempuan" required maxlength="200" value="<?php echo $pekerja['perempuan_lainnya']; ?>"></input>
+                            <input type="number" class="form-control" name="perempuan_lainnya" placeholder="Masukkan Jumlah Perempuan" required maxlength="200" value="<?php echo $pekerja['perempuan_lainnya']; ?>"></input>
                         </div>
                     </div>
                 </div>
@@ -177,31 +177,31 @@ $page = ($role === 'superadmin') ? 'pekerja_tampil' : 'profil_perusahaan';
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>SD</label>
-                            <input type="text" class="form-control" name="sd" placeholder="Masukkan Jumlah SD" required maxlength="200" value="<?php echo $pekerja['sd']; ?>"></input>
+                            <input type="number" class="form-control" name="sd" placeholder="Masukkan Jumlah SD" required maxlength="200" value="<?php echo $pekerja['sd']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>SMP</label>
-                            <input type="text" class="form-control" name="smp" placeholder="Masukkan Jumlah SMP" required maxlength="200" value="<?php echo $pekerja['smp']; ?>"></input>
+                            <input type="number" class="form-control" name="smp" placeholder="Masukkan Jumlah SMP" required maxlength="200" value="<?php echo $pekerja['smp']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>SMA</label>
-                            <input type="text" class="form-control" name="sma" placeholder="Masukkan Jumlah SMA" required maxlength="200" value="<?php echo $pekerja['sma']; ?>"></input>
+                            <input type="number" class="form-control" name="sma" placeholder="Masukkan Jumlah SMA" required maxlength="200" value="<?php echo $pekerja['sma']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>D1 sampai D3</label>
-                            <input type="text" class="form-control" name="d1_d2_d3" placeholder="Masukkan Jumlah D1 sampai D3" required maxlength="200" value="<?php echo $pekerja['d1_d2_d3']; ?>"></input>
+                            <input type="number" class="form-control" name="d1_d2_d3" placeholder="Masukkan Jumlah D1 sampai D3" required maxlength="200" value="<?php echo $pekerja['d1_d2_d3']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>S1/D4</label>
-                            <input type="text" class="form-control" name="s1_d4" placeholder="Masukkan Jumlah S1/D4" required maxlength="200" value="<?php echo $pekerja['s1_d4']; ?>"></input>
+                            <input type="number" class="form-control" name="s1_d4" placeholder="Masukkan Jumlah S1/D4" required maxlength="200" value="<?php echo $pekerja['s1_d4']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>S2</label>
-                            <input type="text" class="form-control" name="s2" placeholder="Masukkan Jumlah S2" required maxlength="200" value="<?php echo $pekerja['s2']; ?>"></input>
+                            <input type="number" class="form-control" name="s2" placeholder="Masukkan Jumlah S2" required maxlength="200" value="<?php echo $pekerja['s2']; ?>"></input>
                         </div>
                         <div class="form-group mb-2">
                             <label>S3</label>
-                            <input type="text" class="form-control" name="s3" placeholder="Masukkan Jumlah S3" required maxlength="200" value="<?php echo $pekerja['s3']; ?>"></input>
+                            <input type="number" class="form-control" name="s3" placeholder="Masukkan Jumlah S3" required maxlength="200" value="<?php echo $pekerja['s3']; ?>"></input>
                         </div>
                     </div>
                 </div>

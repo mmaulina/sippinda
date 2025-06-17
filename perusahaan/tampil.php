@@ -270,55 +270,55 @@ $pekerja = $stmt6->fetch(PDO::FETCH_ASSOC);
             <table class="table table-bordered my-2">
                     <tr>
                         <th>Laki Laki Produksi Tetap</th>
-                        <td><?php echo htmlspecialchars($pekerja['laki_laki_pro_tetap'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['laki_laki_pro_tetap'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>Perempuan Produksi Tetap</th>
-                        <td><?php echo htmlspecialchars($pekerja['perempuan_pro_tetap'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['perempuan_pro_tetap'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>Laki Laki Produksi Tidak Tetap</th>
-                        <td><?php echo htmlspecialchars($pekerja['laki_laki_pro_tidak_tetap'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['laki_laki_pro_tidak_tetap'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>Perempuan Produksi Tidak Tetap</th>
-                        <td><?php echo htmlspecialchars($pekerja['perempuan_pro_tidak_tetap'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['perempuan_pro_tidak_tetap'] ?? '-'); ?> oramg</td>
                     </tr>
                     <tr>
                         <th>Laki Laki Lainnya</th>
-                        <td><?php echo htmlspecialchars($pekerja['laki_laki_lainnya'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['laki_laki_lainnya'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>Perempuan Lainnya</th>
-                        <td><?php echo htmlspecialchars($pekerja['perempuan_lainnya'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['perempuan_lainnya'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>SD</th>
-                        <td><?php echo htmlspecialchars($pekerja['sd'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['sd'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>SMP</th>
-                        <td><?php echo htmlspecialchars($pekerja['smp'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['smp'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>SMA</th>
-                        <td><?php echo htmlspecialchars($pekerja['sma'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['sma'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>D1 - D3</th>
-                        <td><?php echo htmlspecialchars($pekerja['d1_d2_d3'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['d1_d2_d3'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>S1/D4</th>
-                        <td><?php echo htmlspecialchars($pekerja['s1_d4'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['s1_d4'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>S2</th>
-                        <td><?php echo htmlspecialchars($pekerja['s2'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['s2'] ?? '-'); ?> orang</td>
                     </tr>
                     <tr>
                         <th>S3</th>
-                        <td><?php echo htmlspecialchars($pekerja['s3'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($pekerja['s3'] ?? '-'); ?> orang</td>
                     </tr>
                     <td>
                             <a href="?page=update_pekerja&id=<?= htmlspecialchars($pekerja['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">

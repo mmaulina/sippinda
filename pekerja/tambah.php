@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($profil && !empty($profil['nama_perusahaan'])) {
             $nama_perusahaan = $profil['nama_perusahaan'];
 
-            $sql = "INSERT INTO data_umum (id_user, nama_perusahaan, laki_laki_pro_tetap, perempuan_pro_tetap, laki_laki_pro_tidak_tetap, perempuan_pro_tidak_tetap, laki_laki_lainnya, perempuan_lainnya, sd, smp, sma, d1_d2_d3, s1_d4, s2, s3) 
+            $sql = "INSERT INTO pekerja (id_user, nama_perusahaan, laki_laki_pro_tetap, perempuan_pro_tetap, laki_laki_pro_tidak_tetap, perempuan_pro_tidak_tetap, laki_laki_lainnya, perempuan_lainnya, sd, smp, sma, d1_d2_d3, s1_d4, s2, s3) 
                     VALUES (:id_user, :nama_perusahaan, :laki_laki_pro_tetap, :perempuan_pro_tetap, :laki_laki_pro_tidak_tetap, :perempuan_pro_tidak_tetap, :laki_laki_lainnya, :perempuan_lainnya, :sd, :smp, :sma, :d1_d2_d3, :s1_d4, :s2, :s3)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
@@ -120,11 +120,11 @@ $page = ($role === 'superadmin') ? 'pekerja_tampil' : 'profil_perusahaan';
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Laki-Laki</label>
-                            <input type="text" class="form-control" name="laki_laki_pro_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
+                            <input type="number" class="form-control" name="laki_laki_pro_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>Perempuan</label>
-                            <input type="text" class="form-control" name="perempuan_pro_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
+                            <input type="number" class="form-control" name="perempuan_pro_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
                         </div>
                     </div>
                 </div>
@@ -136,11 +136,11 @@ $page = ($role === 'superadmin') ? 'pekerja_tampil' : 'profil_perusahaan';
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Laki-Laki</label>
-                            <input type="text" class="form-control" name="laki_laki_pro_tidak_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
+                            <input type="number" class="form-control" name="laki_laki_pro_tidak_tetap" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>Perempuan</label>
-                            <input type="text" class="form-control" name="perempuan_pro_tidak_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
+                            <input type="number" class="form-control" name="perempuan_pro_tidak_tetap" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
                         </div>
                     </div>
                 </div>
@@ -152,11 +152,11 @@ $page = ($role === 'superadmin') ? 'pekerja_tampil' : 'profil_perusahaan';
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>Laki-Laki</label>
-                            <input type="text" class="form-control" name="laki_laki_lainnya" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
+                            <input type="number" class="form-control" name="laki_laki_lainnya" placeholder="Masukkan Jumlah Laki-Laki" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>Perempuan</label>
-                            <input type="text" class="form-control" name="perempuan_lainnya" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
+                            <input type="number" class="form-control" name="perempuan_lainnya" placeholder="Masukkan Jumlah Perempuan" required maxlength="200">
                         </div>
                     </div>
                 </div>
@@ -168,31 +168,31 @@ $page = ($role === 'superadmin') ? 'pekerja_tampil' : 'profil_perusahaan';
                     <div class="card-body">
                         <div class="form-group mb-2">
                             <label>SD</label>
-                            <input type="text" class="form-control" name="sd" placeholder="Masukkan Jumlah SD" required maxlength="200">
+                            <input type="number" class="form-control" name="sd" placeholder="Masukkan Jumlah SD" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>SMP</label>
-                            <input type="text" class="form-control" name="smp" placeholder="Masukkan Jumlah SMP" required maxlength="200">
+                            <input type="number" class="form-control" name="smp" placeholder="Masukkan Jumlah SMP" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>SMA</label>
-                            <input type="text" class="form-control" name="sma" placeholder="Masukkan Jumlah SMA" required maxlength="200">
+                            <input type="number" class="form-control" name="sma" placeholder="Masukkan Jumlah SMA" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>D1 sampai D3</label>
-                            <input type="text" class="form-control" name="d1_d2_d3" placeholder="Masukkan Jumlah D1 sampai D3" required maxlength="200">
+                            <input type="number" class="form-control" name="d1_d2_d3" placeholder="Masukkan Jumlah D1 sampai D3" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>S1/D4</label>
-                            <input type="text" class="form-control" name="s1_d4" placeholder="Masukkan Jumlah S1/D4" required maxlength="200">
+                            <input type="number" class="form-control" name="s1_d4" placeholder="Masukkan Jumlah S1/D4" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>S2</label>
-                            <input type="text" class="form-control" name="s2" placeholder="Masukkan Jumlah S2" required maxlength="200">
+                            <input type="number" class="form-control" name="s2" placeholder="Masukkan Jumlah S2" required maxlength="200">
                         </div>
                         <div class="form-group mb-2">
                             <label>S3</label>
-                            <input type="text" class="form-control" name="s3" placeholder="Masukkan Jumlah S3" required maxlength="200">
+                            <input type="number" class="form-control" name="s3" placeholder="Masukkan Jumlah S3" required maxlength="200">
                         </div>
                     </div>
                 </div>
