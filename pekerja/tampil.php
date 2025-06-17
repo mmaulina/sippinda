@@ -5,19 +5,12 @@ try {
 
     $pdo = $database->getConnection(); // Dapatkan koneksi PDO
 
-    $query = "SELECT * FROM profil_perusahaan WHERE 1=1"; // supaya WHERE nya fleksibel
-    $params = [];
-    // Eksekusi Query
-    $stmt = $pdo->prepare($query);
-    $stmt->execute($params);
-    $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $query2 = "SELECT * FROM bidang_perusahaan WHERE 1=1"; // supaya WHERE nya fleksibel
+    $query2 = "SELECT * FROM pekerja WHERE 1=1"; // supaya WHERE nya fleksibel
     $params2 = [];
     // Eksekusi Query
     $stmt2 = $pdo->prepare($query2);
     $stmt2->execute($params2);
-    $bidang = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+    $pekerja = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
@@ -95,17 +88,23 @@ try {
                     </thead>
                     
                     <tbody>
-                        <?php if (count($profiles) > 0): ?>
+                        <?php if (count($pekerja) > 0): ?>
                             <?php $no = 1;
-                            foreach ($profiles as $row): ?>
+                            foreach ($pekerja as $row): ?>
                                 <td><?= $no++; ?></td>
                                 <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                <td><?= htmlspecialchars($row['alamat_kantor']); ?></td>
-                                <td><?= htmlspecialchars($row['alamat_pabrik']); ?></td>
-                                <td><?= htmlspecialchars($row['no_telpon']); ?></td>
-                                <td><?= htmlspecialchars($row['no_fax']); ?></td>
-                                <td><?= htmlspecialchars($row['jenis_lokasi_pabrik']); ?></td>
-                                <td><?= htmlspecialchars($row['jenis_kuisioner']); ?></td>
+                                <td><?= htmlspecialchars($row['laki_laki_pro_tetap']); ?></td>
+                                <td><?= htmlspecialchars($row['perempuan_pro_tetap']); ?></td>
+                                <td><?= htmlspecialchars($row['laki_laki_pro_tidak_tetap']); ?></td>
+                                <td><?= htmlspecialchars($row['laki_laki_lainnya']); ?></td>
+                                <td><?= htmlspecialchars($row['perempuan_lainnya']); ?></td>
+                                <td><?= htmlspecialchars($row['sd']); ?></td>
+                                <td><?= htmlspecialchars($row['smp']); ?></td>
+                                <td><?= htmlspecialchars($row['sma']); ?></td>
+                                <td><?= htmlspecialchars($row['d1_d2_d3']); ?></td>
+                                <td><?= htmlspecialchars($row['s1_d4']); ?></td>
+                                <td><?= htmlspecialchars($row['s2']); ?></td>
+                                <td><?= htmlspecialchars($row['s3']); ?></td>
                                 <td>
                                     <a href="?page=update_pekerja&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                         <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>

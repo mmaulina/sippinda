@@ -119,6 +119,9 @@ include "koneksi.php";
                         case "update_pekerja":
                             include "pekerja/edit.php";
                             break;
+                        case "delete_pekerja":
+                            include "pekerja/hapus.php";
+                            break;
 
                         // Default (Home)
                         default:
