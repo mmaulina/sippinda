@@ -96,6 +96,7 @@ try {
                                 <td><?= htmlspecialchars($row['laki_laki_pro_tetap']); ?> orang</td>
                                 <td><?= htmlspecialchars($row['perempuan_pro_tetap']); ?> orang</td>
                                 <td><?= htmlspecialchars($row['laki_laki_pro_tidak_tetap']); ?> orang</td>
+                                <td><?= htmlspecialchars($row['perempuan_pro_tidak_tetap']); ?> orang</td>
                                 <td><?= htmlspecialchars($row['laki_laki_lainnya']); ?> orang</td>
                                 <td><?= htmlspecialchars($row['perempuan_lainnya']); ?> orang</td>
                                 <td><?= htmlspecialchars($row['sd']); ?> orang</td>
