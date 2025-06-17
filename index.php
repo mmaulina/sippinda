@@ -123,6 +123,20 @@ include "koneksi.php";
                             include "pekerja/hapus.php";
                             break;
 
+                        // Perizinan
+                        case "perizinan_tampil":
+                            include "perizinan/tampil.php";
+                            break;
+                        case "tambah_perizinan":
+                            include "perizinan/tambah.php";
+                            break;
+                        case "update_perizinan":
+                            include "perizinan/edit.php";
+                            break;
+                        case "delete_perizinan":
+                            include "perizinan/hapus.php";
+                            break;
+
                         // Default (Home)
                         default:
                             include "home.php";

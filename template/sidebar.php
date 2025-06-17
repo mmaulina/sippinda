@@ -80,15 +80,9 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="?page=profil_perusahaan">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Profil Perusahaan</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="?page=profil_admin">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Data Perusahaan (A)</span>
+        <a class="nav-link" href="?page=perizinan_tampil">
+            <i class="fas fa-fw fa-file"></i>
+            <span>Perizinan</span>
         </a>
     </li>
 
