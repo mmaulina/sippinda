@@ -1,6 +1,7 @@
 <?php
 
     $role = $_SESSION['role'];
+    $id_user = $_SESSION['id_user'];
     $database = new Database();
     
     $pdo = $database->getConnection(); // Dapatkan koneksi PDO
