@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return trim(strip_tags($data));
     }
 
+    $nama_perusahaan = sanitize_input($_POST['nama_perusahaan']);
     $laki_laki_pro_tetap = sanitize_input($_POST['laki_laki_pro_tetap']);
     $perempuan_pro_tetap = sanitize_input($_POST['perempuan_pro_tetap']);
     $laki_laki_pro_tidak_tetap = sanitize_input($_POST['laki_laki_pro_tidak_tetap']);
@@ -77,13 +78,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $s3 = sanitize_input($_POST['s3']);
 
     if (!empty($nama_perusahaan)) {
-        $sql = "UPDATE pekerja SET nama_perusahaan = ?, laki_laki_pro_tetap = ?, perempuan_pro_tetap = ?, laki_laki_pro_tidak_tetap = ?, perempuan_pro_tidak_tetap = ?, laki_laki_lainnya = ?, perempuan_lainnya = ?, sd = ?, smp = ?, sma = ?, d1_d2_d3 = ?, s1_d4 = ?, s2 = ?, s3 = ?, WHERE id = ?";
+        $sql = "UPDATE pekerja SET nama_perusahaan = ?, laki_laki_pro_tetap = ?, perempuan_pro_tetap = ?, laki_laki_pro_tidak_tetap = ?, perempuan_pro_tidak_tetap = ?, laki_laki_lainnya = ?, perempuan_lainnya = ?, sd = ?, smp = ?, sma = ?, d1_d2_d3 = ?, s1_d4 = ?, s2 = ?, s3 = ? WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $success = $stmt->execute([$nama_perusahaan, $laki_laki_pro_tetap, $perempuan_pro_tetap, $laki_laki_pro_tidak_tetap, $perempuan_pro_tidak_tetap, $laki_laki_lainnya, $perempuan_lainnya, $sd, $smp, $sma, $d1_d2_d3, $s1_d4, $s2, $s3, $id]);
 
         if ($success) {
             if ($role === 'superadmin') {
-                echo "<script>alert('data berhasil diperbarui!'); window.location.href='?page=dpekerja_tampil';</script>";
+                echo "<script>alert('data berhasil diperbarui!'); window.location.href='?page=pekerja_tampil';</script>";
             } else {
                 echo "<script>alert('data berhasil diperbarui!'); window.location.href='?page=profil_perusahaan';</script>";
             }
