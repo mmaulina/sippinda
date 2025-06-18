@@ -53,295 +53,356 @@ $pekerja = $stmt6->fetch(PDO::FETCH_ASSOC);
 ?>
 <div class="container-fluid">
     <h1 class="h3 mb-2 text-gray-800">Profil Perusahaan</h1>
-    <div class="card shadow">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Informasi Profil Perusahaan</h6>
+    <?php if ($profil): ?>
+        <!-- INFORMASI PROFIL PERUSAHAAN -->
+        <div class="card shadow mb-3">
+            <a href="#collapseCardProfil" class="d-block card-header py-3" data-toggle="collapse"
+                role="button" aria-expanded="true" aria-controls="collapseCardProfil">
+                <h6 class="m-0 font-weight-bold text-primary">Informasi Profil Perusahaan</h6>
+            </a>
+            <div class="collapse show" id="collapseCardProfil">
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Nama Perusahaan</th>
+                            <td><?php echo htmlspecialchars($profil['nama_perusahaan']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Alamat Kantor</th>
+                            <td><?php echo htmlspecialchars($profil['alamat_kantor']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Alamat Pabrik</th>
+                            <td><?php echo htmlspecialchars($profil['alamat_pabrik']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Bidang Perusahaan</th>
+                            <td>
+                                <!-- Tombol tambah diletakkan di luar ul agar valid -->
+                                <a href="?page=tambah_bidang" class="btn btn-primary btn-icon-split btn-sm mb-3">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                                    </span>
+                                    <span class="text">Tambah Bidang Perusahaan</span>
+                                </a>
+
+                                <!-- List bidang -->
+                                <ul class="mb-0 ps-3">
+                                    <?php foreach ($bidanglist as $row): ?>
+                                        <li class="d-flex justify-content-between align-items-center my-2">
+                                            <span>• <?= htmlspecialchars($row['bidang']); ?></span>
+                                            <span>
+                                                <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm me-1">
+                                                    <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                    <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Hapus</span>
+                                                </a>
+                                            </span>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Nomor Telepon</th>
+                            <td><?php echo htmlspecialchars($profil['no_telpon']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Nomor Fax</th> <!-- diperbaiki -->
+                            <td><?php echo htmlspecialchars($profil['no_fax']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Jenis Lokasi Pabrik</th>
+                            <td><?php echo htmlspecialchars($profil['jenis_lokasi_pabrik']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Jenis Kuisioner</th>
+                            <td><?php echo htmlspecialchars($profil['jenis_kuisioner']); ?></td>
+                        </tr>
+                    </table>
+                    <a href="?page=update_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-warning">Update Profil</a>
+                    <a href="?page=delete_profil&id_user=<?= $_SESSION['id_user']; ?>"
+                        onclick="return confirmHapus(event)"
+                        class="btn btn-danger">Hapus Profil
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <?php if ($profil): ?>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Nama Perusahaan</th>
-                        <td><?php echo htmlspecialchars($profil['nama_perusahaan']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Alamat Kantor</th>
-                        <td><?php echo htmlspecialchars($profil['alamat_kantor']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Alamat Pabrik</th>
-                        <td><?php echo htmlspecialchars($profil['alamat_pabrik']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Bidang Perusahaan</th>
-                        <td>
-                            <!-- Tombol tambah diletakkan di luar ul agar valid -->
-                            <a href="?page=tambah_bidang" class="btn btn-primary btn-icon-split btn-sm mb-3">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                                </span>
-                                <span class="text">Tambah Bidang Perusahaan</span>
-                            </a>
 
-                            <!-- List bidang -->
-                            <ul class="mb-0 ps-3">
-                                <?php foreach ($bidanglist as $row): ?>
-                                    <li class="d-flex justify-content-between align-items-center my-2">
-                                        <span>• <?= htmlspecialchars($row['bidang']); ?></span>
-                                        <span>
-                                            <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm me-1">
-                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                                <span class="text">Edit</span>
-                                            </a>
-                                            <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                                <span class="text">Hapus</span>
-                                            </a>
-                                        </span>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Nomor Telepon</th>
-                        <td><?php echo htmlspecialchars($profil['no_telpon']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Nomor Fax</th> <!-- diperbaiki -->
-                        <td><?php echo htmlspecialchars($profil['no_fax']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Jenis Lokasi Pabrik</th>
-                        <td><?php echo htmlspecialchars($profil['jenis_lokasi_pabrik']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Jenis Kuisioner</th>
-                        <td><?php echo htmlspecialchars($profil['jenis_kuisioner']); ?></td>
-                    </tr>
-                </table>
-                <a href="?page=update_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-warning">Update Profil</a>
-                <a href="?page=delete_profil&id_user=<?= $_SESSION['id_user']; ?>"
-                    onclick="return confirmHapus(event)"
-                    class="btn btn-danger">Hapus Profil</a>
-
-                    <hr class="divider my-5">
-                    <h3>Data Umum</h3>
+        <!-- DATA UMUM -->
+        <div class="card shadow mb-3">
+            <a href="#collapseCardUmum" class="d-block card-header py-3" data-toggle="collapse"
+                role="button" aria-expanded="true" aria-controls="collapseCardUmum">
+                <h6 class="m-0 font-weight-bold text-primary">Data Umum</h6>
+            </a>
+            <div class="collapse" id="collapseCardUmum">
+                <div class="card-body">
                     <a href="?page=tambah_data_umum" class="btn btn-primary btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Tambah Data</span>
-                </a>
-            <table class="table table-bordered my-2">
-                    <tr>
-                        <th>Periode Laporan</th>
-                        <td><?php echo htmlspecialchars($data_umum['nama_penanda_tangan'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Nilai Investasi Mesin</th>
-                        <td><?php echo htmlspecialchars($data_umum['nilai_investasi_mesin'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Nilai Investasi Lainnya</th>
-                        <td><?php echo htmlspecialchars($data_umum['nilai_investasi_lainnya'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Modal Kerja</th>
-                        <td><?php echo htmlspecialchars($data_umum['modal_kerja'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Investasi Tanpa Tanah dan Bangunan</th>
-                        <td><?php echo htmlspecialchars($data_umum['investasi_tanpa_tanah_bangunan'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Status</th>
-                        <td><?php echo htmlspecialchars($data_umum['status'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Menggunakan Maklon</th>
-                        <td><?php echo htmlspecialchars($data_umum['menggunakan_maklon'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Menyediakan Maklon</th>
-                        <td><?php echo htmlspecialchars($data_umum['menyediakan_maklon'] ?? '-'); ?></td>
-                    </tr>
-                        <td>
-                            <a href="?page=update_data_umum&id=<?= htmlspecialchars($data_umum['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                <span class="text">Edit</span>
-                            </a>
-                                <a href="?page=delete_data_umum&id=<?= htmlspecialchars($data_umum['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                    <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                    <span class="text">Hapus</span>
-                                </a>
-                        </td>
-            </table>
-
-            <hr class="divider my-5">
-                    <h3>Data Khusus</h3>
-                    <a href="?page=tambah_data_khusus" class="btn btn-primary btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Tambah Data</span>
-                </a>
-            <table class="table table-bordered my-2">
-                    <tr>
-                        <th>Nama Penanda Tangan Laporan</th>
-                        <td><?php echo htmlspecialchars($data_khusus['nama_penanda_tangan_laporan'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Jabatan</th>
-                        <td><?php echo htmlspecialchars($data_khusus['jabatan'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Nama Perusahaan Induk</th>
-                        <td><?php echo htmlspecialchars($data_khusus['nama_perusahaan_induk'] ?? '-'); ?></td>
-                    </tr>
-                    <td>
-                            <a href="?page=update_data_khusus&id=<?= htmlspecialchars($data_khusus['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                <span class="text">Edit</span>
-                            </a>
-                                <a href="?page=delete_data_khusus&id=<?= htmlspecialchars($data_khusus['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                    <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                    <span class="text">Hapus</span>
-                                </a>
-                        </td>
-            </table>
-
-            <hr class="divider my-5">
-                    <h3>Investasi</h3>
-                    <a href="?page=tambah_investasi" class="btn btn-primary btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Tambah Data</span>
-                </a>
-            <table class="table table-bordered my-2">
-                    <tr>
-                        <th>Pemerintah Pusat</th>
-                        <td><?php echo htmlspecialchars($investasi['pemerintah_pusat'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Pemerintah Daerah</th>
-                        <td><?php echo htmlspecialchars($investasi['pemerintah_daerah'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Swasta Nasional</th>
-                        <td><?php echo htmlspecialchars($investasi['swasta_nasional'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Asing</th>
-                        <td><?php echo htmlspecialchars($investasi['asing'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Negara Asal</th>
-                        <td><?php echo htmlspecialchars($investasi['negara_asal'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Nilai Investasi Tanah</th>
-                        <td><?php echo htmlspecialchars($investasi['nilai_investasi_tanah'] ?? '-'); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Nilai Investasi Bangunan</th>
-                        <td><?php echo htmlspecialchars($investasi['nilai_investasi_bangunan'] ?? '-'); ?></td>
-                    </tr>
-                    <td>
-                            <a href="?page=update_investasi&id=<?= htmlspecialchars($investasi['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                <span class="text">Edit</span>
-                            </a>
-                                <a href="?page=delete_investasi&id=<?= htmlspecialchars($investasi['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                    <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                    <span class="text">Hapus</span>
-                                </a>
-                        </td>
-            </table>
-            <hr class="divider my-5">
-                    <h3>Pekerja per Hari</h3>
-                    <a href="?page=tambah_pekerja" class="btn btn-primary btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Tambah Data</span>
-                </a>
-            <table class="table table-bordered my-2">
-                    <tr>
-                        <th>Laki Laki Produksi Tetap</th>
-                        <td><?php echo htmlspecialchars($pekerja['laki_laki_pro_tetap'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>Perempuan Produksi Tetap</th>
-                        <td><?php echo htmlspecialchars($pekerja['perempuan_pro_tetap'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>Laki Laki Produksi Tidak Tetap</th>
-                        <td><?php echo htmlspecialchars($pekerja['laki_laki_pro_tidak_tetap'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>Perempuan Produksi Tidak Tetap</th>
-                        <td><?php echo htmlspecialchars($pekerja['perempuan_pro_tidak_tetap'] ?? '-'); ?> oramg</td>
-                    </tr>
-                    <tr>
-                        <th>Laki Laki Lainnya</th>
-                        <td><?php echo htmlspecialchars($pekerja['laki_laki_lainnya'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>Perempuan Lainnya</th>
-                        <td><?php echo htmlspecialchars($pekerja['perempuan_lainnya'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>SD</th>
-                        <td><?php echo htmlspecialchars($pekerja['sd'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>SMP</th>
-                        <td><?php echo htmlspecialchars($pekerja['smp'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>SMA</th>
-                        <td><?php echo htmlspecialchars($pekerja['sma'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>D1 - D3</th>
-                        <td><?php echo htmlspecialchars($pekerja['d1_d2_d3'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>S1/D4</th>
-                        <td><?php echo htmlspecialchars($pekerja['s1_d4'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>S2</th>
-                        <td><?php echo htmlspecialchars($pekerja['s2'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <tr>
-                        <th>S3</th>
-                        <td><?php echo htmlspecialchars($pekerja['s3'] ?? '-'); ?> orang</td>
-                    </tr>
-                    <td>
-                            <a href="?page=update_pekerja&id=<?= htmlspecialchars($pekerja['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                <span class="text">Edit</span>
-                            </a>
-                                <a href="?page=delete_pekerja&id=<?= htmlspecialchars($pekerja['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                    <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                    <span class="text">Hapus</span>
-                                </a>
-                        </td>
-            </table>
-            <?php else: ?>
-                <p>Profil perusahaan belum diisi.</p>
-                <a href="?page=tambah_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-info-circle"></i>
-                    </span>
-                    <span class="text">Isi Profil</span>
-                </a>
-            <?php endif; ?>
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                        </span>
+                        <span class="text">Tambah Data</span>
+                    </a>
+                    <table class="table table-bordered my-2">
+                        <tr>
+                            <th>Periode Laporan</th>
+                            <td><?php echo htmlspecialchars($data_umum['nama_penanda_tangan'] ?? '-'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Nilai Investasi Mesin</th>
+                            <td><?php echo htmlspecialchars($data_umum['nilai_investasi_mesin'] ?? '-'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Nilai Investasi Lainnya</th>
+                            <td><?php echo htmlspecialchars($data_umum['nilai_investasi_lainnya'] ?? '-'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Modal Kerja</th>
+                            <td><?php echo htmlspecialchars($data_umum['modal_kerja'] ?? '-'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Investasi Tanpa Tanah dan Bangunan</th>
+                            <td><?php echo htmlspecialchars($data_umum['investasi_tanpa_tanah_bangunan'] ?? '-'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td><?php echo htmlspecialchars($data_umum['status'] ?? '-'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Menggunakan Maklon</th>
+                            <td><?php echo htmlspecialchars($data_umum['menggunakan_maklon'] ?? '-'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Menyediakan Maklon</th>
+                            <td><?php echo htmlspecialchars($data_umum['menyediakan_maklon'] ?? '-'); ?></td>
+                        </tr>
+                    </table>
+                    <a href="?page=update_data_umum&id=<?= htmlspecialchars($data_umum['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                        <span class="text">Edit</span>
+                    </a>
+                    <a href="?page=delete_data_umum&id=<?= htmlspecialchars($data_umum['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                        <span class="text">Hapus</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <!-- DATA KHUSUS -->
+        <div class="card shadow mb-3">
+            <a href="#collapseCardKhusus" class="d-block card-header py-3" data-toggle="collapse"
+                role="button" aria-expanded="true" aria-controls="collapseCardKhusus">
+                <h6 class="m-0 font-weight-bold text-primary">Data Khusus</h6>
+            </a>
+            <div class="collapse" id="collapseCardKhusus">
+                <div class="card-body">
+                    <a href="?page=tambah_data_khusus" class="btn btn-primary btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                        </span>
+                        <span class="text">Tambah Data</span>
+                    </a>
+                    <table class="table table-bordered my-2">
+                        <tr>
+                            <th>Nama Penanda Tangan Laporan</th>
+                            <td><?php echo htmlspecialchars($data_khusus['nama_penanda_tangan_laporan'] ?? '-'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Jabatan</th>
+                            <td><?php echo htmlspecialchars($data_khusus['jabatan'] ?? '-'); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Nama Perusahaan Induk</th>
+                            <td><?php echo htmlspecialchars($data_khusus['nama_perusahaan_induk'] ?? '-'); ?></td>
+                        </tr>
+                    </table>
+                    <a href="?page=update_data_khusus&id=<?= htmlspecialchars($data_khusus['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                        <span class="text">Edit</span>
+                    </a>
+                    <a href="?page=delete_data_khusus&id=<?= htmlspecialchars($data_khusus['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                        <span class="text">Hapus</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- INVESTASI -->
+        <div class="card shadow mb-3">
+            <a href="#collapseCardInvestasi" class="d-block card-header py-3" data-toggle="collapse"
+                role="button" aria-expanded="true" aria-controls="collapseCardInvestasi">
+                <h6 class="m-0 font-weight-bold text-primary">Investasi</h6>
+            </a>
+            <div class="collapse" id="collapseCardInvestasi">
+                <div class="card-body">
+                    <a href="?page=tambah_investasi" class="btn btn-primary btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                        </span>
+                        <span class="text">Tambah Data</span>
+                    </a>
+                    <table class="table table-bordered my-2">
+                        <tbody>
+                            <tr class="table-secondary">
+                                <th colspan="2" class="text-center">Presentasi Kepemilikan</th>
+                            </tr>
+                            <tr>
+                                <th>Pemerintah Pusat</th>
+                                <td><?php echo htmlspecialchars($investasi['pemerintah_pusat'] ?? '-'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Pemerintah Daerah</th>
+                                <td><?php echo htmlspecialchars($investasi['pemerintah_daerah'] ?? '-'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Swasta Nasional</th>
+                                <td><?php echo htmlspecialchars($investasi['swasta_nasional'] ?? '-'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Asing</th>
+                                <td><?php echo htmlspecialchars($investasi['asing'] ?? '-'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Negara Asal</th>
+                                <td><?php echo htmlspecialchars($investasi['negara_asal'] ?? '-'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Nilai Investasi Tanah</th>
+                                <td><?php echo htmlspecialchars($investasi['nilai_investasi_tanah'] ?? '-'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Nilai Investasi Bangunan</th>
+                                <td><?php echo htmlspecialchars($investasi['nilai_investasi_bangunan'] ?? '-'); ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="?page=update_investasi&id=<?= htmlspecialchars($investasi['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                        <span class="text">Edit</span>
+                    </a>
+                    <a href="?page=delete_investasi&id=<?= htmlspecialchars($investasi['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                        <span class="text">Hapus</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PEKERJA PER HARI -->
+        <div class="card shadow mb-3">
+            <a href="#collapseCardPekerja" class="d-block card-header py-3" data-toggle="collapse"
+                role="button" aria-expanded="true" aria-controls="collapseCardPekerja">
+                <h6 class="m-0 font-weight-bold text-primary">Pekerja per Hari</h6>
+            </a>
+            <div class="collapse" id="collapseCardPekerja">
+                <div class="card-body">
+                    <a href="?page=tambah_pekerja" class="btn btn-primary btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                        </span>
+                        <span class="text">Tambah Data</span>
+                    </a>
+                    <table class="table table-bordered my-2">
+                        <tbody>
+                            <tr class="table-secondary">
+                                <th colspan="2" class="text-center">Produksi Tetap</th>
+                            </tr>
+                            <tr>
+                                <th>Laki-Laki</th>
+                                <td><?php echo htmlspecialchars($pekerja['laki_laki_pro_tetap'] ?? '-'); ?> orang</td>
+                            </tr>
+                            <tr>
+                                <th>Perempuan</th>
+                                <td><?php echo htmlspecialchars($pekerja['perempuan_pro_tetap'] ?? '-'); ?> orang</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr class="table-secondary">
+                                <th colspan="2" class="text-center">Produksi Tidak Tetap</th>
+                            </tr>
+                            <tr>
+                                <th>Laki-Laki</th>
+                                <td><?php echo htmlspecialchars($pekerja['laki_laki_pro_tidak_tetap'] ?? '-'); ?> orang</td>
+                            </tr>
+                            <tr>
+                                <th>Perempuan</th>
+                                <td><?php echo htmlspecialchars($pekerja['perempuan_pro_tidak_tetap'] ?? '-'); ?> orang</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr class="table-secondary">
+                                <th colspan="2" class="text-center">Lainnya Tidak Tetap</th>
+                            </tr>
+                            <tr>
+                                <th>Laki Laki</th>
+                                <td><?php echo htmlspecialchars($pekerja['laki_laki_lainnya'] ?? '-'); ?> orang</td>
+                            </tr>
+                            <tr>
+                                <th>Perempuan</th>
+                                <td><?php echo htmlspecialchars($pekerja['perempuan_lainnya'] ?? '-'); ?> orang</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr class="table-secondary">
+                                <th colspan="2" class="text-center">Berdasarkan Tingkat Pendidikan</th>
+                            </tr>
+                            <tr>
+                                <th>SD</th>
+                                <td><?php echo htmlspecialchars($pekerja['sd'] ?? '-'); ?> orang</td>
+                            </tr>
+                            <tr>
+                                <th>SMP</th>
+                                <td><?php echo htmlspecialchars($pekerja['smp'] ?? '-'); ?> orang</td>
+                            </tr>
+                            <tr>
+                                <th>SMA</th>
+                                <td><?php echo htmlspecialchars($pekerja['sma'] ?? '-'); ?> orang</td>
+                            </tr>
+                            <tr>
+                                <th>D1 - D3</th>
+                                <td><?php echo htmlspecialchars($pekerja['d1_d2_d3'] ?? '-'); ?> orang</td>
+                            </tr>
+                            <tr>
+                                <th>S1/D4</th>
+                                <td><?php echo htmlspecialchars($pekerja['s1_d4'] ?? '-'); ?> orang</td>
+                            </tr>
+                            <tr>
+                                <th>S2</th>
+                                <td><?php echo htmlspecialchars($pekerja['s2'] ?? '-'); ?> orang</td>
+                            </tr>
+                            <tr>
+                                <th>S3</th>
+                                <td><?php echo htmlspecialchars($pekerja['s3'] ?? '-'); ?> orang</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="?page=update_pekerja&id=<?= htmlspecialchars($pekerja['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                        <span class="text">Edit</span>
+                    </a>
+                    <a href="?page=delete_pekerja&id=<?= htmlspecialchars($pekerja['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                        <span class="text">Hapus</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    <?php else: ?>
+        <p>Profil perusahaan belum diisi.</p>
+        <a href="?page=tambah_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-primary btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fas fa-info-circle"></i>
+            </span>
+            <span class="text">Isi Profil</span>
+        </a>
+    <?php endif; ?>
 </div>
 
 
