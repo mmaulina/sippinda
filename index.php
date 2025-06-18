@@ -137,6 +137,20 @@ include "koneksi.php";
                             include "perizinan/hapus.php";
                             break;
 
+                        // Pengguna
+                        case "pengguna_tampil":
+                            include "pengguna/tampil.php";
+                            break;
+                        case "tambah_pengguna":
+                            include "pengguna/tambah.php";
+                            break;
+                        case "update_pengguna":
+                            include "pengguna/edit.php";
+                            break;
+                        case "delete_pengguna":
+                            include "pengguna/hapus.php";
+                            break;
+
                         // Default (Home)
                         default:
                             include "home.php";
