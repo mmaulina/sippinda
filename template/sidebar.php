@@ -33,42 +33,43 @@
         Data I
     </div>
 
+    <!-- ROLE UMUM -->
     <li class="nav-item">
         <a class="nav-link" href="?page=profil_perusahaan">
-            <i class="fas fa-fw fa-industry"></i>
+            <i class="fas fa-fw fa-building"></i>
             <span>Profil Perusahaan</span>
         </a>
     </li>
+
+    <!-- ROLE ADMIN & SUPERADMIN -->
     <li class="nav-item">
-        <a class="nav-link" href="?page=profil_admin">
-            <i class="fas fa-fw fa-industry"></i>
-            <span>Data Perusahaan (A)</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfil"
+            aria-expanded="false" aria-controls="collapseProfil">
+            <i class="fas fa-fw fa-building"></i>
+            <span>Profil Perusahaan</span>
         </a>
+        <div id="collapseProfil" class="collapse" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Data Profil Perusahaan:</h6>
+                <a class="collapse-item" href="?page=profil_admin">
+                    <i class="fas fa-fw fa-industry mr-1"></i> Data Perusahaan (A)
+                </a>
+                <a class="collapse-item" href="?page=data_umum_tampil">
+                    <i class="fas fa-fw fa-book mr-1"></i> Data Umum
+                </a>
+                <a class="collapse-item" href="?page=data_khusus_tampil">
+                    <i class="fas fa-fw fa-folder mr-1"></i> Data Khusus
+                </a>
+                <a class="collapse-item" href="?page=investasi_tampil">
+                    <i class="fas fa-fw fa-money-bill mr-1"></i> Investasi
+                </a>
+                <a class="collapse-item" href="?page=pekerja_tampil">
+                    <i class="fas fa-fw fa-user-tie mr-1"></i> Pekerja Per Hari
+                </a>
+            </div>
+        </div>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="?page=data_umum_tampil">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Data Umum</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="?page=data_khusus_tampil">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Data Khusus</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="?page=investasi_tampil">
-            <i class="fas fa-fw fa-money-bill"></i>
-            <span>Investasi</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="?page=pekerja_tampil">
-            <i class="fas fa-fw fa-user-tie"></i>
-            <span>Pekerja Per Hari</span>
-        </a>
-    </li>
+
 
     <!-- DATA II -->
     <!-- Divider -->
@@ -104,7 +105,23 @@
     <li class="nav-item">
         <a class="nav-link" href="?page=profil_admin">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>Data Perusahaan (A)</span>
+            <span>Data Perusahaan</span>
+        </a>
+    </li>
+
+    <!-- DATA PENGGUNA -->
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Data Pengguna
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="?page=pengguna_tampil">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Pengguna</span>
         </a>
     </li>
 
