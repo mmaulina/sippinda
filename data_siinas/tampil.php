@@ -1,18 +1,44 @@
 <?php
-try {
-    $role = $_SESSION['role'];
-    $database = new Database();
 
-    $pdo = $database->getConnection(); // Dapatkan koneksi PDO
+$role = $_SESSION['role'];
+$id_user = $_SESSION['id_user'];
+$database = new Database();
 
-    $query = "SELECT * FROM data_umum WHERE 1=1"; // supaya WHERE nya fleksibel
-    $params = [];
-    // Eksekusi Query
-    $stmt = $pdo->prepare($query);
-    $stmt->execute($params);
-    $data_umum = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
+$pdo = $database->getConnection(); // Dapatkan koneksi PDO
+
+$query = "SELECT * FROM perizinan WHERE 1=1";
+$params = [];
+if ($role != 'admin' && $role != 'superadmin') {
+    $query .= " AND id_user = :id_user";
+    $params[':id_user'] = $id_user;
+}
+
+// Eksekusi Query
+$stmt = $pdo->prepare($query);
+$stmt->execute($params);
+$perizinan = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Process approval/rejection
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST['terima_id'])) {
+        $id = $_POST['terima_id'];
+        $updateQuery = "UPDATE perizinan SET verifikasi = 'diterima',  tgl_verif = NOW() WHERE id = :id";
+    } elseif (isset($_POST['tolak_laporan'])) {
+        $id = $_POST['id'];
+        $keterangan = $_POST['keterangan'];
+        $updateQuery = "UPDATE perizinan SET verifikasi = 'dikembalikan', keterangan = :keterangan, tgl_verif = NULL WHERE id = :id";
+    }
+
+    if (isset($updateQuery)) {
+        $updateStmt = $pdo->prepare($updateQuery);
+        $updateStmt->bindParam(':id', $id, PDO::PARAM_INT);
+        if (isset($keterangan)) {
+            $updateStmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);
+        }
+        $updateStmt->execute();
+        echo "<meta http-equiv='refresh' content='0; url=?page=data_siinas_tampil'>";
+        exit;
+    }
 }
 ?>
 
@@ -59,57 +85,149 @@ try {
             </div>
 
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1000; white-space: nowrap;">
                     <thead class="text-center">
                         <tr>
-                            <th class="align-middle" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th class="align-middle" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
-                            <th class="align-middle">Upload Berkas</th>
-                            <th class="align-middle">Keterangan</th>
-                            <th class="align-middle">Aksi</th>
+                            <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(2)">Upload Berkas <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(3)">Keterangan <i class="fa fa-sort"></i></th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        <?php if (count($data_umum) > 0): ?>
-                            <?php $no = 1;
-                            foreach ($data_umum as $row): ?>
-                                <tr>
-                                    <td><?= $no++; ?></td>
-                                    <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                    <td><?= htmlspecialchars($row['periode_laporan']); ?></td>
-                                    <td><?= htmlspecialchars($row['nilai_investasi_mesin']); ?></td>
-                                    <td>
-                                        <a href="?page=update_data_siinas&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                            <span class="text">Edit</span>
-                                        </a>
-                                        <a href="?page=delete_data_siinas&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                            <span class="text">Hapus</span>
-                                        </a>
-                                    </td>
-                                </tr>
+                        <?php if (count($perizinan) > 0): ?>
+                            <?php
+                            $groupedData = [];
+                            foreach ($perizinan as $row) {
+                                if (isset($row['id_user'])) {
+                                    $groupedData[$row['id_user']][] = $row;
+                                } else {
+                                    echo "id_user tidak ditemukan untuk baris: " . json_encode($row);
+                                }
+                            }
+
+                            foreach ($groupedData as $id_user => $rows):
+                                $no = 1;
+                                $nama_perusahaan = htmlspecialchars($rows[0]['nama_perusahaan']);
+                                echo "<tr><td colspan='16' class='fw-bold bg-light'>NAMA PERUSAHAAN = ($nama_perusahaan)</td></tr>";
+                                foreach ($rows as $row):
+                            ?>
+                                    <tr>
+                                        <td><?= $no++; ?></td>
+                                        <td><?= htmlspecialchars($row['jenis_laporan']); ?></td>
+                                        <td class="text-center">
+                                            <?php if (!empty($row['upload_berkas'])) : ?>
+                                                <a href="<?= htmlspecialchars($row['upload_berkas']); ?>" target="_blank" class="btn btn-sm btn-dark">
+                                                    <i class="fas fa-file-alt"></i> Lihat
+                                                </a>
+                                            <?php else : ?>
+                                                <span class="text-danger">Tidak ada file</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php
+                                            switch ($row['verifikasi']) {
+                                                case 'diajukan':
+                                                    echo '<i class="fas fa-clock" style="color: yellow;"></i> Diajukan';
+                                                    break;
+                                                case 'diterima':
+                                                    echo '<i class="fas fa-check" style="color: green;"></i> Diterima';
+                                                    break;
+                                                case 'dikembalikan':
+                                                    echo '<i class="fas fa-times" style="color: red;"></i> Dikembalikan';
+                                                    break;
+                                                default:
+                                                    echo '<span class="text-muted">Status tidak diketahui</span>';
+                                            }
+                                            ?>
+                                        </td>
+                                        <td><?= !empty($row['tgl_verif']) ? htmlspecialchars(date('d-m-Y', strtotime($row['tgl_verif']))) : '-' ?></td>
+                                        <td class="text-center">
+                                            <?php if (($role == 'admin' || $role == 'superadmin') && $row['verifikasi'] == 'diajukan'): ?>
+                                                <form method="POST" style="display: inline;">
+                                                    <input type="hidden" name="terima_id" value="<?= $row['id']; ?>">
+                                                    <button type="submit" class="btn btn-success btn-icon-split btn-sm">
+                                                        <span class="icon text-white-50"><i class="fa fa-check" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                        <span class="text">Terima</span>
+                                                    </button>
+                                                </form>
+                                                <a href="#" data-toggle="modal" data-target="#modalTolak<?= $row['id']; ?>" class="btn btn-danger btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50"><i class="fa fa-undo" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Kembalikan</span>
+                                                </a>
+
+                                            <?php endif; ?>
+
+                                            <?php if (($row['verifikasi'] == 'diterima' || $row['verifikasi'] == 'dikembalikan') && $role == 'superadmin'): ?>
+                                                <a href="?page=update_data_siinas&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a href="?page=delete_data_siinas&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                    <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Hapus</span>
+                                                </a>
+                                                <?php if ($row['verifikasi'] == 'diterima'): ?>
+                                                    <a href="#" class="btn btn-primary btn-icon-split btn-sm" data-toggle="modal" data-target="#modalTolak<?= $row['id']; ?>">
+                                                        <span class="icon text-white-50"><i class="fa fa-undo" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                        <span class="text">Kembalikan</span>
+                                                    </a>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+
+                                            <?php if ($role == 'umum' && $row['verifikasi'] == 'dikembalikan'): ?>
+                                                <a href="?page=update_data_siinas&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50"><i class="fa fa-pencil-alt"></i></span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a href="?page=delete_data_siinas&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                    <span class="icon text-white-50"><i class="fa fa-trash"></i></span>
+                                                    <span class="text">Hapus</span>
+                                                </a>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal Tolak -->
+                                    <div class="modal fade" id="modalTolak<?= $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="modalTolakLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <form action="" method="POST">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalTolakLabel">Kembalikan Laporan</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                                        <div class="form-group">
+                                                            <label for="keterangan<?= $row['id']; ?>">Keterangan</label>
+                                                            <textarea class="form-control" id="keterangan<?= $row['id']; ?>" name="keterangan" rows="3" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                        <button type="submit" name="tolak_laporan" class="btn btn-danger">Kembalikan</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="11" class="text-center">Data tidak ditemukan</td>
+                                <td colspan="14" class="text-center">Data tidak ditemukan</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
-
-                    <!-- FOOT TABEL -->
                     <tfoot class="text-center">
                         <tr>
-                            <th>No.</th>
-                            <th>Nama Perusahaan</th>
+                            <th style="width: 5%;">No.</th>
                             <th>Upload Berkas</th>
                             <th>Keterangan</th>
                             <th>Aksi</th>
                         </tr>
                     </tfoot>
                 </table>
-
             </div>
         </div>
     </div>

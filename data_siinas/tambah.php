@@ -34,36 +34,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return trim(strip_tags($data));
     }
 
-    $periode_laporan = sanitize_input($_POST['periode_laporan']);
-    $nilai_investasi_mesin = sanitize_input($_POST['nilai_investasi_mesin']);
-    $nilai_investasi_lainnya = sanitize_input($_POST['nilai_investasi_lainnya']);
-    $modal_kerja = sanitize_input($_POST['modal_kerja']);
-    $investasi_tanpa_tanah_bangunan = sanitize_input($_POST['investasi_tanpa_tanah_bangunan']);
-    $status = sanitize_input($_POST['status']);
-    $menggunakan_maklon = sanitize_input($_POST['menggunakan_maklon']);
-    $menyediakan_maklon = sanitize_input($_POST['menyediakan_maklon']);
+    $jenis_laporan = sanitize_input($_POST['jenis_laporan']);
+    $no_izin = sanitize_input($_POST['no_izin']);
+    $tgl_dokumen = sanitize_input($_POST['tgl_dokumen']);
+    $upload_berkas = uploadFile('upload_berkas', $jenis_laporan, $nama_perusahaan, $no_izin);
+
+    if ($upload_berkas === null) {
+        echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/jpg/png) dan ukuran maksimal 5MB.'); history.back();</script>";
+        exit;
+    }
+
+    $verifikasi = 'diajukan';
+    $keterangan = '-';
+    $tgl_verif = null;
 
     try {
         if ($profil && !empty($profil['nama_perusahaan'])) {
             $nama_perusahaan = $profil['nama_perusahaan'];
 
-            $sql = "INSERT INTO data_umum (id_user, nama_perusahaan, periode_laporan, nilai_investasi_mesin, nilai_investasi_lainnya, modal_kerja, investasi_tanpa_tanah_bangunan, status, menggunakan_maklon, menyediakan_maklon) 
-                    VALUES (:id_user, :nama_perusahaan, :periode_laporan, :nilai_investasi_mesin, :nilai_investasi_lainnya, :modal_kerja, :investasi_tanpa_tanah_bangunan, :status, :menggunakan_maklon, :menyediakan_maklon)";
+            $sql = "INSERT INTO perizinan (id_user, nama_perusahaan, jenis_laporan, no_izin, tgl_dokumen, upload_berkas, verifikasi, keterangan, tgl_verif) 
+                    VALUES (:id_user, :nama_perusahaan, :jenis_laporan, :no_izin, :tgl_dokumen, :upload_berkas, :verifikasi, :keterangan, :tgl_verif)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
             $stmt->bindParam(':nama_perusahaan', $nama_perusahaan, PDO::PARAM_STR);
-            $stmt->bindParam(':periode_laporan', $periode_laporan, PDO::PARAM_STR);
-            $stmt->bindParam(':nilai_investasi_mesin', $nilai_investasi_mesin, PDO::PARAM_STR);
-            $stmt->bindParam(':nilai_investasi_lainnya', $nilai_investasi_lainnya, PDO::PARAM_STR);
-            $stmt->bindParam(':modal_kerja', $modal_kerja, PDO::PARAM_STR);
-            $stmt->bindParam(':investasi_tanpa_tanah_bangunan', $investasi_tanpa_tanah_bangunan, PDO::PARAM_STR);
-            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-            $stmt->bindParam(':menggunakan_maklon', $menggunakan_maklon, PDO::PARAM_STR);
-            $stmt->bindParam(':menyediakan_maklon', $menyediakan_maklon, PDO::PARAM_STR);
+            $stmt->bindParam(':jenis_laporan', $jenis_laporan, PDO::PARAM_STR);
+            $stmt->bindParam(':no_izin', $no_izin, PDO::PARAM_STR);
+            $stmt->bindParam(':tgl_dokumen', $tgl_dokumen, PDO::PARAM_STR);
+            $stmt->bindParam(':upload_berkas', $upload_berkas, PDO::PARAM_STR);
+            $stmt->bindParam(':verifikasi', $verifikasi, PDO::PARAM_STR);
+            $stmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);
+            $stmt->bindParam(':tgl_verif', $tgl_verif, PDO::PARAM_STR);
 
             if ($stmt->execute()) {
-                $redirect = ($role === 'superadmin') ? 'data_siinas_tampil' : 'profil_perusahaan';
-                echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=$redirect';</script>";
+                echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=data_siinas_tampil';</script>";
             } else {
                 echo "<script>alert('Gagal menambahkan Data.');</script>";
             }
@@ -74,19 +77,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Error: " . $e->getMessage());
     }
 }
-?>
 
 
-<!-- TAMBAH SIINAS -->
-<?php
-$role = $_SESSION['role'];
-$page = ($role === 'superadmin') ? 'data_siinas_tampil' : 'profil_perusahaan';
+function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
+{
+    if (!empty($_FILES[$input_name]['name'])) {
+        $maxSize = 10 * 1024 * 1024; // 10MB
+        if ($_FILES[$input_name]['size'] > $maxSize) {
+            $_SESSION['pesan'] = "File $input_name terlalu besar! Maksimal 10MB.";
+            return null;
+        }
+
+        $target_dir = "uploads/";
+
+        // Bersihkan nama-nama agar aman sebagai nama file
+        $jenis_laporan = preg_replace("/[^a-zA-Z0-9]/", "", $jenis_laporan);
+        $nama_perusahaan = preg_replace("/[^a-zA-Z0-9]/", "", $nama_perusahaan);
+        $no_izin = preg_replace("/[^a-zA-Z0-9]/", "", $no_izin);
+
+        $datetime = date('Ymd_His'); // Format: 20250617_153012
+        $kode_unik = substr(md5(uniqid(rand(), true)), 0, 6); // 6 karakter acak
+
+        $file_ext = pathinfo($_FILES[$input_name]["name"], PATHINFO_EXTENSION);
+        $new_file_name = "{$jenis_laporan}_{$nama_perusahaan}_{$no_izin}_{$datetime}_{$kode_unik}.{$file_ext}";
+
+        $target_file = $target_dir . $new_file_name;
+
+        $allowed_types = ['pdf', 'jpg', 'png'];
+        if (!in_array(strtolower($file_ext), $allowed_types)) {
+            $_SESSION['pesan'] = "Format file tidak diizinkan!";
+            return null;
+        }
+
+        if (move_uploaded_file($_FILES[$input_name]["tmp_name"], $target_file)) {
+            return $target_file;
+        }
+    }
+    return null;
+}
 ?>
+
+<!-- TAMBAH PERIZINAN -->
 <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Tambah Data Sistem Informasi Industri Nasional</h6>
-            <a href="?page=<?= htmlspecialchars($page); ?>" class="btn btn-primary btn-icon-split btn-sm">
+            <a href="?page=data_siinas_tampil" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
                 </span>
@@ -94,7 +130,7 @@ $page = ($role === 'superadmin') ? 'data_siinas_tampil' : 'profil_perusahaan';
             </a>
         </div>
         <div class="card-body">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <div class="form-group mb-2">
                     <label>Nama Perusahaan</label>
                     <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100" value="<?= htmlspecialchars($nama_perusahaan) ?>" readonly>
@@ -102,10 +138,10 @@ $page = ($role === 'superadmin') ? 'data_siinas_tampil' : 'profil_perusahaan';
                         Catatan: nama perusahaan sesuai perizinan
                     </small>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Upload Berkas (PDF, DOC, DOCX, XLS, XLSX)</label>
-                    <input type="file" name="file_laporan" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx">
-                    <small class="text-danger">Max File 10Mb</small>
+                <div class="form-group mb-2">
+                    <label for="upload_berkas">Upload Berkas (PDF, JPG, PNG)</label>
+                    <input type="file" name="upload_berkas" class="form-control" accept=".pdf,.jpg,.png">
+                    <small class="text-danger">Max File 5Mb</small>
                 </div>
                 <!-- Tombol Simpan dan Batal -->
                 <div class="mb-3">

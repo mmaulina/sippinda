@@ -2,106 +2,143 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-include "koneksi.php";
+include_once 'koneksi.php';
 
-// Pastikan pengguna sudah login
 if (!isset($_SESSION['id_user'])) {
-    echo "<script>alert('Anda harus login terlebih dahulu!'); window.location.href='login/login.php';</script>";
-    exit();
+    echo "<script>alert('Silakan login terlebih dahulu!'); window.location.href='login.php';</script>";
+    exit;
 }
 
-if (!isset($_GET['id'])) {
-    echo "<script>alert('Data tidak ditemukan!');";
 
-    if ($_SESSION['role'] == 'superadmin') {
-        echo "window.location.href='?page=profil_admin';";
-    } elseif ($_SESSION['role'] == 'umum') {
-        echo "window.location.href='?page=profil_perusahaan';";
-    } else {
-        // Role lain, misalnya kominfo atau instansi, bisa diarahkan ke halaman umum
-        echo "window.location.href='?page=beranda';";
-    }
-
-    echo "</script>";
-    exit();
-}
-
-$id = $_GET['id'];
-$id_user = $_SESSION['id_user'];
-$role = $_SESSION['role'] ?? 'umum'; // default fallback ke 'umum' jika tidak tersedia
-
-$database = new Database();
-$pdo = $database->getConnection();
-
-// Ambil data bidang berdasarkan ID
-$sql = "SELECT * FROM data_umum WHERE id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$id]);
-$data_umum = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!isset($_GET['id'])) {
-    echo "<script>alert('Data tidak ditemukan!');";
-
-    if ($_SESSION['role'] == 'superadmin') {
-        echo "window.location.href='?page=data_siinas_tampil';";
-    } elseif ($_SESSION['role'] == 'umum') {
-        echo "window.location.href='?page=profil_perusahaan';";
-    } else {
-        // Role lain, misalnya kominfo atau instansi, bisa diarahkan ke halaman umum
-        echo "window.location.href='?page=beranda';";
-    }
-
-    echo "</script>";
-    exit();
-}
+$id_laporan = isset($_GET['id']) ? $_GET['id'] : null;
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    function sanitize_input($data)
+    $database = new Database();
+    $db = $database->getConnection();
+
+    function sanitizeInput($input)
     {
-        return trim(strip_tags($data));
+        return strip_tags(trim($input));
     }
 
-    $nama_perusahaan = sanitize_input($_POST['nama_perusahaan']);
-    $periode_laporan = sanitize_input($_POST['periode_laporan']);
-    $nilai_investasi_mesin = sanitize_input($_POST['nilai_investasi_mesin']);
-    $nilai_investasi_lainnya = sanitize_input($_POST['nilai_investasi_lainnya']);
-    $modal_kerja = sanitize_input($_POST['modal_kerja']);
-    $investasi_tanpa_tanah_bangunan = sanitize_input($_POST['investasi_tanpa_tanah_bangunan']);
-    $status = sanitize_input($_POST['status']);
-    $menggunakan_maklon = sanitize_input($_POST['menggunakan_maklon']);
-    $menyediakan_makon = sanitize_input($_POST['menyediakan_maklon']);
 
-    if (!empty($nama_perusahaan)) {
-        $sql = "UPDATE data_umum SET nama_perusahaan = ?, periode_laporan = ?, nilai_investasi_mesin = ?, nilai_investasi_lainnya = ?, modal_kerja = ?, investasi_tanpa_tanah_bangunan = ?, status = ?, menggunakan_maklon = ?, menyediakan_maklon = ? WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        $success = $stmt->execute([$nama_perusahaan, $periode_laporan, $nilai_investasi_mesin, $nilai_investasi_lainnya, $modal_kerja, $investasi_tanpa_tanah_bangunan, $status, $menggunakan_maklon, $menyediakan_makon, $id]);
+    $nama_perusahaan = sanitizeInput($_POST['nama_perusahaan']);
+    $jenis_laporan = sanitizeInput($_POST['jenis_laporan']);
+    $no_izin = sanitizeInput($_POST['no_izin']);
+    $tgl_dokumen = sanitizeInput($_POST['tgl_dokumen']);
+    $upload_berkas = uploadFile('upload_berkas', $jenis_laporan, $nama_perusahaan, $no_izin);
 
-        if ($success) {
-            if ($role === 'superadmin') {
-                echo "<script>alert('data berhasil diperbarui!'); window.location.href='?page=data_siinas_tampil';</script>";
-            } else {
-                echo "<script>alert('data berhasil diperbarui!'); window.location.href='?page=profil_perusahaan';</script>";
-            }
-        } else {
-            echo "<script>alert('Gagal memperbarui data. Silakan coba lagi.');</script>";
-        }
+    if ($upload_berkas === null) {
+        echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/jpg/png) dan ukuran maksimal 5MB.'); history.back();</script>";
+        exit;
+    }
+
+    $verifikasi = 'diajukan';
+    $keterangan = '-';
+    $tgl_verif = null;
+
+    $updateSQL = "UPDATE perizinan SET 
+    nama_perusahaan = :nama_perusahaan,
+    jenis_laporan=:jenis_laporan, 
+    no_izin=:no_izin,
+    tgl_dokumen=:tgl_dokumen,
+    verifikasi=:verifikasi,
+    keterangan=:keterangan,
+    tgl_verif=:tgl_verif";
+
+    // Hanya tambahkan file_laporan ke query jika ada file yang diunggah
+    if ($upload_berkas !== null) {
+        $updateSQL .= ", upload_berkas = :upload_berkas";
+    }
+
+    $updateSQL .= " WHERE id = :id ";
+
+    $stmt = $db->prepare($updateSQL);
+
+    // Bind parameter yang wajib
+    $stmt->bindParam(':id', $id_laporan);
+    $stmt->bindParam(':nama_perusahaan', $nama_perusahaan, PDO::PARAM_STR);
+    $stmt->bindParam(':jenis_laporan', $jenis_laporan, PDO::PARAM_STR);
+    $stmt->bindParam(':no_izin', $no_izin, PDO::PARAM_STR);
+    $stmt->bindParam(':tgl_dokumen', $tgl_dokumen, PDO::PARAM_STR);
+    $stmt->bindParam(':verifikasi', $verifikasi, PDO::PARAM_STR);
+    $stmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);
+    $stmt->bindParam(':tgl_verif', $tgl_verif, PDO::PARAM_STR);
+
+    // Bind parameter hanya jika file diunggah
+    if ($upload_berkas !== null) {
+        $stmt->bindParam(':upload_berkas', $upload_berkas);
+    }
+
+    if ($stmt->execute()) {
+        $_SESSION['hasil'] = true;
+        $_SESSION['pesan'] = "Berhasil Update Data";
     } else {
-        echo "<script>alert('Nama perusahaan dan data tidak boleh kosong!');</script>";
+        $_SESSION['hasil'] = false;
+        $_SESSION['pesan'] = "Gagal Update Data";
     }
-}
-?>
 
-<!-- UPDATE DATA SIINAS -->
-<?php
-$role = $_SESSION['role'];
-$page = ($role === 'superadmin') ? 'data_siinas_tampil' : 'profil_perusahaan';
+    echo "<meta http-equiv='refresh' content='0; url=?page=siinas_tampil'>";
+}
+
+$database = new Database();
+$db = $database->getConnection();
+$query = "SELECT * FROM perizinan WHERE id = :id";
+$stmt = $db->prepare($query);
+$stmt->bindParam(':id', $id_laporan);
+$stmt->execute();
+$data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$data) {
+    echo "<script>alert('Data tidak ditemukan!'); window.location.href='?page=siinas_tampil';</script>";
+    exit;
+}
+
+
+function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
+{
+    if (!empty($_FILES[$input_name]['name'])) {
+        $maxSize = 10 * 1024 * 1024; // 10MB
+        if ($_FILES[$input_name]['size'] > $maxSize) {
+            $_SESSION['pesan'] = "File $input_name terlalu besar! Maksimal 10MB.";
+            return null;
+        }
+
+        $target_dir = "uploads/";
+
+        // Bersihkan nama-nama agar aman sebagai nama file
+        $jenis_laporan = preg_replace("/[^a-zA-Z0-9]/", "", $jenis_laporan);
+        $nama_perusahaan = preg_replace("/[^a-zA-Z0-9]/", "", $nama_perusahaan);
+        $no_izin = preg_replace("/[^a-zA-Z0-9]/", "", $no_izin);
+
+        $datetime = date('Ymd_His'); // Format: 20250617_153012
+        $kode_unik = substr(md5(uniqid(rand(), true)), 0, 6); // 6 karakter acak
+
+        $file_ext = pathinfo($_FILES[$input_name]["name"], PATHINFO_EXTENSION);
+        $new_file_name = "{$jenis_laporan}_{$nama_perusahaan}_{$no_izin}_{$datetime}_{$kode_unik}.{$file_ext}";
+
+        $target_file = $target_dir . $new_file_name;
+
+        $allowed_types = ['pdf', 'jpg', 'png'];
+        if (!in_array(strtolower($file_ext), $allowed_types)) {
+            $_SESSION['pesan'] = "Format file tidak diizinkan!";
+            return null;
+        }
+
+        if (move_uploaded_file($_FILES[$input_name]["tmp_name"], $target_file)) {
+            return $target_file;
+        }
+    }
+    return null;
+}
 ?>
 <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Edit Data Sistem Informasi Industri Nasional</h6>
-            <a href="?page=<?= htmlspecialchars($page); ?>" class="btn btn-primary btn-icon-split btn-sm">
+            <a href="?page=siinas_tampil" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
                 </span>
@@ -109,23 +146,25 @@ $page = ($role === 'superadmin') ? 'data_siinas_tampil' : 'profil_perusahaan';
             </a>
         </div>
         <div class="card-body">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <div class="form-group mb-2">
                     <label>Nama Perusahaan</label>
-                    <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100" value="<?php echo $data_umum['nama_perusahaan']; ?>" readonly>
-                    <small class="text-muted">
-                        Catatan: nama perusahaan sesuai perizinan
-                    </small>
+                    <input type="text" class="form-control" name="nama_perusahaan" required maxlength="100" value="<?= htmlspecialchars($data['nama_perusahaan']) ?>" readonly>
+                    <small class="text-muted">Catatan: nama perusahaan sesuai perizinan</small>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Upload Berkas (PDF, DOC, DOCX, XLS, XLSX)</label>
-                    <input type="file" name="file_laporan" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx">
-                    <?php if ($laporan['file_laporan']): ?>
-                        <p>File yang sudah di-upload: <a href="<?= htmlspecialchars($laporan['file_laporan']) ?>" target="_blank">Download</a></p>
+
+                <div class="form-group mb-2">
+                    <label class="form-label">Upload Berkas (PDF, JPG, PNG)</label>
+                    <input type="file" name="upload_berkas" class="form-control" accept=".pdf,.jpg,.png">
+                    <?php if (!empty($data['upload_berkas'])): ?>
+                        <small class="text-success">File saat ini: <a href="<?= $data['upload_berkas'] ?>" target="_blank">Lihat Berkas</a></small><br>
                     <?php endif; ?>
+                    <small class="text-danger">Max File 5MB</small>
                 </div>
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-success">Simpan</button>
+
+                <!-- Tombol Simpan dan Batal -->
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-success">Perbarui</button>
                     <button type="reset" class="btn btn-secondary">Batal</button>
                 </div>
             </form>

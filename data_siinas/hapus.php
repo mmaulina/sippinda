@@ -1,48 +1,57 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-include "koneksi.php";
+include 'koneksi.php'; // Pastikan koneksi sudah tersedia
 
-// Pastikan pengguna sudah login
-if (!isset($_SESSION['id_user'])) {
-    echo "<script>alert('Anda harus login terlebih dahulu!'); window.location.href='login/login.php';</script>";
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    echo "<script>alert('ID tidak valid!'); window.location='?page=perizinan_tampil';</script>";
     exit();
 }
 
-// Cek apakah ID tersedia di URL
-if (!isset($_GET['id'])) {
-    $role = $_SESSION['role'] ?? 'umum';
-    $redirectPage = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
-    echo "<script>alert('ID tidak ditemukan!'); window.location.href='?page=$redirectPage';</script>";
-    exit();
-}
+$id = intval($_GET['id']);
 
-$id = $_GET['id'];
-$role = $_SESSION['role'] ?? 'umum'; // fallback jika role tidak tersedia
+try {
+    $db = new Database();
+    $conn = $db->getConnection();
 
-$database = new Database();
-$pdo = $database->getConnection();
+    // Ambil data file terlebih dahulu
+    $sql = "SELECT upload_berkas FROM perizinan WHERE id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
 
-// Pastikan data bidang benar-benar ada sebelum menghapus
-$sql = "SELECT * FROM data_umum WHERE id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$id]);
-$data = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($stmt->rowCount() == 0) {
+        echo "<script>alert('Data tidak ditemukan!'); window.location='?page=perizinan_tampil';</script>";
+        exit();
+    }
 
-if (!$data) {
-    echo "<script>alert('Data tidak ditemukan!'); window.location.href='?page=data_umum_tampil';</script>";
-    exit();
-}
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Eksekusi penghapusan
-$sqlDelete = "DELETE FROM data_umum WHERE id = ?";
-$stmtDelete = $pdo->prepare($sqlDelete);
-$success = $stmtDelete->execute([$id]);
+$filepath = $row['upload_berkas']; // Sudah berupa path? atau perlu ditambah 'uploads/'?
 
-if ($success) {
-    echo "<script>alert('Data berhasil dihapus!'); window.location.href='?page=" . ($role === 'superadmin' ? 'data_umum_tampil' : 'profil_perusahaan') . "';</script>";
+if (!empty($filepath) && file_exists($filepath)) {
+    if (unlink($filepath)) {
+        echo "File berhasil dihapus.";
+    } else {
+        echo "Gagal menghapus file.";
+    }
 } else {
-    echo "<script>alert('Gagal menghapus bidang. Silakan coba lagi.'); window.history.back();</script>";
+    echo "File tidak ditemukan: " . $filepath;
+}
+
+    // Hapus data dari database
+    $sql = "DELETE FROM perizinan WHERE id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        $_SESSION['hasil'] = true;
+        $_SESSION['pesan'] = "Berhasil Hapus Data";
+    } else {
+        $_SESSION['hasil'] = false;
+        $_SESSION['pesan'] = "Gagal Hapus Data";
+    }
+
+    echo "<meta http-equiv='refresh' content='0; url=?page=perizinan_tampil'>";
+} catch (PDOException $e) {
+    echo "<script>alert('Kesalahan: " . $e->getMessage() . "'); window.location='?page=perizinan_tampil';</script>";
 }
 ?>
