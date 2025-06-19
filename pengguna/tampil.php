@@ -5,15 +5,30 @@ try {
 
     $pdo = $database->getConnection(); // Dapatkan koneksi PDO
 
-    $query = "SELECT * FROM data_umum WHERE 1=1"; // supaya WHERE nya fleksibel
+    $search = $_GET['search'] ?? ''; // Ambil keyword pencarian
+    $query = "SELECT * FROM users WHERE 1=1";
     $params = [];
+
+    // Jika role admin, sembunyikan data superadmin
+    if ($role === 'admin') {
+        $query .= " AND role != :exclude_role";
+        $params['exclude_role'] = 'superadmin';
+    }
+
+    // Filter pencarian
+    if (!empty($search)) {
+        $query .= " AND (username LIKE :search OR email LIKE :search OR no_telp LIKE :search)";
+        $params['search'] = "%$search%";
+    }
+
     // Eksekusi Query
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
-    $data_umum = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $pengguna = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
+
 ?>
 
 <!-- Begin Page Content -->
@@ -29,14 +44,18 @@ try {
         <div class="card-body">
             <!-- Fitur Search -->
             <div class="mb-3">
-                <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+                <form method="GET" class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-1 small" placeholder="Search for..."
+                        <input type="hidden" name="page" value="pengguna_tampil">
+                        <input name="search" type="text" class="form-control bg-light border-1 small" placeholder="Search for..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
                             aria-label="Search" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
+                            <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
+                            <a href="?page=pengguna_tampil" class="btn btn-secondary">
+                                <i class="fas fa-sync-alt fa-sm"></i>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -67,22 +86,22 @@ try {
                     </thead>
 
                     <tbody>
-                        <?php if (count($data_umum) > 0): ?>
+                        <?php if (count($pengguna) > 0): ?>
                             <?php $no = 1;
-                            foreach ($data_umum as $row): ?>
+                            foreach ($pengguna as $row): ?>
                                 <tr>
                                     <td><?= $no++; ?></td>
-                                    <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                    <td><?= htmlspecialchars($row['periode_laporan']); ?></td>
-                                    <td><?= htmlspecialchars($row['nilai_investasi_mesin']); ?></td>
-                                    <td><?= htmlspecialchars($row['nilai_investasi_lainnya']); ?></td>
-                                    <td><?= htmlspecialchars($row['modal_kerja']); ?></td>
+                                    <td><?= htmlspecialchars($row['username']); ?></td>
+                                    <td><?= htmlspecialchars($row['email']); ?></td>
+                                    <td><?= htmlspecialchars($row['no_telp']); ?></td>
+                                    <td><?= htmlspecialchars($row['role']); ?></td>
+                                    <td><?= htmlspecialchars($row['status']); ?></td>
                                     <td>
-                                        <a href="?page=update_pengguna&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                        <a href="?page=update_pengguna&id_user=<?= htmlspecialchars($row['id_user']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                             <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Edit</span>
                                         </a>
-                                        <a href="?page=delete_pengguna&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                        <a href="?page=delete_pengguna&id_user=<?= htmlspecialchars($row['id_user']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                             <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Hapus</span>
                                         </a>
