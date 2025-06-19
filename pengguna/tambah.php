@@ -11,21 +11,6 @@ if (!isset($_SESSION['id_user'])) {
 
 $id_user = $_SESSION['id_user'];
 $role = $_SESSION['role'];
-$nama_perusahaan = '';
-
-try {
-    $db = new Database();
-    $conn = $db->getConnection();
-
-    $query = "SELECT nama_perusahaan FROM profil_perusahaan WHERE id_user = :id_user";
-    $stmt = $conn->prepare($query);
-    $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
-    $stmt->execute();
-    $profil = $stmt->fetch(PDO::FETCH_ASSOC);
-    $nama_perusahaan = $profil['nama_perusahaan'] ?? '';
-} catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -33,53 +18,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     {
         return trim(strip_tags($data));
     }
+    $db = new Database();
+    $conn = $db->getConnection();
 
-    $periode_laporan = sanitize_input($_POST['periode_laporan']);
-    $nilai_investasi_mesin = sanitize_input($_POST['nilai_investasi_mesin']);
-    $nilai_investasi_lainnya = sanitize_input($_POST['nilai_investasi_lainnya']);
-    $modal_kerja = sanitize_input($_POST['modal_kerja']);
-    $investasi_tanpa_tanah_bangunan = sanitize_input($_POST['investasi_tanpa_tanah_bangunan']);
+    $username = sanitize_input($_POST['username']);
+    $email = sanitize_input($_POST['email']);
+    $password = sanitize_input($_POST['password']);
+    $no_telp = sanitize_input($_POST['no_telp']);
+    $role = sanitize_input($_POST['role']);
+    $status = 'diverifikasi' ;
 
-    try {
-        if ($profil && !empty($profil['nama_perusahaan'])) {
-            $nama_perusahaan = $profil['nama_perusahaan'];
-
-            $sql = "INSERT INTO pengguna (id_user, username, email, password, no_telp, status) 
-                    VALUES (:id_user, :username, :email, :password, :no_telp, :status)";
+    $sql = "INSERT INTO users (username, email, password, no_telp, role, status) 
+                    VALUES (:username, :email, :password, :no_telp, :role, :status)";
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
             $stmt->bindParam(':username', $username, PDO::PARAM_STR);
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt->bindParam(':password', $password, PDO::PARAM_STR);
             $stmt->bindParam(':no_telp', $no_telp, PDO::PARAM_STR);
-            $stmt->bindParam(':status', 'diverifikasi', PDO::PARAM_STR);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            $stmt->bindParam(':role', $role, PDO::PARAM_STR);
 
             if ($stmt->execute()) {
-                $redirect = ($role === 'superadmin') ? 'pengguna_tampil' : 'profil_perusahaan';
-                echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=$redirect';</script>";
+                echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=pengguna_tampil';</script>";
             } else {
                 echo "<script>alert('Gagal menambahkan Data.');</script>";
             }
-        } else {
-            echo "<script>alert('Profil perusahaan tidak ditemukan. Silakan lengkapi terlebih dahulu.');</script>";
-        }
-    } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
-    }
 }
 ?>
 
 
-<!-- TAMBAH PROFIL PERUSAHAAN -->
-<?php
-$role = $_SESSION['role'];
-$page = ($role === 'superadmin') ? 'pengguna_tampil' : 'profil_perusahaan';
-?>
+
 <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Tambah Pengguna</h6>
-            <a href="?page=<?= htmlspecialchars($page); ?>" class="btn btn-primary btn-icon-split btn-sm">
+            <a href="?page=pengguna_tampil" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
                 </span>
@@ -90,7 +63,7 @@ $page = ($role === 'superadmin') ? 'pengguna_tampil' : 'profil_perusahaan';
             <form method="POST">
                 <div class="form-group mb-2">
                     <label>Username</label>
-                    <input type="text" class="form-control" name="username" placeholder="Masukkan Username" required maxlength="100" value="<?= htmlspecialchars($nama_perusahaan) ?>" readonly>
+                    <input type="text" class="form-control" name="username" placeholder="Masukkan Username" required >
                 </div>
                 <div class="form-group mb-2">
                     <label>Email</label>
@@ -108,6 +81,9 @@ $page = ($role === 'superadmin') ? 'pengguna_tampil' : 'profil_perusahaan';
                     <label for="role">Role</label>
                     <select name="role" id="role" class="form-control" required>
                         <option value="">-- Pilih Role --</option>
+                        <?php if ($_SESSION['role'] == 'superadmin') { ?>
+                                <option value="superadmin">SuperAdmin</option>
+                        <?php } ?>
                         <option value="admin">Admin</option>
                         <option value="umum">Tidak</option>
                     </select>
