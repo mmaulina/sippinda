@@ -82,7 +82,7 @@
 
     <li class="nav-item">
         <a class="nav-link" href="?page=perizinan_tampil">
-            <i class="fas fa-fw fa-file"></i>
+            <i class="fas fa-fw fa-file-signature"></i>
             <span>Perizinan</span>
         </a>
     </li>
@@ -97,15 +97,9 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="?page=profil_perusahaan">
+        <a class="nav-link" href="?page=data_siinas_tampil">
             <i class="fas fa-fw fa-cog"></i>
-            <span>Profil Perusahaan</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="?page=profil_admin">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Data Perusahaan</span>
+            <span>Data SIINas </span>
         </a>
     </li>
 

@@ -32,7 +32,20 @@ include "koneksi.php";
                     $page = $_GET['page'] ?? 'home';
 
                     switch ($page) {
-                        // PROFIL PERUSAHAAN
+                        // NEWS
+                        case "konten_tampil":
+                            include "news/tabel.php";
+                            break;
+                        case "tambah_konten":
+                            include "news/tambah.php";
+                            break;
+                        case "update_konten":
+                            include "news/edit.php";
+                            break;
+                        case "delete_konten":
+                            include "news/hapus.php";
+
+                            // PROFIL PERUSAHAAN
                         case "profil_perusahaan":
                             include "perusahaan/tampil.php";
                             break;
@@ -123,7 +136,7 @@ include "koneksi.php";
                             include "pekerja/hapus.php";
                             break;
 
-                        // Perizinan
+                        // PERIZINAN
                         case "perizinan_tampil":
                             include "perizinan/tampil.php";
                             break;
@@ -137,19 +150,21 @@ include "koneksi.php";
                             include "perizinan/hapus.php";
                             break;
 
-                        case "konten_tampil":
-                            include "news/tabel.php";
+                        // DATA SINAS
+                        case "data_siinas_tampil":
+                            include "data_siinas/tampil.php";
                             break;
-                        case "tambah_konten":
-                            include "news/tambah.php";
+                        case "tambah_data_siinas":
+                            include "data_siinas/tambah.php";
                             break;
-                        case "update_konten":
-                            include "news/edit.php";
+                        case "update_data_siinas":
+                            include "data_siinas/edit.php";
                             break;
-                        case "delete_konten":
-                            include "news/hapus.php";
+                        case "delete_data_siinas":
+                            include "data_siinas/hapus.php";
+                            break;
 
-                        // Pengguna
+                        // PENGGUNA
                         case "pengguna_tampil":
                             include "pengguna/tampil.php";
                             break;
