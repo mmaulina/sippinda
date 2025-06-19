@@ -95,6 +95,7 @@ try {
                                 foreach ($konten_list as $row): ?>
                                     <td><?= $no++; ?></td>
                                     <td><?= htmlspecialchars($row['id_title']); ?></td>
+                                    <td><?= htmlspecialchars($row['title']); ?></td>
                                     <td><?= htmlspecialchars($row['jenis_konten']); ?></td>
                                     <td>
                                         <?php

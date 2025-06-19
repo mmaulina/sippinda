@@ -137,7 +137,7 @@ include "koneksi.php";
                             include "perizinan/hapus.php";
                             break;
 
-		                case "konten_tampil":
+                        case "konten_tampil":
                             include "news/tabel.php";
                             break;
                         case "tambah_konten":
