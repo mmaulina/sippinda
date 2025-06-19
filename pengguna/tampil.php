@@ -54,7 +54,7 @@ try {
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                             <a href="?page=pengguna_tampil" class="btn btn-secondary">
-                                <i class="fas fa-sync-alt fa-sm"></i>
+                                <i class="fas fa-sync-alt fa-sm" style="vertical-align: middle; margin-top: 5px;"></i>
                             </a>
                         </div>
                     </div>

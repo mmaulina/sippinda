@@ -121,7 +121,7 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
 <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Upload Berkas</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Perizinan</h6>
             <a href="?page=perizinan_tampil" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>

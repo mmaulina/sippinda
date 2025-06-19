@@ -98,7 +98,7 @@
 
     <li class="nav-item">
         <a class="nav-link" href="?page=data_siinas_tampil">
-            <i class="fas fa-fw fa-cog"></i>
+            <i class="fas fa-fw fa-upload"></i>
             <span>Data SIINas </span>
         </a>
     </li>

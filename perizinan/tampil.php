@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
-                    <thead>
+                    <thead class="text-center">
                         <tr>
                             <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th onclick="sortTable(2)">Jenis Laporan <i class="fa fa-sort"></i></th>
@@ -98,145 +98,145 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(2)">Jenis Laporan <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(3)">No Izin <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Tanggal Dokumen <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Berkas <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Verifikasi <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Tanggal di Verifikasi <i class="fa fa-sort"></i></th>
-                            <th>Aksi</th>
-                        </tr>
-                        <tbody>
-                            <?php if (count($perizinan) > 0): ?>
-                                <?php
-                                $groupedData = [];
-                                foreach ($perizinan as $row) {
-                                    if (isset($row['id_user'])) {
-                                        $groupedData[$row['id_user']][] = $row;
-                                    } else {
-                                        echo "id_user tidak ditemukan untuk baris: " . json_encode($row);
-                                    }
+                    <tbody>
+                        <?php if (count($perizinan) > 0): ?>
+                            <?php
+                            $groupedData = [];
+                            foreach ($perizinan as $row) {
+                                if (isset($row['id_user'])) {
+                                    $groupedData[$row['id_user']][] = $row;
+                                } else {
+                                    echo "id_user tidak ditemukan untuk baris: " . json_encode($row);
                                 }
+                            }
 
-                                foreach ($groupedData as $id_user => $rows):
-                                    $no = 1;
-                                    $nama_perusahaan = htmlspecialchars($rows[0]['nama_perusahaan']);
-                                    echo "<tr><td colspan='16' class='fw-bold bg-light'>NAMA PERUSAHAAN = ($nama_perusahaan)</td></tr>";
-                                    foreach ($rows as $row):
-                                ?>
-                                        <tr>
-                                            <td><?= $no++; ?></td>
-                                            <td><?= htmlspecialchars($row['jenis_laporan']); ?></td>
-                                            <td><?= htmlspecialchars($row['no_izin']); ?></td>
-                                            <td><?= htmlspecialchars($row['tgl_dokumen']); ?></td>
-                                            <td class="text-center">
-                                                <?php if (!empty($row['upload_berkas'])) : ?>
-                                                    <a href="<?= htmlspecialchars($row['upload_berkas']); ?>" target="_blank" class="btn btn-sm btn-dark">
-                                                        <i class="fas fa-file-alt"></i> Lihat
-                                                    </a>
-                                                <?php else : ?>
-                                                    <span class="text-danger">Tidak ada file</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php
-                                                switch ($row['verifikasi']) {
-                                                    case 'diajukan':
-                                                        echo '<i class="fas fa-clock" style="color: yellow;"></i> Diajukan';
-                                                        break;
-                                                    case 'diterima':
-                                                        echo '<i class="fas fa-check" style="color: green;"></i> Diterima';
-                                                        break;
-                                                    case 'dikembalikan':
-                                                        echo '<i class="fas fa-times" style="color: red;"></i> Dikembalikan';
-                                                        break;
-                                                    default:
-                                                        echo '<span class="text-muted">Status tidak diketahui</span>';
-                                                }
-                                                ?>
-                                            </td>
-                                            <td><?= !empty($row['tgl_verif']) ? htmlspecialchars(date('d-m-Y', strtotime($row['tgl_verif']))) : '-' ?></td>
-                                            <td class="text-center">
-                                                <?php if (($role == 'admin' || $role == 'superadmin') && $row['verifikasi'] == 'diajukan'): ?>
-                                                    <form method="POST" style="display: inline;">
-                                                        <input type="hidden" name="terima_id" value="<?= $row['id']; ?>">
-                                                        <button type="submit" class="btn btn-success btn-icon-split btn-sm">
-                                                            <span class="icon text-white-50"><i class="fa fa-check" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                                            <span class="text">Terima</span>
-                                                        </button>
-                                                    </form>
-                                                    <a href="#" data-toggle="modal" data-target="#modalTolak<?= $row['id']; ?>" class="btn btn-danger btn-icon-split btn-sm">
+                            foreach ($groupedData as $id_user => $rows):
+                                $no = 1;
+                                $nama_perusahaan = htmlspecialchars($rows[0]['nama_perusahaan']);
+                                echo "<tr><td colspan='16' class='fw-bold bg-light'>NAMA PERUSAHAAN = ($nama_perusahaan)</td></tr>";
+                                foreach ($rows as $row):
+                            ?>
+                                    <tr>
+                                        <td><?= $no++; ?></td>
+                                        <td><?= htmlspecialchars($row['jenis_laporan']); ?></td>
+                                        <td><?= htmlspecialchars($row['no_izin']); ?></td>
+                                        <td><?= htmlspecialchars($row['tgl_dokumen']); ?></td>
+                                        <td class="text-center">
+                                            <?php if (!empty($row['upload_berkas'])) : ?>
+                                                <a href="<?= htmlspecialchars($row['upload_berkas']); ?>" target="_blank" class="btn btn-sm btn-dark">
+                                                    <i class="fas fa-file-alt"></i> Lihat
+                                                </a>
+                                            <?php else : ?>
+                                                <span class="text-danger">Tidak ada file</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php
+                                            switch ($row['verifikasi']) {
+                                                case 'diajukan':
+                                                    echo '<i class="fas fa-clock" style="color: yellow;"></i> Diajukan';
+                                                    break;
+                                                case 'diterima':
+                                                    echo '<i class="fas fa-check" style="color: green;"></i> Diterima';
+                                                    break;
+                                                case 'dikembalikan':
+                                                    echo '<i class="fas fa-times" style="color: red;"></i> Dikembalikan';
+                                                    break;
+                                                default:
+                                                    echo '<span class="text-muted">Status tidak diketahui</span>';
+                                            }
+                                            ?>
+                                        </td>
+                                        <td><?= !empty($row['tgl_verif']) ? htmlspecialchars(date('d-m-Y', strtotime($row['tgl_verif']))) : '-' ?></td>
+                                        <td class="text-center">
+                                            <?php if (($role == 'admin' || $role == 'superadmin') && $row['verifikasi'] == 'diajukan'): ?>
+                                                <form method="POST" style="display: inline;">
+                                                    <input type="hidden" name="terima_id" value="<?= $row['id']; ?>">
+                                                    <button type="submit" class="btn btn-success btn-icon-split btn-sm">
+                                                        <span class="icon text-white-50"><i class="fa fa-check" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                        <span class="text">Terima</span>
+                                                    </button>
+                                                </form>
+                                                <a href="#" data-toggle="modal" data-target="#modalTolak<?= $row['id']; ?>" class="btn btn-danger btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50"><i class="fa fa-undo" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Kembalikan</span>
+                                                </a>
+
+                                            <?php endif; ?>
+
+                                            <?php if (($row['verifikasi'] == 'diterima' || $row['verifikasi'] == 'dikembalikan') && $role == 'superadmin'): ?>
+                                                <a href="?page=update_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a href="?page=delete_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                    <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Hapus</span>
+                                                </a>
+                                                <?php if ($row['verifikasi'] == 'diterima'): ?>
+                                                    <a href="#" class="btn btn-primary btn-icon-split btn-sm" data-toggle="modal" data-target="#modalTolak<?= $row['id']; ?>">
                                                         <span class="icon text-white-50"><i class="fa fa-undo" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                                         <span class="text">Kembalikan</span>
                                                     </a>
-
                                                 <?php endif; ?>
+                                            <?php endif; ?>
 
-                                                <?php if (($row['verifikasi'] == 'diterima' || $row['verifikasi'] == 'dikembalikan') && $role == 'superadmin'): ?>
-                                                    <a href="?page=update_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                                        <span class="text">Edit</span>
-                                                    </a>
-                                                    <a href="?page=delete_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                                        <span class="text">Hapus</span>
-                                                    </a>
-                                                    <?php if ($row['verifikasi'] == 'diterima'): ?>
-                                                        <a href="#" class="btn btn-primary btn-icon-split btn-sm" data-toggle="modal" data-target="#modalTolak<?= $row['id']; ?>">
-                                                            <span class="icon text-white-50"><i class="fa fa-undo" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                                            <span class="text">Kembalikan</span>
-                                                        </a>
-                                                    <?php endif; ?>
-                                                <?php endif; ?>
+                                            <?php if ($role == 'umum' && $row['verifikasi'] == 'dikembalikan'): ?>
+                                                <a href="?page=update_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50"><i class="fa fa-pencil-alt"></i></span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a href="?page=delete_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                    <span class="icon text-white-50"><i class="fa fa-trash"></i></span>
+                                                    <span class="text">Hapus</span>
+                                                </a>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
 
-                                                <?php if ($role == 'umum' && $row['verifikasi'] == 'dikembalikan'): ?>
-                                                    <a href="?page=update_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                                        <span class="icon text-white-50"><i class="fa fa-pencil-alt"></i></span>
-                                                        <span class="text">Edit</span>
-                                                    </a>
-                                                    <a href="?page=delete_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                        <span class="icon text-white-50"><i class="fa fa-trash"></i></span>
-                                                        <span class="text">Hapus</span>
-                                                    </a>
-                                                <?php endif; ?>
-                                            </td>
-                                        </tr>
-
-                                        <!-- Modal Tolak -->
-                                        <div class="modal fade" id="modalTolak<?= $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="modalTolakLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <form action="" method="POST">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalTolakLabel">Kembalikan Laporan</h5>
+                                    <!-- Modal Tolak -->
+                                    <div class="modal fade" id="modalTolak<?= $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="modalTolakLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <form action="" method="POST">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalTolakLabel">Kembalikan Laporan</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                                        <div class="form-group">
+                                                            <label for="keterangan<?= $row['id']; ?>">Keterangan</label>
+                                                            <textarea class="form-control" id="keterangan<?= $row['id']; ?>" name="keterangan" rows="3" required></textarea>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <input type="hidden" name="id" value="<?= $row['id']; ?>">
-                                                            <div class="form-group">
-                                                                <label for="keterangan<?= $row['id']; ?>">Keterangan</label>
-                                                                <textarea class="form-control" id="keterangan<?= $row['id']; ?>" name="keterangan" rows="3" required></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                            <button type="submit" name="tolak_laporan" class="btn btn-danger">Kembalikan</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                        <button type="submit" name="tolak_laporan" class="btn btn-danger">Kembalikan</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-                                    <?php endforeach; ?>
+                                    </div>
                                 <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="14" class="text-center">Data tidak ditemukan</td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="14" class="text-center">Data tidak ditemukan</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                    <tfoot class="text-center">
+                        <tr>
+                            <th style="width: 5%;">No.</th>
+                            <th>Jenis Laporan</th>
+                            <th>No Izin</th>
+                            <th>Tanggal Dokumen</th>
+                            <th>Berkas</th>
+                            <th>Verifikasi</th>
+                            <th>Tanggal di Verifikasi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
