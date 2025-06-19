@@ -137,9 +137,18 @@ include "koneksi.php";
                             include "perizinan/hapus.php";
                             break;
 
-<<<<<<< HEAD
-                        
-=======
+		                case "konten_tampil":
+                            include "news/tabel.php";
+                            break;
+                        case "tambah_konten":
+                            include "news/tambah.php";
+                            break;
+                        case "update_konten":
+                            include "news/edit.php";
+                            break;
+                        case "delete_konten":
+                            include "news/hapus.php";
+
                         // Pengguna
                         case "pengguna_tampil":
                             include "pengguna/tampil.php";
@@ -152,7 +161,6 @@ include "koneksi.php";
                             break;
                         case "delete_pengguna":
                             include "pengguna/hapus.php";
->>>>>>> 81e554070a766e47294414b88526ad408593172a
                             break;
 
                         // Default (Home)
