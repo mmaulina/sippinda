@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group mb-2">
                     <label>Password</label>
-                    <input type="text" class="form-control" name="password" placeholder="Masukkan Password" required maxlength="200"></input>
+                    <input type="password" class="form-control" name="password" placeholder="Masukkan Password" required maxlength="200"></input>
                 </div>
                 <div class="form-group mb-2">
                     <label>No. Telp</label>

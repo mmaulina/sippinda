@@ -174,6 +174,9 @@ include "koneksi.php";
                         case "update_pengguna":
                             include "pengguna/edit.php";
                             break;
+                        case "edit_password":
+                            include "pengguna/edit_password.php";
+                            break;
                         case "delete_pengguna":
                             include "pengguna/hapus.php";
                             break;
