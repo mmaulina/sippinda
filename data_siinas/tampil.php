@@ -6,7 +6,7 @@ $database = new Database();
 
 $pdo = $database->getConnection(); // Dapatkan koneksi PDO
 
-$query = "SELECT * FROM perizinan WHERE 1=1";
+$query = "SELECT * FROM data_sinas WHERE 1=1";
 $params = [];
 if ($role != 'admin' && $role != 'superadmin') {
     $query .= " AND id_user = :id_user";
@@ -16,17 +16,17 @@ if ($role != 'admin' && $role != 'superadmin') {
 // Eksekusi Query
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
-$perizinan = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$data_sinas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Process approval/rejection
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['terima_id'])) {
         $id = $_POST['terima_id'];
-        $updateQuery = "UPDATE perizinan SET verifikasi = 'diterima',  tgl_verif = NOW() WHERE id = :id";
+        $updateQuery = "UPDATE data_sinas SET status = 'diterima' WHERE id = :id";
     } elseif (isset($_POST['tolak_laporan'])) {
         $id = $_POST['id'];
         $keterangan = $_POST['keterangan'];
-        $updateQuery = "UPDATE perizinan SET verifikasi = 'dikembalikan', keterangan = :keterangan, tgl_verif = NULL WHERE id = :id";
+        $updateQuery = "UPDATE data_sinas SET status = 'dikembalikan', keterangan = :keterangan WHERE id = :id";
     }
 
     if (isset($updateQuery)) {
@@ -90,15 +90,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <tr>
                             <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th onclick="sortTable(2)">Upload Berkas <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(2)">triwulan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(2)">Tahun <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(3)">Status <i class="fa fa-sort"></i></th>
                             <th onclick="sortTable(3)">Keterangan <i class="fa fa-sort"></i></th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (count($perizinan) > 0): ?>
+                        <?php if (count($data_sinas) > 0): ?>
                             <?php
                             $groupedData = [];
-                            foreach ($perizinan as $row) {
+                            foreach ($data_sinas as $row) {
                                 if (isset($row['id_user'])) {
                                     $groupedData[$row['id_user']][] = $row;
                                 } else {
@@ -114,19 +117,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             ?>
                                     <tr>
                                         <td><?= $no++; ?></td>
-                                        <td><?= htmlspecialchars($row['jenis_laporan']); ?></td>
                                         <td class="text-center">
-                                            <?php if (!empty($row['upload_berkas'])) : ?>
-                                                <a href="<?= htmlspecialchars($row['upload_berkas']); ?>" target="_blank" class="btn btn-sm btn-dark">
+                                            <?php if (!empty($row['upload'])) : ?>
+                                                <a href="<?= htmlspecialchars($row['upload']); ?>" target="_blank" class="btn btn-sm btn-dark">
                                                     <i class="fas fa-file-alt"></i> Lihat
                                                 </a>
                                             <?php else : ?>
                                                 <span class="text-danger">Tidak ada file</span>
                                             <?php endif; ?>
                                         </td>
+                                        <td><?= htmlspecialchars($row['triwulan']); ?></td>
+                                        <td><?= htmlspecialchars($row['tahun']); ?></td>
                                         <td class="text-center">
                                             <?php
-                                            switch ($row['verifikasi']) {
+                                            switch ($row['status']) {
                                                 case 'diajukan':
                                                     echo '<i class="fas fa-clock" style="color: yellow;"></i> Diajukan';
                                                     break;
@@ -141,9 +145,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                             }
                                             ?>
                                         </td>
-                                        <td><?= !empty($row['tgl_verif']) ? htmlspecialchars(date('d-m-Y', strtotime($row['tgl_verif']))) : '-' ?></td>
+                                        <td><?= htmlspecialchars($row['keterangan']); ?></td>
                                         <td class="text-center">
-                                            <?php if (($role == 'admin' || $role == 'superadmin') && $row['verifikasi'] == 'diajukan'): ?>
+                                            <?php if (($role == 'admin' || $role == 'superadmin') && $row['status'] == 'diajukan'): ?>
                                                 <form method="POST" style="display: inline;">
                                                     <input type="hidden" name="terima_id" value="<?= $row['id']; ?>">
                                                     <button type="submit" class="btn btn-success btn-icon-split btn-sm">
@@ -158,7 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                                             <?php endif; ?>
 
-                                            <?php if (($row['verifikasi'] == 'diterima' || $row['verifikasi'] == 'dikembalikan') && $role == 'superadmin'): ?>
+                                            <?php if (($row['status'] == 'diterima' || $row['status'] == 'dikembalikan') && $role == 'superadmin'): ?>
                                                 <a href="?page=update_data_siinas&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                                     <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                                     <span class="text">Edit</span>
@@ -167,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                     <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                                     <span class="text">Hapus</span>
                                                 </a>
-                                                <?php if ($row['verifikasi'] == 'diterima'): ?>
+                                                <?php if ($row['status'] == 'diterima'): ?>
                                                     <a href="#" class="btn btn-primary btn-icon-split btn-sm" data-toggle="modal" data-target="#modalTolak<?= $row['id']; ?>">
                                                         <span class="icon text-white-50"><i class="fa fa-undo" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                                         <span class="text">Kembalikan</span>
@@ -175,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                 <?php endif; ?>
                                             <?php endif; ?>
 
-                                            <?php if ($role == 'umum' && $row['verifikasi'] == 'dikembalikan'): ?>
+                                            <?php if ($role == 'umum' && $row['status'] == 'dikembalikan'): ?>
                                                 <a href="?page=update_data_siinas&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                                     <span class="icon text-white-50"><i class="fa fa-pencil-alt"></i></span>
                                                     <span class="text">Edit</span>
@@ -223,6 +227,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <tr>
                             <th style="width: 5%;">No.</th>
                             <th>Upload Berkas</th>
+                            <th>Triwulan</th>
+                            <th>Tahun</th>
+                            <th>Status</th>
                             <th>Keterangan</th>
                             <th>Aksi</th>
                         </tr>

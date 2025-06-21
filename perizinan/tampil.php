@@ -94,6 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <th onclick="sortTable(4)">Tanggal Dokumen <i class="fa fa-sort"></i></th>
                             <th onclick="sortTable(4)">Berkas <i class="fa fa-sort"></i></th>
                             <th onclick="sortTable(4)">Verifikasi <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(4)">Keterangan <i class="fa fa-sort"></i></th>
                             <th onclick="sortTable(4)">Tanggal di Verifikasi <i class="fa fa-sort"></i></th>
                             <th>Aksi</th>
                         </tr>
@@ -147,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                             }
                                             ?>
                                         </td>
+                                        <td><?= htmlspecialchars($row['keterangan']); ?></td>
                                         <td><?= !empty($row['tgl_verif']) ? htmlspecialchars(date('d-m-Y', strtotime($row['tgl_verif']))) : '-' ?></td>
                                         <td class="text-center">
                                             <?php if (($role == 'admin' || $role == 'superadmin') && $row['verifikasi'] == 'diajukan'): ?>
@@ -233,6 +235,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <th>Tanggal Dokumen</th>
                             <th>Berkas</th>
                             <th>Verifikasi</th>
+                            <th>Keterangan</th>
                             <th>Tanggal di Verifikasi</th>
                             <th>Aksi</th>
                         </tr>
