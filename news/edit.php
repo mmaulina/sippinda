@@ -136,7 +136,7 @@ function uploadFile($input_name)
                         <?php endif; ?>
                     </div>
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                <a href="?page=tabel" class="btn btn-secondary">Kembali</a>
+                <button type="reset" class="btn btn-secondary">Batal</button>
             </form>
         </div>
     </div>

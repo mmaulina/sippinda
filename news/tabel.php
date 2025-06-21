@@ -29,8 +29,14 @@ try {
     <h1 class="h3 mb-2 text-gray-800">Konten</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Konten</h6>
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Konten</h6>
+            <a href="?page=perizinan_tampil" class="btn btn-primary btn-icon-split btn-sm">
+                <span class="icon text-white-50">
+                    <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
+                </span>
+                <span class="text">Kembali</span>
+            </a>
         </div>
         <div class="card-body">
             <!-- Fitur Search -->
@@ -56,12 +62,6 @@ try {
                     </span>
                     <span class="text">Tambah Data</span>
                 </a>
-                <a href="?page=home" class="btn btn-secondary btn-icon-split btn-sm">
-                <span class="icon text-white-50">
-                    <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
-                </span>
-                <span class="text">Kembali</span>
-            </a>
             </div>
 
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
