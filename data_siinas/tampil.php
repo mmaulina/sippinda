@@ -40,6 +40,96 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 }
+
+$chartData = [
+    "Triwulan I" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
+    "Triwulan II" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
+    "Triwulan III" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
+    "Triwulan IV" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
+];
+
+$chartDataByYear = [];
+
+// 1. Ambil semua perusahaan
+$queryPerusahaan = "SELECT id_user, nama_perusahaan FROM profil_perusahaan";
+$perusahaanStmt = $pdo->prepare($queryPerusahaan);
+$perusahaanStmt->execute();
+$perusahaanList = $perusahaanStmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 2. Buat index data_sinas agar lebih cepat dicek
+$dataMap = []; // Format: [id_user][tahun][Triwulan X] = true/false
+$tahunList = [];
+
+foreach ($data_sinas as $row) {
+    preg_match('/(Triwulan\s+[IVX]+)\s+(\d{4})/', $row['triwulan'], $matches);
+    $tw = $matches[1] ?? null;
+    $tahun = $matches[2] ?? null;
+
+    if (!$tw || !$tahun) continue;
+
+    $upload = !empty($row['upload']);
+    $dataMap[$row['id_user']][$tahun][$tw] = $upload;
+
+    // Simpan tahun ke daftar
+    $tahunList[$tahun] = true;
+}
+
+// Ambil semua tahun unik dari data
+$tahunList = array_keys($tahunList);
+sort($tahunList); // urutkan tahun
+
+// 3. Loop setiap perusahaan dan cek tiap tahun dan triwulan
+foreach ($perusahaanList as $perusahaan) {
+    $id_user = $perusahaan['id_user'];
+    $nama_perusahaan = $perusahaan['nama_perusahaan'];
+
+    foreach ($tahunList as $tahun) {
+        foreach (["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"] as $tw) {
+            $sudahUpload = $dataMap[$id_user][$tahun][$tw] ?? false;
+
+            // Inisialisasi jika belum ada
+            if (!isset($chartDataByYear[$tahun][$tw])) {
+                $chartDataByYear[$tahun][$tw] = ['sudah' => 0, 'belum' => 0, 'perusahaan' => []];
+            }
+
+            // Tambah jumlah sesuai status
+            if ($sudahUpload) {
+                $chartDataByYear[$tahun][$tw]['sudah']++;
+            } else {
+                $chartDataByYear[$tahun][$tw]['belum']++;
+            }
+
+            $chartDataByYear[$tahun][$tw]['perusahaan'][$nama_perusahaan] = true;
+
+            // Tambahkan juga ke chartData global (tanpa tahun)
+            if (!isset($chartData[$tw])) {
+                $chartData[$tw] = ['sudah' => 0, 'belum' => 0, 'perusahaan' => []];
+            }
+
+            if ($sudahUpload) {
+                $chartData[$tw]['sudah']++;
+            } else {
+                $chartData[$tw]['belum']++;
+            }
+
+            $chartData[$tw]['perusahaan'][$nama_perusahaan] = true;
+        }
+    }
+}
+
+// 4. Hitung total perusahaan unik per triwulan global
+foreach ($chartData as $tw => &$data) {
+    $data['jumlah_perusahaan'] = count($data['perusahaan']);
+}
+
+// 5. Hitung total perusahaan unik per tahun dan triwulan
+foreach ($chartDataByYear as $tahun => &$triwulans) {
+    foreach ($triwulans as $tw => &$data) {
+        $data['jumlah_perusahaan'] = count($data['perusahaan']);
+    }
+}
+
+
 ?>
 
 <!-- Begin Page Content -->
@@ -238,7 +328,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         </div>
     </div>
+                            <?php if ($role == 'superadmin'): ?>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+                                </div>
+                                <div class="card-body">
+                                    <?php
+                                    // Ambil daftar tahun unik dari $data_sinas
+                                    $tahunList = array_unique(array_column($data_sinas, 'tahun'));
+                                    sort($tahunList);
+                                    ?>
 
+                                    <div class="form-group">
+                                        <label for="filterTahun">Filter Tahun:</label>
+                                        <select id="filterTahun" class="form-control form-control-sm" style="width: 200px;">
+                                            <?php foreach ($tahunList as $th): ?>
+                                                <option value="<?= $th ?>" <?= $th == date('Y') ? 'selected' : '' ?>><?= $th ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="chart-bar">
+                                        <canvas id="myBarChart"></canvas>
+                                    </div>
+                                    <hr>
+                                    Styling for the bar chart can be found in the
+                                    <code>/js/demo/chart-bar-demo.js</code> file.
+                                </div>
+                            </div>
+                            <?php endif; ?>
 </div>
 <!-- /.container-fluid -->
 
@@ -282,4 +400,82 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             selectedHeader.className = isAscending ? "fa fa-sort-up" : "fa fa-sort-down";
         }
     }
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartDataByYear = <?= json_encode($chartDataByYear) ?>;
+    const ctx = document.getElementById("myBarChart").getContext('2d');
+    const triwulanLabels = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
+
+    const barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: triwulanLabels,
+            datasets: [
+                {
+                    label: 'Sudah Upload',
+                    backgroundColor: '#4e73df',
+                    data: []
+                },
+                {
+                    label: 'Belum Upload',
+                    backgroundColor: '#e74a3b',
+                    data: []
+                },
+                {
+                    label: 'Jumlah Perusahaan',
+                    backgroundColor: '#1cc88a',
+                    data: []
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { stacked: true },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Jumlah'
+                    }
+                }
+            },
+            plugins: {
+                legend: { position: 'top' }
+            }
+        }
+    });
+
+    function updateChart(tahun) {
+        const dataTahun = chartDataByYear[tahun] || {};
+
+        const sudah = [];
+        const belum = [];
+        const perusahaan = [];
+
+        triwulanLabels.forEach(tw => {
+            const data = dataTahun[tw] || { sudah: 0, belum: 0, jumlah_perusahaan: 0 };
+            sudah.push(data.sudah);
+            belum.push(data.belum);
+            perusahaan.push(data.jumlah_perusahaan);
+        });
+
+        barChart.data.datasets[0].data = sudah;
+        barChart.data.datasets[1].data = belum;
+        barChart.data.datasets[2].data = perusahaan;
+        barChart.update();
+    }
+
+    // Jalankan saat pertama kali
+    const defaultYear = document.getElementById("filterTahun").value;
+    updateChart(defaultYear);
+
+    // Tambahkan event listener
+    document.getElementById("filterTahun").addEventListener("change", function () {
+        updateChart(this.value);
+    });
 </script>
