@@ -329,34 +329,134 @@ foreach ($chartDataByYear as $tahun => &$triwulans) {
         </div>
     </div>
                             <?php if ($role == 'superadmin'): ?>
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
-                                </div>
-                                <div class="card-body">
-                                    <?php
-                                    // Ambil daftar tahun unik dari $data_sinas
-                                    $tahunList = array_unique(array_column($data_sinas, 'tahun'));
-                                    sort($tahunList);
-                                    ?>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Grafik Upload SIINas</h6>
+    </div>
+    <div class="card-body">
+        <?php
+        $tahunList = array_keys($chartDataByYear); // gunakan tahun dari $chartDataByYear
+        sort($tahunList);
+        ?>
+        <div class="form-group">
+            <label for="filterTahun">Filter Tahun:</label>
+            <select id="filterTahun" class="form-control form-control-sm" style="width: 200px;">
+                <?php foreach ($tahunList as $th): ?>
+                    <option value="<?= $th ?>" <?= $th == date('Y') ? 'selected' : '' ?>><?= $th ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-                                    <div class="form-group">
-                                        <label for="filterTahun">Filter Tahun:</label>
-                                        <select id="filterTahun" class="form-control form-control-sm" style="width: 200px;">
-                                            <?php foreach ($tahunList as $th): ?>
-                                                <option value="<?= $th ?>" <?= $th == date('Y') ? 'selected' : '' ?>><?= $th ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="chart-bar">
-                                        <canvas id="myBarChart"></canvas>
-                                    </div>
-                                    <hr>
-                                    Styling for the bar chart can be found in the
-                                    <code>/js/demo/chart-bar-demo.js</code> file.
-                                </div>
-                            </div>
-                            <?php endif; ?>
+       <div class="row">
+    <div class="col-md-6">
+        <h6 class="text-primary">Sudah Upload</h6>
+        <canvas id="chartSudah" height="200"></canvas>
+    </div>
+    <div class="col-md-6">
+        <h6 class="text-danger">Belum Upload</h6>
+        <canvas id="chartBelum" height="200"></canvas>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Script Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartDataByYear = <?= json_encode($chartDataByYear) ?>;
+    const triwulanLabels = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
+
+    const tahunSelect = document.getElementById("filterTahun");
+    const selectedYear = tahunSelect.value;
+
+    const ctxSudah = document.getElementById("chartSudah").getContext("2d");
+    const ctxBelum = document.getElementById("chartBelum").getContext("2d");
+
+    const chartSudah = new Chart(ctxSudah, {
+        type: 'bar',
+        data: {
+            labels: triwulanLabels,
+            datasets: [{
+                label: 'Sudah Upload',
+                data: [],
+                backgroundColor: '#4e73df'
+            }]
+        },
+        options: {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+        x: {
+            beginAtZero: true,
+            ticks: {
+                precision: 0,
+                callback: function(value) {
+                    if (Number.isInteger(value)) return value;
+                }
+            }
+        },
+        y: {
+            ticks: { autoSkip: false }
+        }
+    }
+}
+
+    });
+
+    const chartBelum = new Chart(ctxBelum, {
+        type: 'bar',
+        data: {
+            labels: triwulanLabels,
+            datasets: [{
+                label: 'Belum Upload',
+                data: [],
+                backgroundColor: '#e74a3b'
+            }]
+        },
+        options: {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+        x: {
+            beginAtZero: true,
+            ticks: {
+                precision: 0,
+                callback: function(value) {
+                    if (Number.isInteger(value)) return value;
+                }
+            }
+        },
+        y: {
+            ticks: { autoSkip: false }
+        }
+    }
+}
+
+    });
+
+    function updateCharts(tahun) {
+        const data = chartDataByYear[tahun] || {};
+        const sudah = [], belum = [];
+
+        triwulanLabels.forEach(tw => {
+            sudah.push(data[tw]?.sudah || 0);
+            belum.push(data[tw]?.belum || 0);
+        });
+
+        chartSudah.data.datasets[0].data = sudah;
+        chartBelum.data.datasets[0].data = belum;
+
+        chartSudah.update();
+        chartBelum.update();
+    }
+
+    // Inisialisasi
+    updateCharts(selectedYear);
+    tahunSelect.addEventListener("change", () => updateCharts(tahunSelect.value));
+</script>
+<?php endif; ?>
+
 </div>
 <!-- /.container-fluid -->
 
@@ -403,79 +503,3 @@ foreach ($chartDataByYear as $tahun => &$triwulans) {
 </script>
 
 
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const chartDataByYear = <?= json_encode($chartDataByYear) ?>;
-    const ctx = document.getElementById("myBarChart").getContext('2d');
-    const triwulanLabels = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
-
-    const barChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: triwulanLabels,
-            datasets: [
-                {
-                    label: 'Sudah Upload',
-                    backgroundColor: '#4e73df',
-                    data: []
-                },
-                {
-                    label: 'Belum Upload',
-                    backgroundColor: '#e74a3b',
-                    data: []
-                },
-                {
-                    label: 'Jumlah Perusahaan',
-                    backgroundColor: '#1cc88a',
-                    data: []
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: { stacked: true },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Jumlah'
-                    }
-                }
-            },
-            plugins: {
-                legend: { position: 'top' }
-            }
-        }
-    });
-
-    function updateChart(tahun) {
-        const dataTahun = chartDataByYear[tahun] || {};
-
-        const sudah = [];
-        const belum = [];
-        const perusahaan = [];
-
-        triwulanLabels.forEach(tw => {
-            const data = dataTahun[tw] || { sudah: 0, belum: 0, jumlah_perusahaan: 0 };
-            sudah.push(data.sudah);
-            belum.push(data.belum);
-            perusahaan.push(data.jumlah_perusahaan);
-        });
-
-        barChart.data.datasets[0].data = sudah;
-        barChart.data.datasets[1].data = belum;
-        barChart.data.datasets[2].data = perusahaan;
-        barChart.update();
-    }
-
-    // Jalankan saat pertama kali
-    const defaultYear = document.getElementById("filterTahun").value;
-    updateChart(defaultYear);
-
-    // Tambahkan event listener
-    document.getElementById("filterTahun").addEventListener("change", function () {
-        updateChart(this.value);
-    });
-</script>
