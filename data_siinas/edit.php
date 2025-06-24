@@ -178,9 +178,9 @@ function uploadFile($input_name, $nama_perusahaan)
                     <select class="form-control" name="triwulan" id="triwulan" required>
                         <option value="">-- Pilih Triwulan --</option>
                         <option value="Triwulan I" <?php echo ($data['triwulan'] == 'Triwulan I') ? 'selected' : ''; ?> id="triwulan1">Triwulan I</option>
-                        <option value="Triwulan II" <?php echo ($data['triwulan'] == 'Triwulan II') ? 'selected' : ''; ?> id="triwulan2" id="triwulan2">Triwulan II</option>
-                        <option value="Triwulan III" <?php echo ($data['triwulan'] == 'Triwulan III') ? 'selected' : ''; ?> id="triwulan3" id="triwulan3">Triwulan III</option>
-                        <option value="Triwulan IV" <?php echo ($data['triwulan'] == 'Triwulan IV') ? 'selected' : ''; ?> id="triwulan4" id="triwulan4">Triwulan IV</option>
+                        <option value="Triwulan II" <?php echo ($data['triwulan'] == 'Triwulan II') ? 'selected' : ''; ?> id="triwulan2">Triwulan II</option>
+                        <option value="Triwulan III" <?php echo ($data['triwulan'] == 'Triwulan III') ? 'selected' : ''; ?> id="triwulan3">Triwulan III</option>
+                        <option value="Triwulan IV" <?php echo ($data['triwulan'] == 'Triwulan IV') ? 'selected' : ''; ?> id="triwulan4">Triwulan IV</option>
                     </select>
                     <p style="color: red; font-size: 0.875em; margin-top: 5px;">
                         * Untuk Triwulan yang sudah terlewat, pengisian tidak dapat dilakukan
