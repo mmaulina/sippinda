@@ -28,13 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tahun = sanitizeInput($_POST['tahun']);
     $triwulan_final = sanitizeInput($_POST['triwulan_final']);
     $upload = uploadFile('upload', $nama_perusahaan);
-    
-if (!empty($_FILES['upload']['name'])) {
-    if ($upload === null) {
-        echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/jpg/png) dan ukuran maksimal 5MB.'); history.back();</script>";
-        exit;
+
+    if (!empty($_FILES['upload']['name'])) {
+        if ($upload === null) {
+            echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/jpg/png) dan ukuran maksimal 5MB.'); history.back();</script>";
+            exit;
+        }
     }
-}
 
 
     $status = 'diajukan';
@@ -95,7 +95,7 @@ if (!$data) {
 }
 
 
-function uploadFile($input_name,$nama_perusahaan)
+function uploadFile($input_name, $nama_perusahaan)
 {
     if (!empty($_FILES[$input_name]['name'])) {
         $maxSize = 5 * 1024 * 1024; // 10MB
@@ -188,6 +188,20 @@ function uploadFile($input_name,$nama_perusahaan)
                 </div>
                 <input type="hidden" name="triwulan_final" id="triwulan_final">
 
+                <div class="form-group mb-2">
+                    <label class="form-label d-block">Pelaporan</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_pelaporan" id="tahap_konstruksi" value="Tahap Konstruksi"
+                            <?= ($data['jenis_pelaporan'] == 'Tahap Konstruksi') ? 'checked' : '' ?> required>
+                        <label class="form-check-label" for="tahap_konstruksi">Tahap Konstruksi</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_pelaporan" id="tahap_produksi" value="Tahap Produksi"
+                            <?= ($data['jenis_pelaporan'] == 'Tahap Produksi') ? 'checked' : '' ?> required>
+                        <label class="form-check-label" for="tahap_produksi">Tahap Produksi</label>
+                    </div>
+                </div>
+
                 <!-- Tombol Simpan dan Batal -->
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success">Perbarui</button>
@@ -198,7 +212,7 @@ function uploadFile($input_name,$nama_perusahaan)
     </div>
 </div>
 
-    <script>
+<script>
     const triwulan1 = document.getElementById('triwulan1');
     const triwulan2 = document.getElementById('triwulan2');
     const triwulan3 = document.getElementById('triwulan3');
@@ -268,4 +282,3 @@ function uploadFile($input_name,$nama_perusahaan)
     tahunSelect.addEventListener('change', updatetriwulanFinal);
     triwulanSelect.addEventListener('change', updatetriwulanFinal);
 </script>
-

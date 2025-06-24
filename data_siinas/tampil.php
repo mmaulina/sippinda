@@ -179,11 +179,12 @@ foreach ($chartDataByYear as $tahun => &$triwulans) {
                     <thead class="text-center">
                         <tr>
                             <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(2)">Upload Berkas <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(2)">triwulan <i class="fa fa-sort"></i></th>
+                            <th>Upload Berkas</th>
+                            <th onclick="sortTable(1)">Triwulan <i class="fa fa-sort"></i></th>
                             <th onclick="sortTable(2)">Tahun <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(3)">Status <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(3)">Keterangan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(3)">Jenis Pelaporan <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(4)">Status <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(5)">Keterangan <i class="fa fa-sort"></i></th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -235,6 +236,7 @@ foreach ($chartDataByYear as $tahun => &$triwulans) {
                                             }
                                             ?>
                                         </td>
+                                        <td><?= htmlspecialchars($row['jenis_pelaporan']); ?></td>
                                         <td><?= htmlspecialchars($row['keterangan']); ?></td>
                                         <td class="text-center">
                                             <?php if (($role == 'admin' || $role == 'superadmin') && $row['status'] == 'diajukan'): ?>
@@ -319,6 +321,7 @@ foreach ($chartDataByYear as $tahun => &$triwulans) {
                             <th>Upload Berkas</th>
                             <th>Triwulan</th>
                             <th>Tahun</th>
+                            <th>Jenis Pelaporan</th>
                             <th>Status</th>
                             <th>Keterangan</th>
                             <th>Aksi</th>

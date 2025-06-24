@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return trim(strip_tags($data));
     }
 
-    $upload_berkas = uploadFile('upload',$nama_perusahaan);
+    $upload_berkas = uploadFile('upload', $nama_perusahaan);
     $tahun = sanitize_input($_POST['tahun']);
     $triwulan_final = sanitize_input($_POST['triwulan_final']);
 
@@ -160,6 +160,20 @@ function uploadFile($input_name, $nama_perusahaan)
                     </p>
                 </div>
                 <input type="hidden" name="triwulan_final" id="triwulan_final">
+
+                <div class="form-group mb-3">
+                    <label class="form-label d-block">Jenis Pelaporan</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_pelaporan" id="tahap_konstruksi" value="Tahap Konstruksi" required>
+                        <label class="form-check-label" for="tahap_konstruksi">Tahap Konstruksi</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_pelaporan" id="tahap_produksi" value="Tahap Produksi" required>
+                        <label class="form-check-label" for="tahap_produksi">Tahap Produksi</label>
+                    </div>
+                </div>
+
+
                 <!-- Tombol Simpan dan Batal -->
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success">Simpan</button>
@@ -171,7 +185,7 @@ function uploadFile($input_name, $nama_perusahaan)
 </div>
 
 
-    <script>
+<script>
     const triwulan1 = document.getElementById('triwulan1');
     const triwulan2 = document.getElementById('triwulan2');
     const triwulan3 = document.getElementById('triwulan3');
@@ -241,4 +255,3 @@ function uploadFile($input_name, $nama_perusahaan)
     tahunSelect.addEventListener('change', updatetriwulanFinal);
     triwulanSelect.addEventListener('change', updatetriwulanFinal);
 </script>
-
