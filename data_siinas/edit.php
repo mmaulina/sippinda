@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $nama_perusahaan = sanitizeInput($_POST['nama_perusahaan']);
     $tahun = sanitizeInput($_POST['tahun']);
+    $jenis_pelaporan = sanitizeInput($_POST['jenis_pelaporan']);
     $triwulan_final = sanitizeInput($_POST['triwulan_final']);
     $upload = uploadFile('upload', $nama_perusahaan);
 
@@ -42,7 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $updateSQL = "UPDATE data_sinas SET 
     nama_perusahaan = :nama_perusahaan,
-    tahun=:tahun, 
+    tahun=:tahun,
+    jenis_pelaporan=:jenis_pelaporan,
     triwulan=:triwulan_final,
     status=:status,
     keterangan=:keterangan";
@@ -60,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':id', $id_laporan);
     $stmt->bindParam(':nama_perusahaan', $nama_perusahaan, PDO::PARAM_STR);
     $stmt->bindParam(':tahun', $tahun, PDO::PARAM_STR);
+    $stmt->bindParam(':jenis_pelaporan', $jenis_pelaporan, PDO::PARAM_STR);
     $stmt->bindParam(':triwulan_final', $triwulan_final, PDO::PARAM_STR);
     $stmt->bindParam(':status', $status, PDO::PARAM_STR);
     $stmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);

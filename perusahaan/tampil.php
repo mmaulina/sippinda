@@ -140,12 +140,14 @@ $pekerja = $stmt6->fetch(PDO::FETCH_ASSOC);
             </a>
             <div class="collapse" id="collapseCardUmum">
                 <div class="card-body">
-                    <a href="?page=tambah_data_umum" class="btn btn-primary btn-icon-split btn-sm">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                        </span>
-                        <span class="text">Tambah Data</span>
-                    </a>
+                    <?php if (empty($data_umum)): ?>
+                        <a href="?page=tambah_data_umum" class="btn btn-primary btn-icon-split btn-sm">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                            </span>
+                            <span class="text">Tambah Data</span>
+                        </a>
+                    <?php endif; ?>
                     <table class="table table-bordered my-2">
                         <tr>
                             <th>Periode Laporan</th>
@@ -200,12 +202,14 @@ $pekerja = $stmt6->fetch(PDO::FETCH_ASSOC);
             </a>
             <div class="collapse" id="collapseCardKhusus">
                 <div class="card-body">
+                    <?php if (empty($data_khusus)): ?>
                     <a href="?page=tambah_data_khusus" class="btn btn-primary btn-icon-split btn-sm">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                         </span>
                         <span class="text">Tambah Data</span>
                     </a>
+                    <?php endif; ?>
                     <table class="table table-bordered my-2">
                         <tr>
                             <th>Nama Penanda Tangan Laporan</th>
@@ -240,12 +244,14 @@ $pekerja = $stmt6->fetch(PDO::FETCH_ASSOC);
             </a>
             <div class="collapse" id="collapseCardInvestasi">
                 <div class="card-body">
+                    <?php if (empty($investasi)): ?>
                     <a href="?page=tambah_investasi" class="btn btn-primary btn-icon-split btn-sm">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                         </span>
                         <span class="text">Tambah Data</span>
                     </a>
+                    <?php endif; ?>
                     <table class="table table-bordered my-2">
                         <tbody>
                             <tr class="table-secondary">
@@ -301,12 +307,14 @@ $pekerja = $stmt6->fetch(PDO::FETCH_ASSOC);
             </a>
             <div class="collapse" id="collapseCardPekerja">
                 <div class="card-body">
+                    <?php if (empty($pekerja)): ?>
                     <a href="?page=tambah_pekerja" class="btn btn-primary btn-icon-split btn-sm">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                         </span>
                         <span class="text">Tambah Data</span>
                     </a>
+                    <?php endif; ?>
                     <table class="table table-bordered my-2">
                         <tbody>
                             <tr class="table-secondary">

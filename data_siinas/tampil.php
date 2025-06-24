@@ -219,6 +219,7 @@ foreach ($chartDataByYear as $tahun => &$triwulans) {
                                         </td>
                                         <td><?= htmlspecialchars($row['triwulan']); ?></td>
                                         <td><?= htmlspecialchars($row['tahun']); ?></td>
+                                        <td><?= htmlspecialchars($row['jenis_pelaporan']); ?></td>
                                         <td class="text-center">
                                             <?php
                                             switch ($row['status']) {
@@ -236,7 +237,6 @@ foreach ($chartDataByYear as $tahun => &$triwulans) {
                                             }
                                             ?>
                                         </td>
-                                        <td><?= htmlspecialchars($row['jenis_pelaporan']); ?></td>
                                         <td><?= htmlspecialchars($row['keterangan']); ?></td>
                                         <td class="text-center">
                                             <?php if (($role == 'admin' || $role == 'superadmin') && $row['status'] == 'diajukan'): ?>

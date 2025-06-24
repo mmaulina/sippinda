@@ -33,7 +33,7 @@ if (isset($_POST['btn_simpan'])) {
             if ($query) {
                 $_SESSION['hasil'] = true;
                 $_SESSION['pesan'] = "Berhasil Memperbarui Data";
-                echo "<meta http-equiv='refresh' content='0;url=?page=dashboard'>";
+                echo "<meta http-equiv='refresh' content='0;url=?page=home'>";
             } else {
                 $_SESSION['hasil'] = false;
                 $_SESSION['pesan'] = "Gagal Memperbarui Data";

@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $upload_berkas = uploadFile('upload', $nama_perusahaan);
     $tahun = sanitize_input($_POST['tahun']);
+    $jenis_pelaporan = sanitize_input($_POST['jenis_pelaporan']);
     $triwulan_final = sanitize_input($_POST['triwulan_final']);
 
     if ($upload_berkas === null) {
@@ -50,14 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($profil && !empty($profil['nama_perusahaan'])) {
             $nama_perusahaan = $profil['nama_perusahaan'];
 
-            $sql = "INSERT INTO data_sinas (id_user, nama_perusahaan, upload, tahun, triwulan, status, keterangan) 
-                    VALUES (:id_user, :nama_perusahaan, :upload, :tahun, :triwulan, :status, :keterangan)";
+            $sql = "INSERT INTO data_sinas (id_user, nama_perusahaan, upload, tahun, triwulan, jenis_pelaporan, status, keterangan) 
+                    VALUES (:id_user, :nama_perusahaan, :upload, :tahun, :triwulan, :jenis_pelaporan, :status, :keterangan)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
             $stmt->bindParam(':nama_perusahaan', $nama_perusahaan, PDO::PARAM_STR);
             $stmt->bindParam(':upload', $upload_berkas, PDO::PARAM_STR);
             $stmt->bindParam(':tahun', $tahun);
             $stmt->bindParam(':triwulan', $triwulan_final);
+            $stmt->bindParam(':jenis_pelaporan', $jenis_pelaporan, PDO::PARAM_STR);
             $stmt->bindParam(':status', $status, PDO::PARAM_STR);
             $stmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);
 

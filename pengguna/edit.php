@@ -75,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>No. Telp</label>
                     <input type="text" class="form-control" name="no_telp" placeholder="Masukkan No. Telp" required maxlength="200" value="<?php echo $users['no_telp']; ?>"></input>
                 </div>
+                <?php if ($_SESSION['role'] != 'umum') : ?>
                 <div class="mb-3">
                     <label class="form-label">Role</label>
                     <select name="role" class="form-control" required>
@@ -95,6 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="ditolak" <?= $users['status'] == 'ditolak' ? 'selected' : ''; ?>>Ditolak</option>
                     </select>
                 </div>
+                <?php endif; ?>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-success">Simpan</button>
                     <button type="reset" class="btn btn-secondary">Batal</button>
