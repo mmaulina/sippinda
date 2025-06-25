@@ -1,3 +1,47 @@
+<?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+include "koneksi.php";
+
+if (!isset($_SESSION['id_user'])) {
+    echo "<script>alert('Anda harus login terlebih dahulu!'); window.location.href='login/login.php';</script>";
+    exit();
+}
+
+                            $id_user = $_SESSION['id_user'];
+                            $role = $_SESSION['role'];
+                            $database = new Database();
+                            $conn = $database->getConnection();
+
+                            if ($role == 'admin' || $role == 'superadmin') {
+                            // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
+                            $queryperizinan = "SELECT COUNT(*) as total FROM perizinan WHERE verifikasi = 'diajukan'";
+                            $stmtperizinan = $conn->prepare($queryperizinan);
+                            $stmtperizinan->execute();
+                            $resultperizinan = $stmtperizinan->fetch(PDO::FETCH_ASSOC);
+                            $jumlahperizinanDiajukan = $resultperizinan['total'];
+                        }
+
+                        if ($role == 'admin' || $role == 'superadmin') {
+                            // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
+                            $querysinas = "SELECT COUNT(*) as total FROM data_sinas WHERE status = 'diajukan'";
+                            $stmtsinas = $conn->prepare($querysinas);
+                            $stmtsinas->execute();
+                            $resultsinas = $stmtsinas->fetch(PDO::FETCH_ASSOC);
+                            $jumlahsinasDiajukan = $resultsinas['total'];
+                        }
+
+                        if ($role == 'admin' || $role == 'superadmin') {
+                            // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
+                            $querypengguna = "SELECT COUNT(*) as total FROM users WHERE status = 'diajukan'";
+                            $stmtpengguna = $conn->prepare($querypengguna);
+                            $stmtpengguna->execute();
+                            $resultpengguna = $stmtpengguna->fetch(PDO::FETCH_ASSOC);
+                            $jumlahpenggunaDiajukan = $resultpengguna['total'];
+                        }
+?>
 <head>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -33,6 +77,7 @@
         Data I
     </div>
 
+    <?php if ($role == 'umum'): ?>
     <!-- ROLE UMUM -->
     <li class="nav-item">
         <a class="nav-link" href="?page=profil_perusahaan">
@@ -40,7 +85,9 @@
             <span>Profil Perusahaan</span>
         </a>
     </li>
+        <?php endif; ?>
 
+        <?php if ($role == 'admin' || $role == 'superadmin'): ?>
     <!-- ROLE ADMIN & SUPERADMIN -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfil"
@@ -69,7 +116,7 @@
             </div>
         </div>
     </li>
-
+    <?php endif; ?>
 
     <!-- DATA II -->
     <!-- Divider -->
@@ -84,6 +131,11 @@
         <a class="nav-link" href="?page=perizinan_tampil">
             <i class="fas fa-fw fa-file-signature"></i>
             <span>Perizinan</span>
+            <?php if ($role == 'admin' || $role == 'superadmin'): ?>
+            <?php if ($jumlahperizinanDiajukan > 0) : ?>
+            <span class="badge bg-danger ms-2"><?= $jumlahperizinanDiajukan; ?></span>
+            <?php endif; ?>
+            <?php endif; ?>
         </a>
     </li>
 
@@ -100,9 +152,15 @@
         <a class="nav-link" href="?page=data_siinas_tampil">
             <i class="fas fa-fw fa-upload"></i>
             <span>Data SIINas </span>
+            <?php if ($role == 'admin' || $role == 'superadmin'): ?>
+            <?php if ($jumlahsinasDiajukan > 0) : ?>
+            <span class="badge bg-danger ms-2"><?= $jumlahsinasDiajukan; ?></span>
+            <?php endif; ?>
+            <?php endif; ?>
         </a>
     </li>
 
+    <?php if ($role == 'admin' || $role == 'superadmin'): ?>
     <!-- DATA PENGGUNA -->
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -116,11 +174,17 @@
         <a class="nav-link" href="?page=pengguna_tampil">
             <i class="fas fa-fw fa-users"></i>
             <span>Pengguna</span>
+            <?php if ($role == 'admin' || $role == 'superadmin'): ?>
+            <?php if ($jumlahpenggunaDiajukan > 0) : ?>
+            <span class="badge bg-danger ms-2"><?= $jumlahpenggunaDiajukan; ?></span>
+            <?php endif; ?>
+            <?php endif; ?>
         </a>
     </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
+    <?php endif; ?>
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

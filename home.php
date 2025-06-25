@@ -52,9 +52,13 @@ try {
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold text-primary">News</h6>
+                    
+
+                    <?php if ($role == 'admin' || $role == 'superadmin'): ?>
                     <a href="?page=konten_tampil" class="btn btn-primary">
                         <i class="fas fa-fw fa-table fa-sm text-white-50"></i> Daftar Konten
                     </a>
+                    <?php endif; ?>
                 </div>
                 <div class="card-body">
                     <div class="timeline position-relative">
