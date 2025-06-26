@@ -406,7 +406,7 @@ $pekerja = $stmt6->fetch(PDO::FETCH_ASSOC);
         <p>Profil perusahaan belum diisi.</p>
         <a href="?page=tambah_profil&id_user=<?php echo $_SESSION['id_user']; ?>" class="btn btn-primary btn-icon-split">
             <span class="icon text-white-50">
-                <i class="fas fa-info-circle"></i>
+                <i class="fas fa-info-circle" style="vertical-align: middle; margin-top: 5px;"></i>
             </span>
             <span class="text">Isi Profil</span>
         </a>

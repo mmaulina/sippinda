@@ -10,38 +10,39 @@ if (!isset($_SESSION['id_user'])) {
     exit();
 }
 
-                            $id_user = $_SESSION['id_user'];
-                            $role = $_SESSION['role'];
-                            $database = new Database();
-                            $conn = $database->getConnection();
+$id_user = $_SESSION['id_user'];
+$role = $_SESSION['role'];
+$database = new Database();
+$conn = $database->getConnection();
 
-                            if ($role == 'admin' || $role == 'superadmin') {
-                            // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
-                            $queryperizinan = "SELECT COUNT(*) as total FROM perizinan WHERE verifikasi = 'diajukan'";
-                            $stmtperizinan = $conn->prepare($queryperizinan);
-                            $stmtperizinan->execute();
-                            $resultperizinan = $stmtperizinan->fetch(PDO::FETCH_ASSOC);
-                            $jumlahperizinanDiajukan = $resultperizinan['total'];
-                        }
+if ($role == 'admin' || $role == 'superadmin') {
+    // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
+    $queryperizinan = "SELECT COUNT(*) as total FROM perizinan WHERE verifikasi = 'diajukan'";
+    $stmtperizinan = $conn->prepare($queryperizinan);
+    $stmtperizinan->execute();
+    $resultperizinan = $stmtperizinan->fetch(PDO::FETCH_ASSOC);
+    $jumlahperizinanDiajukan = $resultperizinan['total'];
+}
 
-                        if ($role == 'admin' || $role == 'superadmin') {
-                            // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
-                            $querysinas = "SELECT COUNT(*) as total FROM data_sinas WHERE status = 'diajukan'";
-                            $stmtsinas = $conn->prepare($querysinas);
-                            $stmtsinas->execute();
-                            $resultsinas = $stmtsinas->fetch(PDO::FETCH_ASSOC);
-                            $jumlahsinasDiajukan = $resultsinas['total'];
-                        }
+if ($role == 'admin' || $role == 'superadmin') {
+    // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
+    $querysinas = "SELECT COUNT(*) as total FROM data_sinas WHERE status = 'diajukan'";
+    $stmtsinas = $conn->prepare($querysinas);
+    $stmtsinas->execute();
+    $resultsinas = $stmtsinas->fetch(PDO::FETCH_ASSOC);
+    $jumlahsinasDiajukan = $resultsinas['total'];
+}
 
-                        if ($role == 'admin' || $role == 'superadmin') {
-                            // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
-                            $querypengguna = "SELECT COUNT(*) as total FROM users WHERE status = 'diajukan'";
-                            $stmtpengguna = $conn->prepare($querypengguna);
-                            $stmtpengguna->execute();
-                            $resultpengguna = $stmtpengguna->fetch(PDO::FETCH_ASSOC);
-                            $jumlahpenggunaDiajukan = $resultpengguna['total'];
-                        }
+if ($role == 'admin' || $role == 'superadmin') {
+    // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
+    $querypengguna = "SELECT COUNT(*) as total FROM users WHERE status = 'diajukan'";
+    $stmtpengguna = $conn->prepare($querypengguna);
+    $stmtpengguna->execute();
+    $resultpengguna = $stmtpengguna->fetch(PDO::FETCH_ASSOC);
+    $jumlahpenggunaDiajukan = $resultpengguna['total'];
+}
 ?>
+
 <head>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -78,44 +79,44 @@ if (!isset($_SESSION['id_user'])) {
     </div>
 
     <?php if ($role == 'umum'): ?>
-    <!-- ROLE UMUM -->
-    <li class="nav-item">
-        <a class="nav-link" href="?page=profil_perusahaan">
-            <i class="fas fa-fw fa-building"></i>
-            <span>Profil Perusahaan</span>
-        </a>
-    </li>
-        <?php endif; ?>
+        <!-- ROLE UMUM -->
+        <li class="nav-item">
+            <a class="nav-link" href="?page=profil_perusahaan">
+                <i class="fas fa-fw fa-building"></i>
+                <span>Profil Perusahaan</span>
+            </a>
+        </li>
+    <?php endif; ?>
 
-        <?php if ($role == 'admin' || $role == 'superadmin'): ?>
-    <!-- ROLE ADMIN & SUPERADMIN -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfil"
-            aria-expanded="false" aria-controls="collapseProfil">
-            <i class="fas fa-fw fa-building"></i>
-            <span>Profil Perusahaan</span>
-        </a>
-        <div id="collapseProfil" class="collapse" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Data Profil Perusahaan:</h6>
-                <a class="collapse-item" href="?page=profil_admin">
-                    <i class="fas fa-fw fa-industry mr-1"></i> Data Perusahaan (A)
-                </a>
-                <a class="collapse-item" href="?page=data_umum_tampil">
-                    <i class="fas fa-fw fa-book mr-1"></i> Data Umum
-                </a>
-                <a class="collapse-item" href="?page=data_khusus_tampil">
-                    <i class="fas fa-fw fa-folder mr-1"></i> Data Khusus
-                </a>
-                <a class="collapse-item" href="?page=investasi_tampil">
-                    <i class="fas fa-fw fa-money-bill mr-1"></i> Investasi
-                </a>
-                <a class="collapse-item" href="?page=pekerja_tampil">
-                    <i class="fas fa-fw fa-user-tie mr-1"></i> Pekerja Per Hari
-                </a>
+    <?php if ($role == 'admin' || $role == 'superadmin'): ?>
+        <!-- ROLE ADMIN & SUPERADMIN -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfil"
+                aria-expanded="false" aria-controls="collapseProfil">
+                <i class="fas fa-fw fa-building"></i>
+                <span>Profil Perusahaan</span>
+            </a>
+            <div id="collapseProfil" class="collapse" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Data Profil Perusahaan:</h6>
+                    <a class="collapse-item" href="?page=profil_admin">
+                        <i class="fas fa-fw fa-industry mr-1"></i> Data Perusahaan (A)
+                    </a>
+                    <a class="collapse-item" href="?page=data_umum_tampil">
+                        <i class="fas fa-fw fa-book mr-1"></i> Data Umum
+                    </a>
+                    <a class="collapse-item" href="?page=data_khusus_tampil">
+                        <i class="fas fa-fw fa-folder mr-1"></i> Data Khusus
+                    </a>
+                    <a class="collapse-item" href="?page=investasi_tampil">
+                        <i class="fas fa-fw fa-money-bill mr-1"></i> Investasi
+                    </a>
+                    <a class="collapse-item" href="?page=pekerja_tampil">
+                        <i class="fas fa-fw fa-user-tie mr-1"></i> Pekerja Per Hari
+                    </a>
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
     <?php endif; ?>
 
     <!-- DATA II -->
@@ -126,16 +127,20 @@ if (!isset($_SESSION['id_user'])) {
     <div class="sidebar-heading">
         Data II
     </div>
-
     <li class="nav-item">
         <a class="nav-link" href="?page=perizinan_tampil">
-            <i class="fas fa-fw fa-file-signature"></i>
-            <span>Perizinan</span>
-            <?php if ($role == 'admin' || $role == 'superadmin'): ?>
-            <?php if ($jumlahperizinanDiajukan > 0) : ?>
-            <span class="badge bg-danger ms-2"><?= $jumlahperizinanDiajukan; ?></span>
-            <?php endif; ?>
-            <?php endif; ?>
+            <i class="fas fa-file-signature fa-fw mr-2"></i>
+            <span class="d-inline-flex align-items-center">
+                Perizinan
+                <?php if ($role == 'admin' || $role == 'superadmin' && $jumlahperizinanDiajukan > 0): ?>
+                    <span class="position-relative ml-2">
+                        <i class="fas fa-bell text-light"></i>
+                        <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
+                            <?= $jumlahperizinanDiajukan; ?>
+                        </span>
+                    </span>
+                <?php endif; ?>
+            </span>
         </a>
     </li>
 
@@ -150,40 +155,50 @@ if (!isset($_SESSION['id_user'])) {
 
     <li class="nav-item">
         <a class="nav-link" href="?page=data_siinas_tampil">
-            <i class="fas fa-fw fa-upload"></i>
-            <span>Data SIINas </span>
-            <?php if ($role == 'admin' || $role == 'superadmin'): ?>
-            <?php if ($jumlahsinasDiajukan > 0) : ?>
-            <span class="badge bg-danger ms-2"><?= $jumlahsinasDiajukan; ?></span>
-            <?php endif; ?>
-            <?php endif; ?>
+            <i class="fas fa-upload fa-fw mr-2"></i>
+            <span class="d-inline-flex align-items-center">
+                Data SIINas
+                <?php if ($role == 'admin' || $role == 'superadmin' && $jumlahsinasDiajukan > 0): ?>
+                    <span class="position-relative ml-2">
+                        <i class="fas fa-bell text-light"></i>
+                        <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
+                            <?= $jumlahsinasDiajukan; ?>
+                        </span>
+                    </span>
+                <?php endif; ?>
+            </span>
         </a>
     </li>
 
     <?php if ($role == 'admin' || $role == 'superadmin'): ?>
-    <!-- DATA PENGGUNA -->
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+        <!-- DATA PENGGUNA -->
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Data Pengguna
-    </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Data Pengguna
+        </div>
 
-    <li class="nav-item">
-        <a class="nav-link" href="?page=pengguna_tampil">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Pengguna</span>
-            <?php if ($role == 'admin' || $role == 'superadmin'): ?>
-            <?php if ($jumlahpenggunaDiajukan > 0) : ?>
-            <span class="badge bg-danger ms-2"><?= $jumlahpenggunaDiajukan; ?></span>
-            <?php endif; ?>
-            <?php endif; ?>
-        </a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link" href="?page=pengguna_tampil">
+                <i class="fas fa-users fa-fw mr-2"></i>
+                <span class="d-inline-flex align-items-center">
+                    Pengguna
+                    <?php if ($role == 'admin' || $role == 'superadmin' && $jumlahpenggunaDiajukan > 0): ?>
+                        <span class="position-relative ml-2">
+                            <i class="fas fa-bell text-light"></i>
+                            <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
+                                <?= $jumlahpenggunaDiajukan; ?>
+                            </span>
+                        </span>
+                    <?php endif; ?>
+                </span>
+            </a>
+        </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
     <?php endif; ?>
 
     <!-- Sidebar Toggler (Sidebar) -->
