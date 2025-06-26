@@ -72,14 +72,14 @@ if ($role == 'admin' || $role == 'superadmin') {
         <a class="nav-link" href="?page=home">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Home</span>
-            <?php if ( $konten_baru > 0): ?>
-            <span class="position-relative ml-2">
-                        <i class="fas fa-bell text-light"></i>
-                        <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
-                            <?= $konten_baru; ?>
-                        </span>
+            <?php if ($konten_baru > 0): ?>
+                <span class="position-relative ml-2">
+                    <i class="fas fa-bell text-light"></i>
+                    <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
+                        <?= $konten_baru; ?>
                     </span>
-                    <?php endif; ?>
+                </span>
+            <?php endif; ?>
         </a>
     </li>
 
@@ -146,7 +146,7 @@ if ($role == 'admin' || $role == 'superadmin') {
             <i class="fas fa-file-signature fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Perizinan
-                <?php if (($role == 'admin' && $jumlahperizinanDiajukan > 0 )|| ($role == 'superadmin' && $jumlahperizinanDiajukan > 0)): ?>
+                <?php if (($role == 'admin' && $jumlahperizinanDiajukan > 0) || ($role == 'superadmin' && $jumlahperizinanDiajukan > 0)): ?>
                     <span class="position-relative ml-2">
                         <i class="fas fa-bell text-light"></i>
                         <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
@@ -199,7 +199,7 @@ if ($role == 'admin' || $role == 'superadmin') {
                 <i class="fas fa-users fa-fw mr-2"></i>
                 <span class="d-inline-flex align-items-center">
                     Pengguna
-                    <?php if (($role == 'admin' && $jumlahpenggunaDiajukan > 0 )|| ($role == 'superadmin' && $jumlahpenggunaDiajukan > 0)): ?>
+                    <?php if (($role == 'admin' && $jumlahpenggunaDiajukan > 0) || ($role == 'superadmin' && $jumlahpenggunaDiajukan > 0)): ?>
                         <span class="position-relative ml-2">
                             <i class="fas fa-bell text-light"></i>
                             <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
