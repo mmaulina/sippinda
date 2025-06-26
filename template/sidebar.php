@@ -15,6 +15,12 @@ $role = $_SESSION['role'];
 $database = new Database();
 $conn = $database->getConnection();
 
+$query = "SELECT COUNT(*) AS jumlah_baru FROM news WHERE id NOT IN 
+          (SELECT konten_id FROM konten_dilihat WHERE id_user = :id_user)";
+$stmt = $conn->prepare($query);
+$stmt->execute(['id_user' => $id_user]);
+$konten_baru = $stmt->fetch(PDO::FETCH_ASSOC)['jumlah_baru'];
+
 if ($role == 'admin' || $role == 'superadmin') {
     // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
     $queryperizinan = "SELECT COUNT(*) as total FROM perizinan WHERE verifikasi = 'diajukan'";
@@ -66,6 +72,14 @@ if ($role == 'admin' || $role == 'superadmin') {
         <a class="nav-link" href="?page=home">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Home</span>
+            <?php if ( $konten_baru > 0): ?>
+            <span class="position-relative ml-2">
+                        <i class="fas fa-bell text-light"></i>
+                        <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
+                            <?= $konten_baru; ?>
+                        </span>
+                    </span>
+                    <?php endif; ?>
         </a>
     </li>
 
@@ -132,7 +146,7 @@ if ($role == 'admin' || $role == 'superadmin') {
             <i class="fas fa-file-signature fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Perizinan
-                <?php if ($role == 'admin' || $role == 'superadmin' && $jumlahperizinanDiajukan > 0): ?>
+                <?php if (($role == 'admin' && $jumlahperizinanDiajukan > 0 )|| ($role == 'superadmin' && $jumlahperizinanDiajukan > 0)): ?>
                     <span class="position-relative ml-2">
                         <i class="fas fa-bell text-light"></i>
                         <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
@@ -158,7 +172,7 @@ if ($role == 'admin' || $role == 'superadmin') {
             <i class="fas fa-upload fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Data SIINas
-                <?php if ($role == 'admin' || $role == 'superadmin' && $jumlahsinasDiajukan > 0): ?>
+                <?php if (($role == 'admin' && $jumlahsinasDiajukan > 0) || ($role == 'superadmin' && $jumlahsinasDiajukan > 0)): ?>
                     <span class="position-relative ml-2">
                         <i class="fas fa-bell text-light"></i>
                         <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
@@ -185,7 +199,7 @@ if ($role == 'admin' || $role == 'superadmin') {
                 <i class="fas fa-users fa-fw mr-2"></i>
                 <span class="d-inline-flex align-items-center">
                     Pengguna
-                    <?php if ($role == 'admin' || $role == 'superadmin' && $jumlahpenggunaDiajukan > 0): ?>
+                    <?php if (($role == 'admin' && $jumlahpenggunaDiajukan > 0 )|| ($role == 'superadmin' && $jumlahpenggunaDiajukan > 0)): ?>
                         <span class="position-relative ml-2">
                             <i class="fas fa-bell text-light"></i>
                             <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
