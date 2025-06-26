@@ -29,6 +29,30 @@ try {
     die("Error: " . $e->getMessage());
 }
 
+// Proses persetujuan (Verifikasi)
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['terima_id'])) {
+    $id = $_POST['terima_id'];
+
+    $updateQuery = "UPDATE users SET status = 'diverifikasi' WHERE id_user = :id_user";
+    $updateStmt = $conn->prepare($updateQuery);
+    $updateStmt->bindParam(':id_user', $id);
+    $updateStmt->execute();
+
+    echo "<script>alert('Pengguna telah diverifikasi!'); window.location.href='?page=pengguna_tampil';</script>";
+}
+
+// Proses penolakan
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['tolak_id'])) {
+    $id = $_POST['tolak_id'];
+
+    $updateQuery = "UPDATE users SET status = 'ditolak' WHERE id_user = :id_user";
+    $updateStmt = $conn->prepare($updateQuery);
+    $updateStmt->bindParam(':id_user', $id);
+    $updateStmt->execute();
+
+    echo "<script>alert('Pengguna telah ditolak!'); window.location.href='?page=pengguna_tampil';</script>";
+}
+
 ?>
 
 <!-- Begin Page Content -->
@@ -97,14 +121,34 @@ try {
                                     <td><?= htmlspecialchars($row['role']); ?></td>
                                     <td><?= htmlspecialchars($row['status']); ?></td>
                                     <td>
-                                        <a href="?page=update_pengguna&id_user=<?= htmlspecialchars($row['id_user']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                            <span class="text">Edit</span>
-                                        </a>
-                                        <a href="?page=delete_pengguna&id_user=<?= htmlspecialchars($row['id_user']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                            <span class="text">Hapus</span>
-                                        </a>
+                                        <?php if (($role == 'admin' || $role == 'superadmin') && $row['status'] == 'diajukan'): ?>
+                                                <form method="POST" style="display: inline;">
+                                                    <input type="hidden" name="terima_id" value="<?= $row['id_user']; ?>">
+                                                    <button type="submit" class="btn btn-success btn-icon-split btn-sm">
+                                                        <span class="icon text-white-50"><i class="fa fa-check" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                        <span class="text">Terima</span>
+                                                    </button>
+                                                </form>
+                                                <form method="POST" style="display: inline;">
+                                                    <input type="hidden" name="tolak_id" value="<?= $row['id_user']; ?>">
+                                                    <button type="submit" class="btn btn-danger btn-icon-split btn-sm">
+                                                        <span class="icon text-white-50"><i class="fa fa-undo" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Kembalikan</span>
+                                                    </button>
+                                                </form>
+
+                                            <?php endif; ?>
+
+                                            <?php if ((($row['status'] == 'diverifikasi' || $row['status'] == 'ditolak')) && $role == 'superadmin'): ?>
+                                                <a href="?page=update_pengguna&id_user=<?= htmlspecialchars($row['id_user']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                    <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a href="?page=delete_pengguna&id_user=<?= htmlspecialchars($row['id_user']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                    <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                    <span class="text">Hapus</span>
+                                                </a>
+                                            <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

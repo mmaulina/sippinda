@@ -7,7 +7,7 @@ $error = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = htmlspecialchars($_POST['username']);
     $email = htmlspecialchars($_POST['email']);
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Hash password menggunakan Bcrypt
+    $password = htmlspecialchars($_POST['password']); // Hash password menggunakan Bcrypt
     $no_telp = htmlspecialchars($_POST['no_telp']);
     $role = "umum"; // Otomatis diisi "umum"
     $status = "diajukan"; // Otomatis diisi "diajukan"
