@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':tgl_verif', $tgl_verif, PDO::PARAM_STR);
 
             if ($stmt->execute()) {
-                echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=perizinan_tampil';</script>";
+                echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=proposal_tampil';</script>";
             } else {
                 echo "<script>alert('Gagal menambahkan Data.');</script>";
             }
@@ -117,12 +117,12 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
 }
 ?>
 
-<!-- TAMBAH PERIZINAN -->
+<!-- TAMBAH PROPOSAL KEGIATAN -->
 <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Tambah Perizinan</h6>
-            <a href="?page=perizinan_tampil" class="btn btn-primary btn-icon-split btn-sm">
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Proposal</h6>
+            <a href="?page=proposal_tampil" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
                 </span>
@@ -132,46 +132,15 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group mb-2">
-                    <label>Nama Perusahaan</label>
+                    <label>Nama Perusahaan (Asosiasi)</label>
                     <input type="text" class="form-control" name="nama_perusahaan" placeholder="Masukkan nama perusahaan" required maxlength="100" value="<?= htmlspecialchars($nama_perusahaan) ?>" readonly>
                     <small class="text-muted">
                         Catatan: nama perusahaan sesuai perizinan
                     </small>
                 </div>
                 <div class="form-group mb-2">
-                    <label>Jenis Laporan</label>
-                    <select name="jenis_laporan" id="jenis_laporan" class="form-control" required>
-                        <option value="">-- Pilih Jenis Laporan--</option>
-                        <option value="KKPR">KKPR</option>
-                        <option value="PERSETUJUAN LINGKUNGAN">PERSETUJUAN LINGKUNGAN</option>
-                        <option value="SURAT LAIK FUNGSI">SURAT LAIK FUNGSI</option>
-                        <option value="PERSETUJUAN BANGUNAN DAN GEDUNG">PERSETUJUAN BANGUNAN DAN GEDUNG</option>
-                        <option value="NOMOR INDUK BERUSAHA">NOMOR INDUK BERUSAHA</option>
-                        <option value="NPWP">NPWP(SESUAI DOMISILI)</option>
-                        <option value="PERIZINAN USAHA SEKTOR INDUSTRI">PERIZINAN USAHA (SEKTOR INDUSTRI/SERTIFIKAT STANDART)</option>
-                        <option value="SERTIFIKAT HALAL">SERTIFIKAT HALAL</option>
-                        <option value="TKDN">TKDN</option>
-                        <option value="SNI">SNI</option>
-                        <option value="ISO">ISO</option>
-                        <option value="SERTIFIKAT INDUSTRI HIJAU">SERTIFIKAT INDUSTRI HIJAU</option>
-                        <option value="PELAPORAN S1 S2 SINAS">PELAPORAN S.11/S.2(SINAS)</option>
-                        <option value="KEPEMILIKAN AKUN SINAS">KEPEMILIKAN AKUN SINAS</option>
-                        <option value="KESESUAIAN KEGIATAN USAHA DENGAN BIDANG USAHA PERIZINAN PERUSAHAAN">KESESUAIAN KEGIATAN USAHA DENGAN BIDANG USAHA PERIZINAN PERUSAHAAN</option>
-                        <option value="KESESUAIAN FASILITAS PRODUKSI DAN KAPASITAS SESUAI DENGAN PERIZINAN PERUSAHAAN">KESESUAIAN FASILITAS PRODUKSI DAN KAPASITAS SESUAI DENGAN PERIZINAN PERUSAHAAN</option>
-                        <option value="IZIN USAHA INDSUTRI">IZIN USAHA INDSUTRI</option>
-                        <option value="IZIN PERLUASAN INDUSTRI">IZIN PERLUASAN INDUSTRI</option>
-                        <option value="IZIN KAWASAN INDUSTRI">IZIN KAWASAN INDUSTRI</option>
-                        <option value="IZIN PERLUASAN KAWASAN INDUSTRI">IZIN PERLUASAN KAWASAN INDUSTRI</option>
-                        <option value="IZIN EDAR (BPOM)">IZIN EDAR (BPOM)</option>
-                    </select>
-                </div>
-                <div class="form-group mb-2">
-                    <label>No. Izin</label>
-                    <input type="text" class="form-control" name="no_izin" placeholder="Masukkan No. Izin" required maxlength="200"></input>
-                </div>
-                <div class="form-group mb-2">
-                    <label>Tanggal Dokumen</label>
-                    <input type="date" class="form-control" name="tgl_dokumen" required></input>
+                    <label>Tahun Usulan Kegiatan</label>
+                    <input type="text" class="form-control" name="no_izin" placeholder="Masukkan Tahun Usulan Kegiatan" required maxlength="200"></input>
                 </div>
                 <div class="form-group mb-2">
                     <label for="upload_berkas">Upload Berkas (PDF, DOC , DOCX, XLS, XLSX)</label>

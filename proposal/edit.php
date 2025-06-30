@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['pesan'] = "Gagal Update Data";
     }
 
-    echo "<meta http-equiv='refresh' content='0; url=?page=perizinan_tampil'>";
+    echo "<meta http-equiv='refresh' content='0; url=?page=proposal_tampil'>";
 }
 
 $database = new Database();
@@ -93,7 +93,7 @@ $stmt->execute();
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$data) {
-    echo "<script>alert('Data tidak ditemukan!'); window.location.href='?page=perizinan_tampil';</script>";
+    echo "<script>alert('Data tidak ditemukan!'); window.location.href='?page=proposal_tampil';</script>";
     exit;
 }
 
@@ -138,8 +138,8 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
 <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Edit Berkas Perizinan</h6>
-            <a href="?page=perizinan_tampil" class="btn btn-primary btn-icon-split btn-sm">
+            <h6 class="m-0 font-weight-bold text-primary">Edit Proposal</h6>
+            <a href="?page=proposal_tampil" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
                 </span>
@@ -155,34 +155,8 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
                 </div>
 
                 <div class="form-group mb-2">
-                    <label>Jenis Laporan</label>
-                    <select name="jenis_laporan" id="jenis_laporan" class="form-control" required>
-                        <option value="">-- Pilih Jenis Laporan--</option>
-                        <?php
-                        $jenis_list = [
-                            "KKPR", "PERSETUJUAN LINGKUNGAN", "SURAT LAIK FUNGSI", "PERSETUJUAN BANGUNAN DAN GEDUNG", "NOMOR INDUK BERUSAHA", "NPWP",
-                            "PERIZINAN USAHA SEKTOR INDUSTRI", "SERTIFIKAT HALAL", "TKDN",
-                            "SNI", "SERTIFIKAT INDUSTRI HIJAU", "PELAPORAN S1 S2 SINAS",
-                            "KEPEMILIKAN AKUN SINAS", "KESESUAIAN KEGIATAN USAHA DENGAN BIDANG USAHA PERIZINAN PERUSAHAAN", "KESESUAIAN FASILITAS PRODUKSI DAN KAPASITAS SESUAI DENGAN PERIZINAN PERUSAHAAN",
-                            "IZIN USAHA INDSUTRI", "IZIN PERLUASAN INDUSTRI", "IZIN KAWASAN INDUSTRI",
-                            "IZIN PERLUASAN KAWASAN INDUSTRI"
-                        ];
-                        foreach ($jenis_list as $j) {
-                            $selected = ($data['jenis_laporan'] == $j) ? 'selected' : '';
-                            echo "<option value='$j' $selected>$j</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-
-                <div class="form-group mb-2">
-                    <label>No. Izin</label>
+                    <label>Tahun Usulan Kegiatan</label>
                     <input type="text" class="form-control" name="no_izin" required maxlength="200" value="<?= htmlspecialchars($data['no_izin']) ?>">
-                </div>
-
-                <div class="form-group mb-2">
-                    <label>Tanggal Dokumen</label>
-                    <input type="date" class="form-control" name="tgl_dokumen" required value="<?= $data['tgl_dokumen'] ?>">
                 </div>
 
                 <div class="form-group mb-2">

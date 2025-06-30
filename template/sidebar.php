@@ -184,8 +184,6 @@ if ($role == 'admin' || $role == 'superadmin') {
         </a>
     </li>
 
-    
-
     <hr class="sidebar-divider">
 
     <!-- Heading -->
@@ -214,12 +212,12 @@ if ($role == 'admin' || $role == 'superadmin') {
             <i class="fas fa-upload fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 jaringan Dokumentasi dan Informasi Hukum
-                    <span class="position-relative ml-2">
-                        <i class="fas fa-bell text-light"></i>
-                        <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
-                            <?= $jumlahsinasDiajukan; ?>
-                        </span>
+                <span class="position-relative ml-2">
+                    <i class="fas fa-bell text-light"></i>
+                    <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
+                        <?= $jumlahsinasDiajukan; ?>
                     </span>
+                </span>
             </span>
         </a>
     </li>

@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updateStmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);
         }
         $updateStmt->execute();
-        echo "<meta http-equiv='refresh' content='0; url=?page=perizinan_tampil'>";
+        echo "<meta http-equiv='refresh' content='0; url=?page=proposal_tampil'>";
         exit;
     }
 }
@@ -70,17 +70,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <!-- Tombol Tambah & Ekspor -->
             <div class="mb-3">
-                <a href="?page=tambah_perizinan" class="btn btn-primary btn-icon-split btn-sm">
+                <a href="?page=tambah_proposal" class="btn btn-primary btn-icon-split btn-sm">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                     </span>
                     <span class="text">Tambah Data</span>
-                </a>
-                <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-download" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Export Excel</span>
                 </a>
             </div>
 
@@ -164,11 +158,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                             <?php endif; ?>
 
                                             <?php if (($row['verifikasi'] == 'diterima' || $row['verifikasi'] == 'dikembalikan') && $role == 'superadmin'): ?>
-                                                <a href="?page=update_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                <a href="?page=update_proposal&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                                     <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                                     <span class="text">Edit</span>
                                                 </a>
-                                                <a href="?page=delete_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                <a href="?page=delete_proposal&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                     <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                                     <span class="text">Hapus</span>
                                                 </a>
@@ -181,11 +175,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                             <?php endif; ?>
 
                                             <?php if ($role == 'umum' && $row['verifikasi'] == 'dikembalikan'): ?>
-                                                <a href="?page=update_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                <a href="?page=update_proposal&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                                     <span class="icon text-white-50"><i class="fa fa-pencil-alt"></i></span>
                                                     <span class="text">Edit</span>
                                                 </a>
-                                                <a href="?page=delete_perizinan&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                <a href="?page=delete_proposal&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                     <span class="icon text-white-50"><i class="fa fa-trash"></i></span>
                                                     <span class="text">Hapus</span>
                                                 </a>
