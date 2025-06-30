@@ -184,6 +184,15 @@ if ($role == 'admin' || $role == 'superadmin') {
         </a>
     </li>
 
+    
+
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Data Pendukung
+    </div>
+
     <li class="nav-item">
         <a class="nav-link" href="?page=proposal_tampil">
             <i class="fas fa-upload fa-fw mr-2"></i>
@@ -197,6 +206,20 @@ if ($role == 'admin' || $role == 'superadmin') {
                         </span>
                     </span>
                 <?php endif; ?>
+            </span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="?page=jdih_tampil">
+            <i class="fas fa-upload fa-fw mr-2"></i>
+            <span class="d-inline-flex align-items-center">
+                jaringan Dokumentasi dan Informasi Hukum
+                    <span class="position-relative ml-2">
+                        <i class="fas fa-bell text-light"></i>
+                        <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
+                            <?= $jumlahsinasDiajukan; ?>
+                        </span>
+                    </span>
             </span>
         </a>
     </li>

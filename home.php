@@ -30,47 +30,57 @@ try {
         $grouped_konten[$konten['id_title']][] = $konten;
     }
 
-    // Ambil daftar tahun & triwulan yang tersedia
+    $bulan = date('n');
+$tahun = $_GET['tahun'] ?? date('Y');
+// Ambil tahun & triwulan dari GET atau default (berdasarkan bulan sekarang)
+if ($bulan >= 1 && $bulan <= 3) {
+    $triwulan_default = 'Triwulan I';
+} elseif ($bulan >= 4 && $bulan <= 6) {
+    $triwulan_default = 'Triwulan II';
+} elseif ($bulan >= 7 && $bulan <= 9) {
+    $triwulan_default = 'Triwulan III';
+} else {
+    $triwulan_default = 'Triwulan IV';
+}
+
+$triwulanList = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
+$triwulan = isset($_GET['triwulan']) && in_array($_GET['triwulan'], $triwulanList) ? $_GET['triwulan'] : $triwulan_default;
+
+    // Ambil daftar tahun dari data_sinas
     $queryTahun = "SELECT DISTINCT SUBSTRING(triwulan, -4) AS tahun FROM data_sinas ORDER BY tahun DESC";
     $stmtTahun = $conn->query($queryTahun);
     $tahunList = $stmtTahun->fetchAll(PDO::FETCH_COLUMN);
 
     $triwulanList = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
 
-    // Ambil filter dari GET atau default
-    $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
-    $triwulan = isset($_GET['triwulan']) ? $_GET['triwulan'] : 'Semua';
+    // Ambil semua perusahaan
+    $queryPerusahaan = "SELECT id_user, nama_perusahaan FROM profil_perusahaan";
+    $stmtPerusahaan = $conn->query($queryPerusahaan);
+    $perusahaanList = $stmtPerusahaan->fetchAll(PDO::FETCH_ASSOC);
+    $totalPerusahaan = count($perusahaanList);
 
-    // Hitung total perusahaan
-    $queryTotal = "SELECT COUNT(DISTINCT id_user) AS total_perusahaan FROM profil_perusahaan";
-    $stmtTotal = $conn->query($queryTotal);
-    $totalPerusahaan = $stmtTotal->fetch(PDO::FETCH_ASSOC)['total_perusahaan'] ?? 0;
-
-    // Hitung yang sudah upload
-    $querySudah = "SELECT COUNT(DISTINCT id_user) AS sudah_upload 
-                   FROM data_sinas 
-                   WHERE upload IS NOT NULL AND upload != ''";
-
-    $params = [];
-
-    if ($triwulan != 'Semua') {
-        $querySudah .= " AND triwulan LIKE :tw";
-        $params[':tw'] = "$triwulan%";
+    // Ambil id_user yang sudah upload
+    if ($triwulan == 'Semua') {
+        $queryUpload = "SELECT DISTINCT id_user FROM data_sinas WHERE upload IS NOT NULL AND upload != '' AND triwulan LIKE :tahun";
+        $stmtUpload = $conn->prepare($queryUpload);
+        $stmtUpload->execute([':tahun' => "%$tahun"]);
+    } else {
+        $queryUpload = "SELECT DISTINCT id_user FROM data_sinas WHERE upload IS NOT NULL AND upload != '' AND triwulan = :tw";
+        $stmtUpload = $conn->prepare($queryUpload);
+        $stmtUpload->execute([':tw' => "$triwulan $tahun"]);
     }
 
-    $querySudah .= " AND triwulan LIKE :tahun";
-    $params[':tahun'] = "%$tahun%";
-
-    $stmtSudah = $conn->prepare($querySudah);
-    $stmtSudah->execute($params);
-    $sudahUpload = $stmtSudah->fetch(PDO::FETCH_ASSOC)['sudah_upload'] ?? 0;
+    $sudahUploadIds = $stmtUpload->fetchAll(PDO::FETCH_COLUMN);
+    $sudahUpload = count($sudahUploadIds);
 
     // Hitung belum upload
     $belumUpload = $totalPerusahaan - $sudahUpload;
+
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
 ?>
+
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
