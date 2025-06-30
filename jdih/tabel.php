@@ -15,7 +15,7 @@ try {
     $conn = $db->getConnection();
 
     // Ambil semua konten
-    $sql = "SELECT * FROM news ORDER BY tanggal DESC";
+    $sql = "SELECT * FROM djih ORDER BY tanggal DESC";
     $stmt = $conn->query($sql);
     $konten_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -31,7 +31,7 @@ try {
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Konten</h6>
-            <a href="?page=home" class="btn btn-primary btn-icon-split btn-sm">
+            <a href="?page=jdih_tampil" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
                 </span>
@@ -56,7 +56,7 @@ try {
 
             <!-- Tombol Tambah & Ekspor -->
             <div class="mb-3">
-                <a href="?page=tambah_konten" class="btn btn-primary btn-icon-split btn-sm">
+                <a href="?page=tambah_jdih" class="btn btn-primary btn-icon-split btn-sm">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                     </span>
@@ -116,11 +116,11 @@ try {
                                     <td><?= htmlspecialchars($row['caption']); ?></td>
                                     <td><?= htmlspecialchars($row['tanggal']); ?></td>
                                     <td>
-                                        <a href="?page=update_konten&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                        <a href="?page=update_jdih&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
                                             <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Edit</span>
                                         </a>
-                                        <a href="?page=delete_konten&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                        <a href="?page=delete_jdih&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                             <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
                                             <span class="text">Hapus</span>
                                         </a>

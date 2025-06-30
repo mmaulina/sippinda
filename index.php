@@ -45,6 +45,21 @@ include "koneksi.php";
                         case "delete_konten":
                             include "news/hapus.php";
 
+                        case "jdih_tampil":
+                            include "jdih/tampil.php";
+                            break;
+                        case "jdih_tabel":
+                            include "jdih/tabel.php";
+                            break;
+                        case "tambah_jdih":
+                            include "jdih/tambah.php";
+                            break;
+                        case "update_jdih":
+                            include "jdih/edit.php";
+                            break;
+                        case "delete_jdih":
+                            include "jdih/hapus.php";
+
                         // PROFIL PERUSAHAAN
                         case "profil_perusahaan":
                             include "perusahaan/tampil.php";
