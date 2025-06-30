@@ -151,7 +151,8 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
                         <option value="PERIZINAN USAHA SEKTOR INDUSTRI">PERIZINAN USAHA (SEKTOR INDUSTRI/SERTIFIKAT STANDART)</option>
                         <option value="SERTIFIKAT HALAL">SERTIFIKAT HALAL</option>
                         <option value="TKDN">TKDN</option>
-                        <option value="SNI">SNI/ISO</option>
+                        <option value="SNI">SNI</option>
+                        <option value="ISO">ISO</option>
                         <option value="SERTIFIKAT INDUSTRI HIJAU">SERTIFIKAT INDUSTRI HIJAU</option>
                         <option value="PELAPORAN S1 S2 SINAS">PELAPORAN S.11/S.2(SINAS)</option>
                         <option value="KEPEMILIKAN AKUN SINAS">KEPEMILIKAN AKUN SINAS</option>
@@ -161,6 +162,7 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
                         <option value="IZIN PERLUASAN INDUSTRI">IZIN PERLUASAN INDUSTRI</option>
                         <option value="IZIN KAWASAN INDUSTRI">IZIN KAWASAN INDUSTRI</option>
                         <option value="IZIN PERLUASAN KAWASAN INDUSTRI">IZIN PERLUASAN KAWASAN INDUSTRI</option>
+                        <option value="IZIN EDAR (BPOM)">IZIN EDAR (BPOM)</option>
                     </select>
                 </div>
                 <div class="form-group mb-2">
