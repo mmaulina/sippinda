@@ -45,7 +45,7 @@ include "koneksi.php";
                         case "delete_konten":
                             include "news/hapus.php";
 
-                            // PROFIL PERUSAHAAN
+                        // PROFIL PERUSAHAAN
                         case "profil_perusahaan":
                             include "perusahaan/tampil.php";
                             break;
@@ -162,6 +162,20 @@ include "koneksi.php";
                             break;
                         case "delete_data_siinas":
                             include "data_siinas/hapus.php";
+                            break;
+                        
+                        // PROPOSAL KEGIATAN
+                        case "proposal_tampil":
+                            include "proposal/tampil.php";
+                            break;
+                        case "tambah_proposal":
+                            include "proposal/tambah.php";
+                            break;
+                        case "update_proposal":
+                            include "proposal/edit.php";
+                            break;
+                        case "delete_proposal":
+                            include "proposal/hapus.php";
                             break;
 
                         // PENGGUNA

@@ -184,6 +184,23 @@ if ($role == 'admin' || $role == 'superadmin') {
         </a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="?page=proposal_tampil">
+            <i class="fas fa-upload fa-fw mr-2"></i>
+            <span class="d-inline-flex align-items-center">
+                Proposal Kegiatan
+                <?php if (($role == 'admin' && $jumlahsinasDiajukan > 0) || ($role == 'superadmin' && $jumlahsinasDiajukan > 0)): ?>
+                    <span class="position-relative ml-2">
+                        <i class="fas fa-bell text-light"></i>
+                        <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
+                            <?= $jumlahsinasDiajukan; ?>
+                        </span>
+                    </span>
+                <?php endif; ?>
+            </span>
+        </a>
+    </li>
+
     <?php if ($role == 'admin' || $role == 'superadmin'): ?>
         <!-- DATA PENGGUNA -->
         <!-- Divider -->
