@@ -41,14 +41,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-$chartData = [
-    "Triwulan I" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
-    "Triwulan II" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
-    "Triwulan III" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
-    "Triwulan IV" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
-];
+// $chartData = [
+//     "Triwulan I" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
+//     "Triwulan II" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
+//     "Triwulan III" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
+//     "Triwulan IV" => ["sudah" => 0, "belum" => 0, "perusahaan" => []],
+// ];
 
 $chartDataByYear = [];
+$chartDataGlobal = [
+    "Triwulan I" => ["sudah" => 0, "belum" => 0, "perusahaan_sudah" => [], "perusahaan_belum" => []],
+    "Triwulan II" => ["sudah" => 0, "belum" => 0, "perusahaan_sudah" => [], "perusahaan_belum" => []],
+    "Triwulan III" => ["sudah" => 0, "belum" => 0, "perusahaan_sudah" => [], "perusahaan_belum" => []],
+    "Triwulan IV" => ["sudah" => 0, "belum" => 0, "perusahaan_sudah" => [], "perusahaan_belum" => []],
+];
 
 // 1. Ambil semua perusahaan
 $queryPerusahaan = "SELECT id_user, nama_perusahaan FROM profil_perusahaan";
@@ -79,6 +85,17 @@ $tahunList = array_keys($tahunList);
 sort($tahunList); // urutkan tahun
 
 // 3. Loop setiap perusahaan dan cek tiap tahun dan triwulan
+$chartDataByYear = [];
+$chartDataGlobal = [
+    "Triwulan I" => ["sudah" => 0, "belum" => 0, "perusahaan_sudah" => [], "perusahaan_belum" => []],
+    "Triwulan II" => ["sudah" => 0, "belum" => 0, "perusahaan_sudah" => [], "perusahaan_belum" => []],
+    "Triwulan III" => ["sudah" => 0, "belum" => 0, "perusahaan_sudah" => [], "perusahaan_belum" => []],
+    "Triwulan IV" => ["sudah" => 0, "belum" => 0, "perusahaan_sudah" => [], "perusahaan_belum" => []],
+];
+
+// 1. Ambil perusahaan sudah kamu lakukan
+// 2. Buat index data_sinas juga sudah oke
+
 foreach ($perusahaanList as $perusahaan) {
     $id_user = $perusahaan['id_user'];
     $nama_perusahaan = $perusahaan['nama_perusahaan'];
@@ -87,45 +104,56 @@ foreach ($perusahaanList as $perusahaan) {
         foreach (["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"] as $tw) {
             $sudahUpload = $dataMap[$id_user][$tahun][$tw] ?? false;
 
-            // Inisialisasi jika belum ada
             if (!isset($chartDataByYear[$tahun][$tw])) {
-                $chartDataByYear[$tahun][$tw] = ['sudah' => 0, 'belum' => 0, 'perusahaan' => []];
+                $chartDataByYear[$tahun][$tw] = [
+                    'sudah' => 0,
+                    'belum' => 0,
+                    'perusahaan_sudah' => [],
+                    'perusahaan_belum' => []
+                ];
             }
 
-            // Tambah jumlah sesuai status
             if ($sudahUpload) {
                 $chartDataByYear[$tahun][$tw]['sudah']++;
+                $chartDataByYear[$tahun][$tw]['perusahaan_sudah'][] = $nama_perusahaan;
+
+                $chartDataGlobal[$tw]['sudah']++;
+                $chartDataGlobal[$tw]['perusahaan_sudah'][] = $nama_perusahaan;
             } else {
                 $chartDataByYear[$tahun][$tw]['belum']++;
+                $chartDataByYear[$tahun][$tw]['perusahaan_belum'][] = $nama_perusahaan;
+
+                $chartDataGlobal[$tw]['belum']++;
+                $chartDataGlobal[$tw]['perusahaan_belum'][] = $nama_perusahaan;
             }
-
-            $chartDataByYear[$tahun][$tw]['perusahaan'][$nama_perusahaan] = true;
-
-            // Tambahkan juga ke chartData global (tanpa tahun)
-            if (!isset($chartData[$tw])) {
-                $chartData[$tw] = ['sudah' => 0, 'belum' => 0, 'perusahaan' => []];
-            }
-
-            if ($sudahUpload) {
-                $chartData[$tw]['sudah']++;
-            } else {
-                $chartData[$tw]['belum']++;
-            }
-
-            $chartData[$tw]['perusahaan'][$nama_perusahaan] = true;
         }
     }
 }
 
-// 4. Hitung total perusahaan unik per triwulan global
-foreach ($chartData as $tw => &$data) {
-    $data['jumlah_perusahaan'] = count($data['perusahaan']);
+// Buat unik
+foreach ($chartDataGlobal as $tw => &$data) {
+    $data['perusahaan_sudah'] = array_unique($data['perusahaan_sudah']);
+    $data['perusahaan_belum'] = array_unique($data['perusahaan_belum']);
 }
+
+
+
+
+// 4. Hitung total perusahaan unik per triwulan global
+// foreach ($chartData as $tw => &$data) {
+//     $data['jumlah_perusahaan'] = count(array_unique(array_merge(
+//         $data['perusahaan_sudah'],
+//         $data['perusahaan_belum']
+//     )));
+// }
 
 // 5. Hitung total perusahaan unik per tahun dan triwulan
 foreach ($chartDataByYear as $tahun => &$triwulans) {
     foreach ($triwulans as $tw => &$data) {
-        $data['jumlah_perusahaan'] = count($data['perusahaan']);
+        $data['jumlah_perusahaan'] = count(array_unique(array_merge(
+            $data['perusahaan_sudah'],
+            $data['perusahaan_belum']
+        )));
     }
 }
 
@@ -331,178 +359,184 @@ foreach ($chartDataByYear as $tahun => &$triwulans) {
             </div>
         </div>
     </div>
-                            <?php if ($role == 'superadmin'): ?>
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Grafik Upload SIINas</h6>
-    </div>
-    <div class="card-body">
-        <?php
-        $tahunList = array_keys($chartDataByYear); // gunakan tahun dari $chartDataByYear
-        sort($tahunList);
-        ?>
-        <div class="form-group">
-            <label for="filterTahun">Filter Tahun:</label>
-            <select id="filterTahun" class="form-control form-control-sm" style="width: 200px;">
-                <?php foreach ($tahunList as $th): ?>
-                    <option value="<?= $th ?>" <?= $th == date('Y') ? 'selected' : '' ?>><?= $th ?></option>
-                <?php endforeach; ?>
-            </select>
+    <?php if ($role == 'superadmin'): ?>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Grafik Upload SIINas</h6>
+            </div>
+            <div class="card-body">
+                <?php
+                $tahunList = array_keys($chartDataByYear);
+                sort($tahunList);
+                ?>
+                <div class="form-group mb-2">
+                    <label for="filterTahun">Filter Tahun:</label>
+                    <select id="filterTahun" class="form-control form-control-sm" style="width: 200px; display: inline-block;">
+                        <?php foreach ($tahunList as $th): ?>
+                            <option value="<?= $th ?>" <?= $th == date('Y') ? 'selected' : '' ?>><?= $th ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="filterTriwulan">Filter Triwulan:</label>
+                    <select id="filterTriwulan" class="form-control form-control-sm" style="width: 200px; display: inline-block;">
+                        <option value="ALL">Semua Triwulan</option>
+                        <option value="Triwulan I">Triwulan I</option>
+                        <option value="Triwulan II">Triwulan II</option>
+                        <option value="Triwulan III">Triwulan III</option>
+                        <option value="Triwulan IV">Triwulan IV</option>
+                    </select>
+                </div>
+
+                <!-- Chart -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="chartSudah"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="chartBelum"></canvas>
+                    </div>
+                </div>
+
+                <!-- List Global atau Per Triwulan -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h6 class="text-primary" id="labelSudah">Perusahaan Sudah Upload</h6>
+                        <ul id="listSudah" class="list-group list-group-flush small"></ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-danger" id="labelBelum">Perusahaan Belum Upload</h6>
+                        <ul id="listBelum" class="list-group list-group-flush small"></ul>
+                    </div>
+                </div>
+            </div>
         </div>
 
-       <div class="row">
-    <div class="col-md-6">
-        <h6 class="text-primary">Sudah Upload</h6>
-        <canvas id="chartSudah" height="200"></canvas>
-    </div>
-    <div class="col-md-6">
-        <h6 class="text-danger">Belum Upload</h6>
-        <canvas id="chartBelum" height="200"></canvas>
-    </div>
-</div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const chartDataByYear = <?= json_encode($chartDataByYear) ?>;
+            const triwulanLabels = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
 
-    </div>
-</div>
+            const tahunSelect = document.getElementById("filterTahun");
+            const triwulanSelect = document.getElementById("filterTriwulan");
 
-<!-- Script Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const chartDataByYear = <?= json_encode($chartDataByYear) ?>;
-    const triwulanLabels = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
+            const ctxSudah = document.getElementById("chartSudah").getContext("2d");
+            const ctxBelum = document.getElementById("chartBelum").getContext("2d");
 
-    const tahunSelect = document.getElementById("filterTahun");
-    const selectedYear = tahunSelect.value;
-
-    const ctxSudah = document.getElementById("chartSudah").getContext("2d");
-    const ctxBelum = document.getElementById("chartBelum").getContext("2d");
-
-    const chartSudah = new Chart(ctxSudah, {
-        type: 'bar',
-        data: {
-            labels: triwulanLabels,
-            datasets: [{
-                label: 'Sudah Upload',
-                data: [],
-                backgroundColor: '#4e73df'
-            }]
-        },
-        options: {
-    indexAxis: 'y',
-    responsive: true,
-    scales: {
-        x: {
-            beginAtZero: true,
-            ticks: {
-                precision: 0,
-                callback: function(value) {
-                    if (Number.isInteger(value)) return value;
+            const chartSudah = new Chart(ctxSudah, {
+                type: 'bar',
+                data: {
+                    labels: triwulanLabels,
+                    datasets: [{
+                        label: 'Sudah Upload',
+                        data: [],
+                        backgroundColor: '#4e73df'
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
                 }
-            }
-        },
-        y: {
-            ticks: { autoSkip: false }
-        }
-    }
-}
+            });
 
-    });
-
-    const chartBelum = new Chart(ctxBelum, {
-        type: 'bar',
-        data: {
-            labels: triwulanLabels,
-            datasets: [{
-                label: 'Belum Upload',
-                data: [],
-                backgroundColor: '#e74a3b'
-            }]
-        },
-        options: {
-    indexAxis: 'y',
-    responsive: true,
-    scales: {
-        x: {
-            beginAtZero: true,
-            ticks: {
-                precision: 0,
-                callback: function(value) {
-                    if (Number.isInteger(value)) return value;
+            const chartBelum = new Chart(ctxBelum, {
+                type: 'bar',
+                data: {
+                    labels: triwulanLabels,
+                    datasets: [{
+                        label: 'Belum Upload',
+                        data: [],
+                        backgroundColor: '#e74a3b'
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
                 }
+            });
+
+            function updateCharts() {
+                const tahun = tahunSelect.value;
+                const triwulan = triwulanSelect.value;
+                const data = chartDataByYear[tahun] || {};
+
+                let sudah = [],
+                    belum = [];
+                let listSudah = [],
+                    listBelum = [];
+
+                if (triwulan === "ALL") {
+                    triwulanLabels.forEach(tw => {
+                        sudah.push(data[tw]?.sudah || 0);
+                        belum.push(data[tw]?.belum || 0);
+
+                        if (data[tw]?.perusahaan_sudah) listSudah.push(...data[tw].perusahaan_sudah);
+                        if (data[tw]?.perusahaan_belum) listBelum.push(...data[tw].perusahaan_belum);
+                    });
+                } else {
+                    sudah = triwulanLabels.map(tw => tw === triwulan ? (data[tw]?.sudah || 0) : 0);
+                    belum = triwulanLabels.map(tw => tw === triwulan ? (data[tw]?.belum || 0) : 0);
+
+                    listSudah = data[triwulan]?.perusahaan_sudah || [];
+                    listBelum = data[triwulan]?.perusahaan_belum || [];
+                }
+
+                chartSudah.data.datasets[0].data = sudah;
+                chartBelum.data.datasets[0].data = belum;
+                chartSudah.update();
+                chartBelum.update();
+
+                const listSudahElem = document.getElementById("listSudah");
+                const listBelumElem = document.getElementById("listBelum");
+                const labelSudah = document.getElementById("labelSudah");
+                const labelBelum = document.getElementById("labelBelum");
+
+                listSudahElem.innerHTML = "";
+                listBelumElem.innerHTML = "";
+
+                // Ubah judul list sesuai mode
+                if (triwulan === "ALL") {
+                    labelSudah.textContent = "Perusahaan Sudah Upload (Semua Triwulan)";
+                    labelBelum.textContent = "Perusahaan Belum Upload (Semua Triwulan)";
+                } else {
+                    labelSudah.textContent = `Perusahaan Sudah Upload (${triwulan})`;
+                    labelBelum.textContent = `Perusahaan Belum Upload (${triwulan})`;
+                }
+
+                [...new Set(listSudah)].forEach(p => {
+                    const li = document.createElement("li");
+                    li.textContent = p;
+                    li.className = "list-group-item";
+                    listSudahElem.appendChild(li);
+                });
+
+                [...new Set(listBelum)].forEach(p => {
+                    const li = document.createElement("li");
+                    li.textContent = p;
+                    li.className = "list-group-item";
+                    listBelumElem.appendChild(li);
+                });
             }
-        },
-        y: {
-            ticks: { autoSkip: false }
-        }
-    }
-}
 
-    });
-
-    function updateCharts(tahun) {
-        const data = chartDataByYear[tahun] || {};
-        const sudah = [], belum = [];
-
-        triwulanLabels.forEach(tw => {
-            sudah.push(data[tw]?.sudah || 0);
-            belum.push(data[tw]?.belum || 0);
-        });
-
-        chartSudah.data.datasets[0].data = sudah;
-        chartBelum.data.datasets[0].data = belum;
-
-        chartSudah.update();
-        chartBelum.update();
-    }
-
-    // Inisialisasi
-    updateCharts(selectedYear);
-    tahunSelect.addEventListener("change", () => updateCharts(tahunSelect.value));
-</script>
-<?php endif; ?>
-
-</div>
-<!-- /.container-fluid -->
-
-<!-- JAVASCRIPT FILTER -->
-<script>
-    function sortTable(columnIndex) {
-        var table = document.querySelector("table tbody");
-        var rows = Array.from(table.querySelectorAll("tr"));
-        var isAscending = table.getAttribute("data-sort-order") === "asc";
-
-        // Sort rows
-        rows.sort((rowA, rowB) => {
-            var cellA = rowA.children[columnIndex].textContent.trim().toLowerCase();
-            var cellB = rowB.children[columnIndex].textContent.trim().toLowerCase();
-
-            if (!isNaN(cellA) && !isNaN(cellB)) {
-                return isAscending ? cellA - cellB : cellB - cellA;
-            }
-            return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
-        });
-
-        // Remove existing rows
-        table.innerHTML = "";
-
-        // Append sorted rows
-        rows.forEach(row => table.appendChild(row));
-
-        // Toggle sorting order
-        table.setAttribute("data-sort-order", isAscending ? "desc" : "asc");
-
-        // Update icon
-        updateSortIcons(columnIndex, isAscending);
-    }
-
-    function updateSortIcons(columnIndex, isAscending) {
-        var headers = document.querySelectorAll("thead th i");
-        headers.forEach(icon => icon.className = "fa fa-sort"); // Reset semua ikon
-
-        var selectedHeader = document.querySelector(`thead th:nth-child(${columnIndex + 1}) i`);
-        if (selectedHeader) {
-            selectedHeader.className = isAscending ? "fa fa-sort-up" : "fa fa-sort-down";
-        }
-    }
-</script>
-
-
+            updateCharts();
+            tahunSelect.addEventListener("change", updateCharts);
+            triwulanSelect.addEventListener("change", updateCharts);
+        </script>
+    <?php endif; ?>
