@@ -31,20 +31,20 @@ try {
     }
 
     $bulan = date('n');
-$tahun = $_GET['tahun'] ?? date('Y');
-// Ambil tahun & triwulan dari GET atau default (berdasarkan bulan sekarang)
-if ($bulan >= 1 && $bulan <= 3) {
-    $triwulan_default = 'Triwulan I';
-} elseif ($bulan >= 4 && $bulan <= 6) {
-    $triwulan_default = 'Triwulan II';
-} elseif ($bulan >= 7 && $bulan <= 9) {
-    $triwulan_default = 'Triwulan III';
-} else {
-    $triwulan_default = 'Triwulan IV';
-}
+    $tahun = $_GET['tahun'] ?? date('Y');
+    // Ambil tahun & triwulan dari GET atau default (berdasarkan bulan sekarang)
+    if ($bulan >= 1 && $bulan <= 3) {
+        $triwulan_default = 'Triwulan I';
+    } elseif ($bulan >= 4 && $bulan <= 6) {
+        $triwulan_default = 'Triwulan II';
+    } elseif ($bulan >= 7 && $bulan <= 9) {
+        $triwulan_default = 'Triwulan III';
+    } else {
+        $triwulan_default = 'Triwulan IV';
+    }
 
-$triwulanList = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
-$triwulan = isset($_GET['triwulan']) && in_array($_GET['triwulan'], $triwulanList) ? $_GET['triwulan'] : $triwulan_default;
+    $triwulanList = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
+    $triwulan = isset($_GET['triwulan']) && in_array($_GET['triwulan'], $triwulanList) ? $_GET['triwulan'] : $triwulan_default;
 
     // Ambil daftar tahun dari data_sinas
     $queryTahun = "SELECT DISTINCT SUBSTRING(triwulan, -4) AS tahun FROM data_sinas ORDER BY tahun DESC";
@@ -75,7 +75,6 @@ $triwulan = isset($_GET['triwulan']) && in_array($_GET['triwulan'], $triwulanLis
 
     // Hitung belum upload
     $belumUpload = $totalPerusahaan - $sudahUpload;
-
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
@@ -85,82 +84,93 @@ $triwulan = isset($_GET['triwulan']) && in_array($_GET['triwulan'], $triwulanLis
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <div class="container-fluid">
+    <div class="text-center my-2">
+        <h1 class="h3 text-gray-800 mb-3">WELCOME TO SIPPINDA</h1>
+        <p class="text-muted mb-4">Sistem Informasi Pengawasan Pengendalian Industri Daerah yang Menjadi Kewenangan Provinsi</p>
+    </div>
 
-        <div class="text-center my-2">
-            <h1 class="h3 text-gray-800 mb-3">WELCOME TO SIPPINDA</h1>
-            <p class="text-muted mb-4">Sistem Informasi Pengawasan Pengendalian Industri Daerah yang Menjadi Kewenangan Provinsi</p>
-        </div>
+    <!-- Content Row -->
+    <div class="row">
+        <!-- Dashboard -->
+        <div class="container-fluid">
 
-        <!-- Filter -->
-        <form method="get" class="row mb-4">
-            <div class="col-md-3">
-                <label for="tahun" class="form-label">Tahun:</label>
-                <select name="tahun" id="tahun" class="form-control">
-                    <?php foreach ($tahunList as $th): ?>
-                        <option value="<?= $th ?>" <?= $th == $tahun ? 'selected' : '' ?>><?= $th ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="triwulan" class="form-label">Triwulan:</label>
-                <select name="triwulan" id="triwulan" class="form-control">
-                    <option value="Semua" <?= $triwulan == 'Semua' ? 'selected' : '' ?>>Semua</option>
-                    <?php foreach ($triwulanList as $tw): ?>
-                        <option value="<?= $tw ?>" <?= $tw == $triwulan ? 'selected' : '' ?>><?= $tw ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary">Filter</button>
-            </div>
-        </form>
-
-        <div class="row">
-            <!-- Sudah Upload -->
-            <div class="col-md-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Perusahaan Sudah Upload
-                        </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            <?= $sudahUpload ?>
-                        </div>
-                    </div>
+            <!-- Filter Form -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Dashboard Upload Data SIINas</h6>
                 </div>
-            </div>
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-5">
+                            <label for="tahun" class="form-label">Tahun</label>
+                            <select name="tahun" id="tahun" class="form-control">
+                                <?php foreach ($tahunList as $th): ?>
+                                    <option value="<?= $th ?>" <?= $th == $tahun ? 'selected' : '' ?>><?= $th ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="triwulan" class="form-label">Triwulan</label>
+                            <select name="triwulan" id="triwulan" class="form-control">
+                                <option value="Semua" <?= $triwulan == 'Semua' ? 'selected' : '' ?>>Semua</option>
+                                <?php foreach ($triwulanList as $tw): ?>
+                                    <option value="<?= $tw ?>" <?= $tw == $triwulan ? 'selected' : '' ?>><?= $tw ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">Filter</button>
+                        </div>
+                    </form>
+                    <!-- Cards Row -->
+                    <div class="row">
+                        <!-- Total Perusahaan -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Perusahaan Terdaftar
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <?= $totalPerusahaan ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Belum Upload -->
-            <div class="col-md-4">
-                <div class="card border-left-danger shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                            Perusahaan Belum Upload
+                        <!-- Sudah Upload -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Perusahaan Sudah Upload
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <?= $sudahUpload ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            <?= $belumUpload ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Total Perusahaan -->
-            <div class="col-md-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Total Perusahaan Terdaftar
-                        </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            <?= $totalPerusahaan ?>
+                        <!-- Belum Upload -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                        Perusahaan Belum Upload
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                        <?= $belumUpload ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 
     <!-- Content Row -->
