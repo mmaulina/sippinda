@@ -78,6 +78,10 @@ try {
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
+// Bagi data perusahaan
+$sudahUploadList = array_filter($perusahaanList, fn($p) => in_array($p['id_user'], $sudahUploadIds));
+$belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user'], $sudahUploadIds));
+
 ?>
 
 
@@ -126,45 +130,34 @@ try {
                     <div class="row">
                         <!-- Total Perusahaan -->
                         <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        Total Perusahaan Terdaftar
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        <?= $totalPerusahaan ?>
-                                    </div>
-                                </div>
+                        <div class="card border-left-primary shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalTotalPerusahaan" style="cursor:pointer;">
+                            <div class="card-body">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Perusahaan Terdaftar</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalPerusahaan ?></div>
                             </div>
+                        </div>
                         </div>
 
                         <!-- Sudah Upload -->
                         <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        Perusahaan Sudah Upload
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        <?= $sudahUpload ?>
-                                    </div>
-                                </div>
+                        <div class="card border-left-success shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalSudahUpload" style="cursor:pointer;">
+                            <div class="card-body">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Perusahaan Sudah Upload</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $sudahUpload ?></div>
                             </div>
+                        </div>
                         </div>
 
                         <!-- Belum Upload -->
                         <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                        Perusahaan Belum Upload
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        <?= $belumUpload ?>
-                                    </div>
-                                </div>
+                        <div class="card border-left-danger shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalBelumUpload" style="cursor:pointer;">
+                            <div class="card-body">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Perusahaan Belum Upload</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $belumUpload ?></div>
                             </div>
                         </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -221,4 +214,76 @@ try {
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal: Total Perusahaan -->
+<div class="modal fade" id="modalTotalPerusahaan" tabindex="-1" aria-labelledby="modalTotalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTotalLabel">Daftar Seluruh Perusahaan Terdaftar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-sm">
+          <thead class="table-primary">
+            <tr><th>No</th><th>Nama Perusahaan</th></tr>
+          </thead>
+          <tbody>
+            <?php $no = 1; foreach ($perusahaanList as $p): ?>
+              <tr><td><?= $no++ ?></td><td><?= htmlspecialchars($p['nama_perusahaan']) ?></td></tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Sudah Upload -->
+<div class="modal fade" id="modalSudahUpload" tabindex="-1" aria-labelledby="modalSudahUploadLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSudahUploadLabel">Perusahaan yang Sudah Upload</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-sm">
+          <thead class="table-success">
+            <tr><th>No</th><th>Nama Perusahaan</th></tr>
+          </thead>
+          <tbody>
+            <?php $no = 1; foreach ($sudahUploadList as $p): ?>
+              <tr><td><?= $no++ ?></td><td><?= htmlspecialchars($p['nama_perusahaan']) ?></td></tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Belum Upload -->
+<div class="modal fade" id="modalBelumUpload" tabindex="-1" aria-labelledby="modalBelumUploadLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalBelumUploadLabel">Perusahaan yang Belum Upload</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-sm">
+          <thead class="table-danger">
+            <tr><th>No</th><th>Nama Perusahaan</th></tr>
+          </thead>
+          <tbody>
+            <?php $no = 1; foreach ($belumUploadList as $p): ?>
+              <tr><td><?= $no++ ?></td><td><?= htmlspecialchars($p['nama_perusahaan']) ?></td></tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
