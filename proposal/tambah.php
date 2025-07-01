@@ -34,36 +34,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return trim(strip_tags($data));
     }
 
-    $jenis_laporan = sanitize_input($_POST['jenis_laporan']);
-    $no_izin = sanitize_input($_POST['no_izin']);
-    $tgl_dokumen = sanitize_input($_POST['tgl_dokumen']);
-    $upload_berkas = uploadFile('upload_berkas', $jenis_laporan, $nama_perusahaan, $no_izin);
+    $tahun = sanitize_input($_POST['tahun']);
+    $upload = uploadFile('upload', $nama_perusahaan);
 
-    if ($upload_berkas === null) {
+    if ($upload === null) {
         echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/doc/docx/xls/xlsx) dan ukuran maksimal 10MB.'); history.back();</script>";
         exit;
     }
 
-    $verifikasi = 'diajukan';
+    $status = 'diajukan';
     $keterangan = '-';
-    $tgl_verif = null;
 
     try {
         if ($profil && !empty($profil['nama_perusahaan'])) {
             $nama_perusahaan = $profil['nama_perusahaan'];
 
-            $sql = "INSERT INTO perizinan (id_user, nama_perusahaan, jenis_laporan, no_izin, tgl_dokumen, upload_berkas, verifikasi, keterangan, tgl_verif) 
-                    VALUES (:id_user, :nama_perusahaan, :jenis_laporan, :no_izin, :tgl_dokumen, :upload_berkas, :verifikasi, :keterangan, :tgl_verif)";
+            $sql = "INSERT INTO proposal (id_user, nama_perusahaan, tahun, upload, status, keterangan) 
+                    VALUES (:id_user, :nama_perusahaan,  :tahun, :upload, :status, :keterangan)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
             $stmt->bindParam(':nama_perusahaan', $nama_perusahaan, PDO::PARAM_STR);
-            $stmt->bindParam(':jenis_laporan', $jenis_laporan, PDO::PARAM_STR);
-            $stmt->bindParam(':no_izin', $no_izin, PDO::PARAM_STR);
-            $stmt->bindParam(':tgl_dokumen', $tgl_dokumen, PDO::PARAM_STR);
-            $stmt->bindParam(':upload_berkas', $upload_berkas, PDO::PARAM_STR);
-            $stmt->bindParam(':verifikasi', $verifikasi, PDO::PARAM_STR);
+            $stmt->bindParam(':tahun', $tahun, PDO::PARAM_STR);
+            $stmt->bindParam(':upload', $upload, PDO::PARAM_STR);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
             $stmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);
-            $stmt->bindParam(':tgl_verif', $tgl_verif, PDO::PARAM_STR);
 
             if ($stmt->execute()) {
                 echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=proposal_tampil';</script>";
@@ -79,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
-function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
+function uploadFile($input_name, $nama_perusahaan)
 {
     if (!empty($_FILES[$input_name]['name'])) {
         $maxSize = 10 * 1024 * 1024; // 10MB
@@ -91,15 +85,13 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
         $target_dir = "uploads/";
 
         // Bersihkan nama-nama agar aman sebagai nama file
-        $jenis_laporan = preg_replace("/[^a-zA-Z0-9]/", "", $jenis_laporan);
         $nama_perusahaan = preg_replace("/[^a-zA-Z0-9]/", "", $nama_perusahaan);
-        $no_izin = preg_replace("/[^a-zA-Z0-9]/", "", $no_izin);
 
         $datetime = date('Ymd_His'); // Format: 20250617_153012
         $kode_unik = substr(md5(uniqid(rand(), true)), 0, 6); // 6 karakter acak
 
         $file_ext = pathinfo($_FILES[$input_name]["name"], PATHINFO_EXTENSION);
-        $new_file_name = "{$jenis_laporan}_{$nama_perusahaan}_{$no_izin}_{$datetime}_{$kode_unik}.{$file_ext}";
+        $new_file_name = "{$nama_perusahaan}_{$datetime}_{$kode_unik}.{$file_ext}";
 
         $target_file = $target_dir . $new_file_name;
 
@@ -139,12 +131,14 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
                     </small>
                 </div>
                 <div class="form-group mb-2">
-                    <label>Tahun Usulan Kegiatan</label>
-                    <input type="text" class="form-control" name="no_izin" placeholder="Masukkan Tahun Usulan Kegiatan" required maxlength="200"></input>
+                    <label class="form-label">Tahun Usulan Kegiatan</label>
+                    <select class="form-control" name="tahun" id="tahun" required>
+                        <option value="">-- Pilih Tahun --</option>
+                    </select>
                 </div>
                 <div class="form-group mb-2">
-                    <label for="upload_berkas">Upload Berkas (PDF, DOC , DOCX, XLS, XLSX)</label>
-                    <input type="file" name="upload_berkas" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                    <label for="upload">Upload Berkas (PDF, DOC , DOCX, XLS, XLSX)</label>
+                    <input type="file" name="upload" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx">
                     <small class="text-danger">Max File 10Mb</small>
                 </div>
                 <!-- Tombol Simpan dan Batal -->
@@ -156,3 +150,18 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
         </div>
     </div>
 </div>
+<script>
+    const tahunSelect = document.getElementById('tahun');
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    const startYear = currentYear - 1;
+    const endYear = currentYear + 10;
+
+    for (let year = startYear; year <= endYear; year++) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        tahunSelect.appendChild(option);
+    }
+</script>

@@ -14,6 +14,19 @@ if (!isset($_SESSION['id_user'])) {
 $id_laporan = isset($_GET['id']) ? $_GET['id'] : null;
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
 
+$database = new Database();
+$db = $database->getConnection();
+$query = "SELECT * FROM proposal WHERE id = :id";
+$stmt = $db->prepare($query);
+$stmt->bindParam(':id', $id_laporan);
+$stmt->execute();
+$data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$data) {
+    echo "<script>alert('Data tidak ditemukan!'); window.location.href='?page=proposal_tampil';</script>";
+    exit;
+}
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $database = new Database();
@@ -26,32 +39,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $nama_perusahaan = sanitizeInput($_POST['nama_perusahaan']);
-    $jenis_laporan = sanitizeInput($_POST['jenis_laporan']);
-    $no_izin = sanitizeInput($_POST['no_izin']);
-    $tgl_dokumen = sanitizeInput($_POST['tgl_dokumen']);
-    $upload_berkas = uploadFile('upload_berkas', $jenis_laporan, $nama_perusahaan, $no_izin);
+    $tahun = sanitizeInput($_POST['tahun']);
+    $upload = uploadFile('upload', $nama_perusahaan);
 
-    if ($upload_berkas === null) {
-    echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/doc/docx/xls/xlsx) dan ukuran maksimal 10MB.'); history.back();</script>";
-    exit;
-}
+    // Jika tidak ada file baru diunggah, gunakan file lama
+    if ($upload === null && empty($_FILES['upload']['name'])) {
+        $upload = $data['upload']; // Gunakan file lama
+    } elseif ($upload === null && !empty($_FILES['upload']['name'])) {
+        // Ada file tapi gagal upload
+        echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/doc/docx/xls/xlsx) dan ukuran maksimal 10MB.'); history.back();</script>";
+        exit;
+    }
 
-    $verifikasi = 'diajukan';
+    $status = 'diajukan';
     $keterangan = '-';
-    $tgl_verif = null;
 
-    $updateSQL = "UPDATE perizinan SET 
+    $updateSQL = "UPDATE proposal SET 
     nama_perusahaan = :nama_perusahaan,
-    jenis_laporan=:jenis_laporan, 
-    no_izin=:no_izin,
-    tgl_dokumen=:tgl_dokumen,
-    verifikasi=:verifikasi,
-    keterangan=:keterangan,
-    tgl_verif=:tgl_verif";
+    tahun=:tahun, 
+    status=:status,
+    keterangan=:keterangan";
 
     // Hanya tambahkan file_laporan ke query jika ada file yang diunggah
-    if ($upload_berkas !== null) {
-        $updateSQL .= ", upload_berkas = :upload_berkas";
+    if ($upload !== null) {
+        $updateSQL .= ", upload = :upload";
     }
 
     $updateSQL .= " WHERE id = :id ";
@@ -59,18 +70,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $db->prepare($updateSQL);
 
     // Bind parameter yang wajib
-    $stmt->bindParam(':id', $id_laporan);
-    $stmt->bindParam(':nama_perusahaan', $nama_perusahaan, PDO::PARAM_STR);
-    $stmt->bindParam(':jenis_laporan', $jenis_laporan, PDO::PARAM_STR);
-    $stmt->bindParam(':no_izin', $no_izin, PDO::PARAM_STR);
-    $stmt->bindParam(':tgl_dokumen', $tgl_dokumen, PDO::PARAM_STR);
-    $stmt->bindParam(':verifikasi', $verifikasi, PDO::PARAM_STR);
-    $stmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);
-    $stmt->bindParam(':tgl_verif', $tgl_verif, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id_laporan);
+            $stmt->bindParam(':nama_perusahaan', $nama_perusahaan, PDO::PARAM_STR);
+            $stmt->bindParam(':tahun', $tahun, PDO::PARAM_STR);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            $stmt->bindParam(':keterangan', $keterangan, PDO::PARAM_STR);
 
     // Bind parameter hanya jika file diunggah
-    if ($upload_berkas !== null) {
-        $stmt->bindParam(':upload_berkas', $upload_berkas);
+    if ($upload !== null) {
+        $stmt->bindParam(':upload', $upload);
     }
 
     if ($stmt->execute()) {
@@ -84,21 +92,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "<meta http-equiv='refresh' content='0; url=?page=proposal_tampil'>";
 }
 
-$database = new Database();
-$db = $database->getConnection();
-$query = "SELECT * FROM perizinan WHERE id = :id";
-$stmt = $db->prepare($query);
-$stmt->bindParam(':id', $id_laporan);
-$stmt->execute();
-$data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$data) {
-    echo "<script>alert('Data tidak ditemukan!'); window.location.href='?page=proposal_tampil';</script>";
-    exit;
-}
 
 
-function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
+
+function uploadFile($input_name, $nama_perusahaan)
 {
     if (!empty($_FILES[$input_name]['name'])) {
         $maxSize = 10 * 1024 * 1024; // 10MB
@@ -110,15 +107,13 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
         $target_dir = "uploads/";
 
         // Bersihkan nama-nama agar aman sebagai nama file
-        $jenis_laporan = preg_replace("/[^a-zA-Z0-9]/", "", $jenis_laporan);
         $nama_perusahaan = preg_replace("/[^a-zA-Z0-9]/", "", $nama_perusahaan);
-        $no_izin = preg_replace("/[^a-zA-Z0-9]/", "", $no_izin);
 
         $datetime = date('Ymd_His'); // Format: 20250617_153012
         $kode_unik = substr(md5(uniqid(rand(), true)), 0, 6); // 6 karakter acak
 
         $file_ext = pathinfo($_FILES[$input_name]["name"], PATHINFO_EXTENSION);
-        $new_file_name = "{$jenis_laporan}_{$nama_perusahaan}_{$no_izin}_{$datetime}_{$kode_unik}.{$file_ext}";
+        $new_file_name = "{$nama_perusahaan}_{$datetime}_{$kode_unik}.{$file_ext}";
 
         $target_file = $target_dir . $new_file_name;
 
@@ -151,19 +146,21 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
                 <div class="form-group mb-2">
                     <label>Nama Perusahaan</label>
                     <input type="text" class="form-control" name="nama_perusahaan" required maxlength="100" value="<?= htmlspecialchars($data['nama_perusahaan']) ?>" readonly>
-                    <small class="text-muted">Catatan: nama perusahaan sesuai perizinan</small>
+                    <small class="text-muted">Catatan: nama perusahaan sesuai proposal</small>
                 </div>
 
                 <div class="form-group mb-2">
-                    <label>Tahun Usulan Kegiatan</label>
-                    <input type="text" class="form-control" name="no_izin" required maxlength="200" value="<?= htmlspecialchars($data['no_izin']) ?>">
+                    <label class="form-label">Tahun Usulan Kegiatan</label>
+                    <select class="form-control" name="tahun" id="tahun" required>
+                        <option value="">-- Pilih Tahun --</option>
+                    </select>
                 </div>
 
                 <div class="form-group mb-2">
                     <label class="form-label">Upload Berkas (PDF, DOC, DOCX, XLS, XLSX)</label>
-                    <input type="file" name="upload_berkas" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx">
-                    <?php if (!empty($data['upload_berkas'])): ?>
-                        <small class="text-success">File saat ini: <a href="<?= $data['upload_berkas'] ?>" target="_blank">Lihat Berkas</a></small><br>
+                    <input type="file" name="upload" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                    <?php if (!empty($data['upload'])): ?>
+                        <small class="text-success">File saat ini: <a href="<?= $data['upload'] ?>" target="_blank">Lihat Berkas</a></small><br>
                     <?php endif; ?>
                     <small class="text-danger">Max File 10Mb. Kosongkan jika tidak ingin mengubah file.</small>
                 </div>
@@ -177,3 +174,22 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
         </div>
     </div>
 </div>
+
+<script>
+    const tahunSelect = document.getElementById('tahun');
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 1;
+    const endYear = currentYear + 10;
+    const selectedYear = "<?= isset($data['tahun']) ? $data['tahun'] : '' ?>";
+
+    for (let year = startYear; year <= endYear; year++) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        if (year == selectedYear) {
+            option.selected = true;
+        }
+        tahunSelect.appendChild(option);
+    }
+</script>
+
