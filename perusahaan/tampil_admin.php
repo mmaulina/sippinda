@@ -51,7 +51,7 @@ try {
 
             <!-- Tombol Tambah & Ekspor -->
             <div class="mb-3">
-                <a href="?page=tambah_profil" class="btn btn-primary btn-icon-split btn-sm">
+                <!-- <a href="?page=tambah_profil" class="btn btn-primary btn-icon-split btn-sm">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                     </span>
@@ -62,7 +62,7 @@ try {
                         <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                     </span>
                     <span class="text">Tambah Bidang Perusahaan</span>
-                </a>
+                </a> -->
                 <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
                     <span class="icon text-white-50">
                         <i class="fas fa-download" style="vertical-align: middle; margin-top: 5px;"></i>

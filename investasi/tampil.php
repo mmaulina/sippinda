@@ -44,12 +44,14 @@ try {
 
             <!-- Tombol Tambah & Ekspor -->
             <div class="mb-3">
+                <?php if ($role == 'umum'): ?>
                 <a href="?page=tambah_investasi" class="btn btn-primary btn-icon-split btn-sm">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
                     </span>
                     <span class="text">Tambah Data</span>
                 </a>
+                <?php endif; ?>
                 <a href="?page=excel_investasi" class="btn btn-success btn-icon-split btn-sm">
                     <span class="icon text-white-50">
                         <i class="fas fa-download" style="vertical-align: middle; margin-top: 5px;"></i>

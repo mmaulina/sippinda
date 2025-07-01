@@ -54,34 +54,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
         <div class="card-body">
             <!-- Fitur Search -->
-            <div class="mb-3">
-                <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-1 small" placeholder="Search for..."
-                            aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
+            <?php if ($role != 'umum'): ?>
+                <div class="mb-3">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-1 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            <?php endif; ?>
 
             <!-- Tombol Tambah & Ekspor -->
             <div class="mb-3">
-                <a href="?page=tambah_data_siinas" class="btn btn-primary btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Tambah Data</span>
-                </a>
-                <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-download" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Export Excel</span>
-                </a>
+                <?php if ($role == 'umum'): ?>
+                    <a href="?page=tambah_data_siinas" class="btn btn-primary btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                        </span>
+                        <span class="text">Tambah Data</span>
+                    </a>
+                <?php endif; ?>
             </div>
 
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
@@ -241,4 +239,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         </div>
     </div>
-    
