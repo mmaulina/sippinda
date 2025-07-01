@@ -99,6 +99,7 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
         <div class="container-fluid">
 
             <!-- Filter Form -->
+             <?php if ($role == 'admin' || $role == 'superadmin'): ?>
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold text-primary">Dashboard Upload Data SIINas</h6>
@@ -161,6 +162,7 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -217,73 +219,73 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
 </div>
 
 <!-- Modal: Total Perusahaan -->
-<div class="modal fade" id="modalTotalPerusahaan" tabindex="-1" aria-labelledby="modalTotalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalTotalLabel">Daftar Seluruh Perusahaan Terdaftar</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-      </div>
-      <div class="modal-body">
-        <table class="table table-bordered table-sm">
-          <thead class="table-primary">
-            <tr><th>No</th><th>Nama Perusahaan</th></tr>
-          </thead>
-          <tbody>
-            <?php $no = 1; foreach ($perusahaanList as $p): ?>
-              <tr><td><?= $no++ ?></td><td><?= htmlspecialchars($p['nama_perusahaan']) ?></td></tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+                <div class="modal fade" id="modalTotalPerusahaan" tabindex="-1" aria-labelledby="modalTotalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTotalLabel">Daftar Seluruh Perusahaan Terdaftar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-sm">
+                        <thead class="table-primary">
+                            <tr><th>No</th><th>Nama Perusahaan</th></tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 1; foreach ($perusahaanList as $p): ?>
+                            <tr><td><?= $no++ ?></td><td><?= htmlspecialchars($p['nama_perusahaan']) ?></td></tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+                </div>
 
-<!-- Modal: Sudah Upload -->
-<div class="modal fade" id="modalSudahUpload" tabindex="-1" aria-labelledby="modalSudahUploadLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalSudahUploadLabel">Perusahaan yang Sudah Upload</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-      </div>
-      <div class="modal-body">
-        <table class="table table-bordered table-sm">
-          <thead class="table-success">
-            <tr><th>No</th><th>Nama Perusahaan</th></tr>
-          </thead>
-          <tbody>
-            <?php $no = 1; foreach ($sudahUploadList as $p): ?>
-              <tr><td><?= $no++ ?></td><td><?= htmlspecialchars($p['nama_perusahaan']) ?></td></tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+                <!-- Modal: Sudah Upload -->
+                <div class="modal fade" id="modalSudahUpload" tabindex="-1" aria-labelledby="modalSudahUploadLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalSudahUploadLabel">Perusahaan yang Sudah Upload</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-sm">
+                        <thead class="table-success">
+                            <tr><th>No</th><th>Nama Perusahaan</th></tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 1; foreach ($sudahUploadList as $p): ?>
+                            <tr><td><?= $no++ ?></td><td><?= htmlspecialchars($p['nama_perusahaan']) ?></td></tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+                </div>
 
-<!-- Modal: Belum Upload -->
-<div class="modal fade" id="modalBelumUpload" tabindex="-1" aria-labelledby="modalBelumUploadLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalBelumUploadLabel">Perusahaan yang Belum Upload</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-      </div>
-      <div class="modal-body">
-        <table class="table table-bordered table-sm">
-          <thead class="table-danger">
-            <tr><th>No</th><th>Nama Perusahaan</th></tr>
-          </thead>
-          <tbody>
-            <?php $no = 1; foreach ($belumUploadList as $p): ?>
-              <tr><td><?= $no++ ?></td><td><?= htmlspecialchars($p['nama_perusahaan']) ?></td></tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+                <!-- Modal: Belum Upload -->
+                <div class="modal fade" id="modalBelumUpload" tabindex="-1" aria-labelledby="modalBelumUploadLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalBelumUploadLabel">Perusahaan yang Belum Upload</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-sm">
+                        <thead class="table-danger">
+                            <tr><th>No</th><th>Nama Perusahaan</th></tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 1; foreach ($belumUploadList as $p): ?>
+                            <tr><td><?= $no++ ?></td><td><?= htmlspecialchars($p['nama_perusahaan']) ?></td></tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+                </div>
