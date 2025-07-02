@@ -5,8 +5,21 @@ try {
 
     $pdo = $database->getConnection(); // Dapatkan koneksi PDO
 
+    // Pencarian keyword
+    $keyword = '';
+    if (isset($_GET['keyword'])) {
+        $keyword = trim($_GET['keyword']);
+    }
+
     $query = "SELECT * FROM data_khusus WHERE 1=1"; // supaya WHERE nya fleksibel
     $params = [];
+
+    // Filter keyword pencarian
+    if (!empty($keyword)) {
+        $query .= " AND nama_perusahaan LIKE :keyword";
+        $params[':keyword'] = '%' . $keyword . '%';
+    }
+
     // Eksekusi Query
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
@@ -29,14 +42,18 @@ try {
         <div class="card-body">
             <!-- Fitur Search -->
             <div class="mb-3">
-                <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+                <form method="get" action="" class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+                    <input type="hidden" name="page" value="data_khusus_tampil">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-1 small" placeholder="Search for..."
+                        <input type="text" name="keyword" class="form-control bg-light border-1 small" placeholder="Cari nama perusahaan..."
                             aria-label="Search" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
+                            <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
+                            <a href="?page=data_khusus_tampil" class="btn btn-secondary">
+                                <i class="fas fa-sync-alt fa-sm" style="vertical-align: middle; margin-top: 5px;"></i>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -45,12 +62,12 @@ try {
             <!-- Tombol Tambah & Ekspor -->
             <div class="mb-3">
                 <?php if ($role == 'umum'): ?>
-                <a href="?page=tambah_data_khusus" class="btn btn-primary btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Tambah Data</span>
-                </a>
+                    <a href="?page=tambah_data_khusus" class="btn btn-primary btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                        </span>
+                        <span class="text">Tambah Data</span>
+                    </a>
                 <?php endif; ?>
                 <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
                     <span class="icon text-white-50">

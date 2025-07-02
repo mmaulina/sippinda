@@ -6,11 +6,26 @@ $database = new Database();
 
 $pdo = $database->getConnection(); // Dapatkan koneksi PDO
 
+// Pencarian keyword
+$keyword = '';
+if (isset($_GET['keyword'])) {
+    $keyword = trim($_GET['keyword']);
+}
+
+// Query dasar
 $query = "SELECT * FROM perizinan WHERE 1=1";
 $params = [];
+
+// Filter role
 if ($role != 'admin' && $role != 'superadmin') {
     $query .= " AND id_user = :id_user";
     $params[':id_user'] = $id_user;
+}
+
+// Filter keyword pencarian
+if (!empty($keyword)) {
+    $query .= " AND nama_perusahaan LIKE :keyword";
+    $params[':keyword'] = '%' . $keyword . '%';
 }
 
 // Eksekusi Query
@@ -22,7 +37,7 @@ $perizinan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['terima_id'])) {
         $id = $_POST['terima_id'];
-        $updateQuery = "UPDATE perizinan SET verifikasi = 'diterima',  tgl_verif = NOW() WHERE id = :id";
+        $updateQuery = "UPDATE perizinan SET verifikasi = 'diterima', tgl_verif = NOW() WHERE id = :id";
     } elseif (isset($_POST['tolak_laporan'])) {
         $id = $_POST['id'];
         $keterangan = $_POST['keterangan'];
@@ -55,30 +70,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="card-body">
             <!-- Fitur Search -->
             <?php if ($role != 'umum'): ?>
-            <div class="mb-3">
-                <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-1 small" placeholder="Search for..."
-                            aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
+                <div class="mb-3">
+                    <form method="get" action="" class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+                        <input type="hidden" name="page" value="perizinan_tampil">
+                        <div class="input-group">
+                            <input type="text" name="keyword" class="form-control bg-light border-1 small" placeholder="Cari nama perusahaan..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                                <a href="?page=perizinan_tampil" class="btn btn-secondary">
+                                    <i class="fas fa-sync-alt fa-sm" style="vertical-align: middle; margin-top: 5px;"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
             <?php endif; ?>
 
             <!-- Tombol Tambah & Ekspor -->
             <div class="mb-3">
                 <?php if ($role == 'umum'): ?>
-                <a href="?page=tambah_perizinan" class="btn btn-primary btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
-                    </span>
-                    <span class="text">Tambah Data</span>
-                </a>
+                    <a href="?page=tambah_perizinan" class="btn btn-primary btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus" style="vertical-align: middle; margin-top: 5px;"></i>
+                        </span>
+                        <span class="text">Tambah Data</span>
+                    </a>
                 <?php endif; ?>
             </div>
 

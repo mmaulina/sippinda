@@ -6,11 +6,23 @@ $database = new Database();
 
 $pdo = $database->getConnection(); // Dapatkan koneksi PDO
 
+// Pencarian keyword
+$keyword = '';
+if (isset($_GET['keyword'])) {
+    $keyword = trim($_GET['keyword']);
+}
+
 $query = "SELECT * FROM data_sinas WHERE 1=1";
 $params = [];
 if ($role != 'admin' && $role != 'superadmin') {
     $query .= " AND id_user = :id_user";
     $params[':id_user'] = $id_user;
+}
+
+// Filter keyword pencarian
+if (!empty($keyword)) {
+    $query .= " AND nama_perusahaan LIKE :keyword";
+    $params[':keyword'] = '%' . $keyword . '%';
 }
 
 // Eksekusi Query
@@ -57,13 +69,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php if ($role != 'umum'): ?>
                 <div class="mb-3">
                     <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+                        <input type="hidden" name="page" value="data_siinas_tampil">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-1 small" placeholder="Search for..."
+                            <input type="text" name="keyword" class="form-control bg-light border-1 small" placeholder="Cari nama perusahaan..."
                                 aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
+                                <a href="?page=data_siinas_tampil" class="btn btn-secondary">
+                                    <i class="fas fa-sync-alt fa-sm" style="vertical-align: middle; margin-top: 5px;"></i>
+                                </a>
                             </div>
                         </div>
                     </form>
