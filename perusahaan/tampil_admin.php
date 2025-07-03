@@ -27,6 +27,12 @@ try {
 
     $query2 = "SELECT * FROM bidang_perusahaan WHERE 1=1"; // supaya WHERE nya fleksibel
     $params2 = [];
+
+    if (!empty($keyword)) {
+        $query2 .= " AND nama_perusahaan LIKE :keyword";
+        $params2[':keyword'] = '%' . $keyword . '%';
+    }
+
     // Eksekusi Query
     $stmt2 = $pdo->prepare($query2);
     $stmt2->execute($params2);
