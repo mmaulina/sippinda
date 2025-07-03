@@ -170,8 +170,6 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold text-primary">News</h6>
-
-
                     <?php if ($role == 'admin' || $role == 'superadmin'): ?>
                         <a href="?page=konten_tampil" class="btn btn-primary">
                             <i class="fas fa-fw fa-table fa-sm text-white-50"></i> Daftar Konten
@@ -189,7 +187,13 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
                                         <?php foreach ($kontens as $konten) : ?>
                                             <div class="text-center">
                                                 <?php if ($konten['jenis_konten'] === 'gambar') : ?>
-                                                    <img src="<?php echo htmlspecialchars($konten['konten']); ?>" class="img-fluid rounded" style="width: 150px; height: auto;" alt="Konten Gambar">
+                                                    <img src="<?php echo htmlspecialchars($konten['konten']); ?>"
+                                                        class="img-fluid rounded"
+                                                        style="width: 250px; height: auto; cursor: pointer;"
+                                                        alt="Konten Gambar"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#imageModal"
+                                                        data-img="<?php echo htmlspecialchars($konten['konten']); ?>">
                                                 <?php elseif ($konten['jenis_konten'] === 'file') : ?>
                                                     <a href="<?php echo htmlspecialchars($konten['konten']); ?>" class="btn btn-secondary" style="width: 150px;">Download File</a>
                                                 <?php elseif ($konten['jenis_konten'] === 'link') : ?>
@@ -205,11 +209,30 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
                             </div>
                         <?php endforeach; ?>
                     </div>
+                    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body text-center">
+                                    <img src="" id="modalImage" class="img-fluid rounded" alt="Preview Gambar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    const imageModal = document.getElementById('imageModal');
+    imageModal.addEventListener('show.bs.modal', function(event) {
+        const img = event.relatedTarget;
+        const src = img.getAttribute('data-img');
+        const modalImg = imageModal.querySelector('#modalImage');
+        modalImg.src = src;
+    });
+</script>
 
 <!-- Modal: Total Perusahaan -->
 <div class="modal fade" id="modalTotalPerusahaan" tabindex="-1" aria-labelledby="modalTotalLabel" aria-hidden="true">
