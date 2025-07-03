@@ -25,6 +25,10 @@
     <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
 
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/login.css">
+
     <style>
         /* Pastikan semua konten halaman berada di atas */
         body,
@@ -101,7 +105,7 @@
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         Profil Saya
                     </a>
-                    <a class="dropdown-item" href="?page=edit_password">
+                    <a class="dropdown-item" href="?page=edit_password&id_user=<?= $_SESSION['id_user']; ?>">
                         <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                         Ganti Password
                     </a>

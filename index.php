@@ -4,6 +4,7 @@ if (!isset($_SESSION['id_user'])) {
     header('location:login/login.php');
 }
 include "koneksi.php";
+include "notif.php"
 // include "template/sidebar.php";
 ?>
 

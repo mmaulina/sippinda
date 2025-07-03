@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $username = sanitize_input($_POST['username']);
     $email = sanitize_input($_POST['email']);
-    $password = sanitize_input($_POST['password']);
+    $password = password_hash(htmlspecialchars($_POST['password']), PASSWORD_BCRYPT);
     $no_telp = sanitize_input($_POST['no_telp']);
     $role = sanitize_input($_POST['role']);
     $status = 'diverifikasi' ;
@@ -71,7 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group mb-2">
                     <label>Password</label>
-                    <input type="password" class="form-control" name="password" placeholder="Masukkan Password" required maxlength="200"></input>
+                    <div class ="input-group">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password" required maxlength="200"></input>
+                    <span class="input-group-text" onclick="togglePassword()" style="cursor:pointer;">
+                        <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                    </span>
+                    </div>
                 </div>
                 <div class="form-group mb-2">
                     <label>No. Telp</label>
@@ -97,3 +102,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+
+<script>
+function togglePassword() {
+    const passwordField = document.getElementById("password");
+    const toggleIcon = document.getElementById("toggleIcon");
+
+    const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+    passwordField.setAttribute("type", type);
+
+    toggleIcon.classList.toggle("bi-eye");
+    toggleIcon.classList.toggle("bi-eye-slash");
+}
+</script>

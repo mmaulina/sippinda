@@ -4,34 +4,87 @@ include '../koneksi.php';
 
 $error = '';
 
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+    if (!isset($_SESSION['login_attempts'])) {
+        $_SESSION['login_attempts'] = 0;
+    }
 
-    if (!empty($username) && !empty($password)) {
-        $db = new Database();
-        $pdo = $db->getConnection();
-        $sql = "SELECT * FROM users WHERE username = :username OR email = :username";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!isset($_SESSION['last_login_attempt'])) {
+        $_SESSION['last_login_attempt'] = time();
+    }
 
-        if ($user) {
-            if ($password == $user['password']) {
-                $_SESSION['id_user'] = $user['id_user'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = $user['role'];
-                header("Location: ../index.php");
-                exit();
+    $wait_time = 15 * 60; // 15 menit
+    $elapsed = time() - $_SESSION['last_login_attempt'];
+
+    // Cek apakah harus diblokir sementara
+    if ($_SESSION['login_attempts'] >= 5 && $elapsed < $wait_time) {
+        $error = "Terlalu banyak percobaan login. Coba lagi dalam " . ceil(($wait_time - $elapsed) / 60) . " menit.";
+    } else {
+        // Jika waktu blokir sudah lewat, reset attempts
+        if ($elapsed >= $wait_time) {
+            $_SESSION['login_attempts'] = 0;
+            $_SESSION['last_login_attempt'] = time();
+        }
+
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+
+        if (!empty($username) && !empty($password)) {
+            $db = new Database();
+            $pdo = $db->getConnection();
+            $sql = "SELECT * FROM users WHERE (username = :username OR email = :username)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Ambil kontak admin
+            $sqlkontak = "SELECT email, no_telp FROM users WHERE id_user = 1";
+            $stmtkontak = $pdo->prepare($sqlkontak);
+            $stmtkontak->execute();
+            $kontak = $stmtkontak->fetch(PDO::FETCH_ASSOC);
+
+            if ($user) {
+                if ($user['status'] !== 'diverifikasi') {
+                    if ($kontak && !empty($kontak['no_telp'])) {
+                        $nomor_hp = preg_replace('/[^0-9]/', '', $kontak['no_telp']);
+                        if (substr($nomor_hp, 0, 1) == "0") {
+                            $nomor_hp = "62" . substr($nomor_hp, 1);
+                        }
+                        $wa_link = "https://wa.me/" . $nomor_hp;
+                        $error = "Akun Anda belum diverifikasi. Silakan hubungi admin di <a href='$wa_link' target='_blank'>WhatsApp</a>.";
+                    } else {
+                        $error = "Nomor HP admin tidak ditemukan.";
+                    }
+                } else {
+                    if (password_verify($password, $user['password'])) {
+                        session_regenerate_id(true);
+                        $_SESSION['id_user'] = $user['id_user'];
+                        $_SESSION['username'] = $user['username'];
+                        $_SESSION['role'] = $user['role'];
+                        $_SESSION['login_attempts'] = 0;
+
+                        header("Location: ../index.php");
+                        exit();
+                    } else {
+                        $_SESSION['login_attempts'] += 1;
+                        $_SESSION['last_login_attempt'] = time();
+                        $error = "Username atau password salah!";
+                        file_put_contents("log_login.txt", date('Y-m-d H:i:s') . " - Gagal login: $username\n", FILE_APPEND);
+                    }
+                }
             } else {
+                $_SESSION['login_attempts'] += 1;
+                $_SESSION['last_login_attempt'] = time();
                 $error = "Username atau password salah!";
             }
         } else {
-            $error = "Username atau password salah!";
+            $error = "Harap isi username/email dan password!";
         }
-    } else {
-        $error = "Harap isi username/email dan password!";
     }
 }
 ?>

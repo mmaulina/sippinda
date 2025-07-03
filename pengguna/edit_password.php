@@ -1,11 +1,15 @@
 <?php
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+include "koneksi.php";
+
 // Buat instance database dan ambil koneksi
 $database = new Database();
 $conn = $database->getConnection();
 
-// Mengambil nilai id_user di URL, lalu disimpan di $id_user
-$id_user = isset($_GET['id_user']) ? intval($_GET['id_user']) : 0;
+$id_user = $_SESSION['id_user']; 
 
 // Periksa jika tombol simpan diklik
 if (isset($_POST['btn_simpan'])) {
@@ -24,7 +28,7 @@ if (isset($_POST['btn_simpan'])) {
         if ($data && password_verify($password_lama, $data['password'])) {
             // Hash password baru menggunakan Bcrypt
             $hashed_password_baru = password_hash($password_baru, PASSWORD_BCRYPT);
-
+            
             $stmt = $conn->prepare("UPDATE users SET password = :password WHERE id_user = :id_user");
             $stmt->bindParam(":password", $hashed_password_baru, PDO::PARAM_STR);
             $stmt->bindParam(":id_user", $id_user, PDO::PARAM_INT);
@@ -34,10 +38,12 @@ if (isset($_POST['btn_simpan'])) {
                 $_SESSION['hasil'] = true;
                 $_SESSION['pesan'] = "Berhasil Memperbarui Data";
                 echo "<meta http-equiv='refresh' content='0;url=?page=home'>";
+                exit;
             } else {
                 $_SESSION['hasil'] = false;
                 $_SESSION['pesan'] = "Gagal Memperbarui Data";
                 echo "<meta http-equiv='refresh' content='0;url=?page=edit_password'>";
+                exit;
             }
         } else {
             echo "<script>alert('Password lama salah!');</script>";
@@ -116,5 +122,3 @@ if (isset($_POST['btn_simpan'])) {
 </script>
 
 <script src="../assets/js/bootstrap.bundle.min.js"></script>
-
-</script>

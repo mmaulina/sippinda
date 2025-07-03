@@ -7,7 +7,7 @@ $error = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = htmlspecialchars($_POST['username']);
     $email = htmlspecialchars($_POST['email']);
-    $password = htmlspecialchars($_POST['password']); // Hash password menggunakan Bcrypt
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Hash password menggunakan Bcrypt
     $no_telp = htmlspecialchars($_POST['no_telp']);
     $role = "umum"; // Otomatis diisi "umum"
     $status = "diajukan"; // Otomatis diisi "diajukan"
@@ -21,26 +21,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$email]);
 
         if ($stmt->rowCount() > 0) {
-            $error = "Email sudah terdaftar!";
+            $error_message = "Email sudah terdaftar!";
         } else {
             // Cek apakah username sudah terdaftar
             $stmt = $conn->prepare("SELECT username FROM users WHERE username = ?");
             $stmt->execute([$username]);
 
             if ($stmt->rowCount() > 0) {
-                $error = "Username sudah terdaftar!";
+                $error_message = "Username sudah terdaftar!";
             } else {
                 // Query untuk menambahkan user baru
-                $sql = "INSERT INTO users (username, email, password, no_telp, role, status) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO users (username, email, password, no_hp, role, status) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->execute([$username, $email, $password, $no_telp, $role, $status]);
+                $stmt->execute([$username, $email, $password, $no_hp, $role, $status]);
 
                 echo "<script>alert('Pendaftaran berhasil!'); window.location='login.php';</script>";
                 exit; // Pastikan untuk keluar setelah redirect
             }
         }
     } catch (PDOException $e) {
-        $error = 'Gagal mendaftar: ' . $e->getMessage();
+        $error_message = 'Gagal mendaftar: ' . $e->getMessage();
     }
 }
 ?>
