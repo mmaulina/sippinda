@@ -21,6 +21,12 @@ $stmt = $conn->prepare($query);
 $stmt->execute(['id_user' => $id_user]);
 $konten_baru = $stmt->fetch(PDO::FETCH_ASSOC)['jumlah_baru'];
 
+$query = "SELECT COUNT(*) AS jumlah_baru FROM djih WHERE id NOT IN 
+          (SELECT konten_id FROM djih_dilihat WHERE id_user = :id_user)";
+$stmt = $conn->prepare($query);
+$stmt->execute(['id_user' => $id_user]);
+$djih_baru = $stmt->fetch(PDO::FETCH_ASSOC)['jumlah_baru'];
+
 if ($role == 'admin' || $role == 'superadmin') {
     // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
     $queryperizinan = "SELECT COUNT(*) as total FROM perizinan WHERE verifikasi = 'diajukan'";
@@ -212,11 +218,11 @@ if ($role == 'admin' || $role == 'superadmin') {
             <i class="fas fa-upload fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Jaringan Dokumentasi <br> dan Informasi Hukum
-                <?php if ($konten_baru > 0): ?>
+                <?php if ($djih_baru > 0): ?>
                 <span class="position-relative ml-2">
                     <i class="fas fa-bell text-light"></i>
                     <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
-                        <?= $konten_baru; ?>
+                        <?= $djih_baru; ?>
                     </span>
                 </span>
             <?php endif; ?>
