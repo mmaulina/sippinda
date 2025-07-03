@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 18, 2025 at 02:23 PM
+-- Generation Time: Jul 03, 2025 at 01:58 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -42,9 +42,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `no_telp`, `role`, `status`) VALUES
-(1, 'superadmin', 'superadmin', 'superadmin@gmail.com', '081234567890', 'superadmin', 'diajukan'),
-(2, 'umum', 'umum', 'umum@gmail.com', '', 'umum', 'diajukan'),
-(3, 'admin', 'admin', 'admin@gmail.com', '', 'admin', 'diajukan');
+(7, 'superadmin', '$2y$10$X6aW6XAVE4/FXAyyJyL6iO8etO73GwPEPmFF7vU5k6Ab/gRWmxQV6', 'irwanfirdaus508@gmail.com', '081234567890', 'superadmin', 'diverifikasi'),
+(8, 'admin', '$2y$10$CzcXMxfqzo2NLhFtuEylJebWsaKsrP2sIuCV41QDjkmrFbP0NMmAy', 'admin@gmail.com', '081234567890', 'admin', 'diverifikasi');
 
 --
 -- Indexes for dumped tables
@@ -64,7 +63,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
