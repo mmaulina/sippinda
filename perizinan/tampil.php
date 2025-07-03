@@ -28,6 +28,26 @@ if (!empty($keyword)) {
     $params[':keyword'] = '%' . $keyword . '%';
 }
 
+// Filter
+$jenis_laporan = $_GET['jenis_laporan'] ?? '';
+if (!empty($jenis_laporan)) {
+    $query .= " AND jenis_laporan = :jenis_laporan";
+    $params[':jenis_laporan'] = $jenis_laporan;
+}
+
+$verifikasi = $_GET['verifikasi'] ?? '';
+if (!empty($verifikasi)) {
+    $query .= " AND verifikasi = :verifikasi";
+    $params[':verifikasi'] = $verifikasi;
+}
+
+// Ambil daftar untuk dropdown filter
+$jenislaporanStmt = $conn->query("SELECT DISTINCT jenis_laporan FROM perizinan ORDER BY jenis_laporan");
+$jenislaporanList = $jenislaporanStmt->fetchAll(PDO::FETCH_COLUMN);
+
+$verifikasiStmt = $conn->query("SELECT DISTINCT verifikasi FROM perizinan ORDER BY verifikasi");
+$verifikasiList = $verifikasiStmt->fetchAll(PDO::FETCH_COLUMN);
+
 // Eksekusi Query
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
@@ -70,21 +90,51 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="card-body">
             <!-- Fitur Search -->
             <?php if ($role != 'umum'): ?>
-                <div class="mb-3">
-                    <form method="get" action="" class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+                <div class="mb-4">
+                    <form method="get" action="" class="row gx-2 gy-2 align-items-center">
                         <input type="hidden" name="page" value="perizinan_tampil">
-                        <div class="input-group">
-                            <input type="text" name="keyword" class="form-control bg-light border-1 small" placeholder="Cari nama perusahaan..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">
+
+                        <!-- Search -->
+                        <div class="col-auto flex-grow-1">
+                            <div class="input-group">
+                                <input type="text" name="keyword" class="form-control bg-light border-1 small" placeholder="Cari nama perusahaan..." aria-label="Search" aria-describedby="button-search">
+                                <button class="btn btn-primary" type="submit" id="button-search">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
-                                <a href="?page=perizinan_tampil" class="btn btn-secondary">
-                                    <i class="fas fa-sync-alt fa-sm" style="vertical-align: middle; margin-top: 5px;"></i>
+                                <a href="?page=data_siinas_tampil" class="btn btn-secondary d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-sync-alt fa-sm"></i>
                                 </a>
                             </div>
                         </div>
+
+                        <!-- Filter -->
+                        <div class="col-auto">
+                            <div class="input-group">
+                                <select name="jenis_laporan" class="form-select" style="min-width: 230px;">
+                                    <option value="">-- Pilih Jenis Laporan --</option>
+                                    <?php foreach ($jenislaporanList as $jenis_laporan): ?>
+                                        <option value="<?= htmlspecialchars($jenis_laporan) ?>" <?= (isset($_GET['jenis_laporan']) && $_GET['jenis_laporan'] == $jenis_laporan) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($jenis_laporan) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <select name="verifikasi" class="form-select" style="min-width: 170px;">
+                                    <option value="">-- Pilih Verifikasi --</option>
+                                    <?php foreach ($verifikasiList as $verifikasi): ?>
+                                        <option value="<?= htmlspecialchars($verifikasi) ?>" <?= (isset($_GET['verifikasi']) && $_GET['verifikasi'] == $verifikasi) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($verifikasi) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-filter fa-sm"></i>
+                                </button>
+                                <a href="?page=data_siinas_tampil" class="btn btn-secondary d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-sync-alt fa-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
             <?php endif; ?>

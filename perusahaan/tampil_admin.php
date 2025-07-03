@@ -48,19 +48,21 @@ try {
         </div>
         <div class="card-body">
             <!-- Fitur Search -->
-            <div class="mb-3">
-                <form method="get" action="" class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+            <div class="mb-4">
+                <form method="get" action="" class="row gx-2 gy-2 align-items-center">
                     <input type="hidden" name="page" value="profil_admin">
-                    <div class="input-group">
-                        <input type="text" name="keyword" class="form-control bg-light border-1 small" placeholder="Cari nama perusahaan..."
-                            aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
+
+                    <!-- Search -->
+                    <div class="col-auto" style="max-width: 400px; flex: 1;">
+                        <div class="input-group">
+                            <input type="text" name="keyword" class="form-control bg-light border-1 small"
+                                placeholder="Cari nama perusahaan..." aria-label="Search" aria-describedby="button-search">
+                            <button class="btn btn-primary" type="submit" id="button-search">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
-                            <a href="?page=profil_admin" class="btn btn-secondary">
-                                    <i class="fas fa-sync-alt fa-sm" style="vertical-align: middle; margin-top: 5px;"></i>
-                                </a>
+                            <a href="?page=profil_admin" class="btn btn-secondary d-flex align-items-center justify-content-center">
+                                <i class="fas fa-sync-alt fa-sm"></i>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -99,7 +101,7 @@ try {
                             <th rowspan="2" onclick="sortTable(4)">No Telpon<i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(5)">No Fax<i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(6)">Jenis Lokasi Pabrik<i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Jenis Kuisioner</th>
+                            <th rowspan="2" onclick="sortTable(7)">Jenis Kuisioner<i class="fa fa-sort"></i></th>
                             <th rowspan="2">Aksi</th>
                         </tr>
                     </thead>

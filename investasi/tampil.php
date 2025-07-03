@@ -41,18 +41,20 @@ try {
         </div>
         <div class="card-body">
             <!-- Fitur Search -->
-            <div class="mb-3">
-                <form method="get" action="" class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+            <div class="mb-4">
+                <form method="get" action="" class="row gx-2 gy-2 align-items-center">
                     <input type="hidden" name="page" value="investasi_tampil">
-                    <div class="input-group">
-                        <input type="text" name="keyword" class="form-control bg-light border-1 small" placeholder="Cari nama perusahaan..."
-                            aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
+
+                    <!-- Search -->
+                    <div class="col-auto" style="max-width: 400px; flex: 1;">
+                        <div class="input-group">
+                            <input type="text" name="keyword" class="form-control bg-light border-1 small"
+                                placeholder="Cari nama perusahaan..." aria-label="Search" aria-describedby="button-search">
+                            <button class="btn btn-primary" type="submit" id="button-search">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
-                            <a href="?page=investasi_tampil" class="btn btn-secondary">
-                                <i class="fas fa-sync-alt fa-sm" style="vertical-align: middle; margin-top: 5px;"></i>
+                            <a href="?page=investasi_tampil" class="btn btn-secondary d-flex align-items-center justify-content-center">
+                                <i class="fas fa-sync-alt fa-sm"></i>
                             </a>
                         </div>
                     </div>

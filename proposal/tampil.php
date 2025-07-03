@@ -25,6 +25,26 @@ if (!empty($keyword)) {
     $params[':keyword'] = '%' . $keyword . '%';
 }
 
+// Filter
+$tahun = $_GET['tahun'] ?? '';
+if (!empty($tahun)) {
+    $query .= " AND tahun = :tahun";
+    $params[':tahun'] = $tahun;
+}
+
+$status = $_GET['status'] ?? '';
+if (!empty($status)) {
+    $query .= " AND status = :status";
+    $params[':status'] = $status;
+}
+
+// Ambil daftar untuk dropdown filter
+$tahunStmt = $conn->query("SELECT DISTINCT tahun FROM proposal ORDER BY tahun");
+$tahunList = $tahunStmt->fetchAll(PDO::FETCH_COLUMN);
+
+$statusStmt = $conn->query("SELECT DISTINCT status FROM proposal ORDER BY status");
+$statusList = $statusStmt->fetchAll(PDO::FETCH_COLUMN);
+
 // Eksekusi Query
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
@@ -67,21 +87,51 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="card-body">
             <!-- Fitur Search -->
             <?php if ($role != 'umum'): ?>
-                <div class="mb-3">
-                    <form class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+                <div class="mb-4">
+                    <form method="get" action="" class="row gx-2 gy-2 align-items-center">
                         <input type="hidden" name="page" value="proposal_tampil">
-                        <div class="input-group">
-                            <input type="text" name="keyword" class="form-control bg-light border-1 small" placeholder="Cari nama perusahaan..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">
+
+                        <!-- Search -->
+                        <div class="col-auto flex-grow-1">
+                            <div class="input-group">
+                                <input type="text" name="keyword" class="form-control bg-light border-1 small" placeholder="Cari nama perusahaan..." aria-label="Search" aria-describedby="button-search">
+                                <button class="btn btn-primary" type="submit" id="button-search">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
-                                <a href="?page=proposal_tampil" class="btn btn-secondary">
-                                    <i class="fas fa-sync-alt fa-sm" style="vertical-align: middle; margin-top: 5px;"></i>
+                                <a href="?page=proposal_tampil" class="btn btn-secondary d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-sync-alt fa-sm"></i>
                                 </a>
                             </div>
                         </div>
+
+                        <!-- Filter -->
+                        <div class="col-auto">
+                            <div class="input-group">
+                                <select name="tahun" class="form-select" style="min-width: 230px;">
+                                    <option value="">-- Pilih Tahun --</option>
+                                    <?php foreach ($tahunList as $tahun): ?>
+                                        <option value="<?= htmlspecialchars($tahun) ?>" <?= (isset($_GET['tahun']) && $_GET['tahun'] == $tahun) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($tahun) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <select name="status" class="form-select" style="min-width: 170px;">
+                                    <option value="">-- Pilih Status --</option>
+                                    <?php foreach ($statusList as $status): ?>
+                                        <option value="<?= htmlspecialchars($status) ?>" <?= (isset($_GET['status']) && $_GET['status'] == $status) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($status) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-filter fa-sm"></i>
+                                </button>
+                                <a href="?page=proposal_tampil" class="btn btn-secondary d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-sync-alt fa-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
             <?php endif; ?>
