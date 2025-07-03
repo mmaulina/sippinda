@@ -21,11 +21,11 @@ $stmt = $conn->prepare($query);
 $stmt->execute(['id_user' => $id_user]);
 $konten_baru = $stmt->fetch(PDO::FETCH_ASSOC)['jumlah_baru'];
 
-$query = "SELECT COUNT(*) AS jumlah_baru FROM djih WHERE id NOT IN 
+$querydjih = "SELECT COUNT(*) AS jumlah_baru FROM djih WHERE id NOT IN 
           (SELECT konten_id FROM djih_dilihat WHERE id_user = :id_user)";
-$stmt = $conn->prepare($query);
-$stmt->execute(['id_user' => $id_user]);
-$djih_baru = $stmt->fetch(PDO::FETCH_ASSOC)['jumlah_baru'];
+$stmtdjih = $conn->prepare($querydjih);
+$stmtdjih->execute(['id_user' => $id_user]);
+$djih_baru = $stmtdjih->fetch(PDO::FETCH_ASSOC)['jumlah_baru'];
 
 if ($role == 'admin' || $role == 'superadmin') {
     // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
