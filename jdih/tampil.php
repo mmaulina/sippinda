@@ -18,7 +18,7 @@ try {
 
     // Tandai semua konten baru sebagai dilihat
     $query = "INSERT IGNORE INTO djih_dilihat (id_user, konten_id) 
-              SELECT :id_user, id FROM news";
+              SELECT :id_user, id FROM djih";
     $stmt = $conn->prepare($query);
     $stmt->execute(['id_user' => $id_user]);
 
