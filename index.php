@@ -45,7 +45,9 @@ include "notif.php"
                             break;
                         case "delete_konten":
                             include "news/hapus.php";
-
+                            break;
+                        
+                        // JDIH
                         case "jdih_tampil":
                             include "jdih/tampil.php";
                             break;
@@ -179,7 +181,7 @@ include "notif.php"
                         case "delete_data_siinas":
                             include "data_siinas/hapus.php";
                             break;
-                        
+
                         // PROPOSAL KEGIATAN
                         case "proposal_tampil":
                             include "proposal/tampil.php";

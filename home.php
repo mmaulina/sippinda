@@ -176,12 +176,12 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
                         </a>
                     <?php endif; ?>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="max-height: 500px; overflow-y: auto;">
                     <div class="timeline position-relative">
                         <?php foreach ($grouped_konten as $id_title => $kontens) : ?>
                             <div class="timeline-item d-flex flex-column align-items-center text-center position-relative">
                                 <div class="circle bg-dark rounded-circle position-absolute" style="width: 15px; height: 15px; left: -10px; top: 50%; transform: translateY(-50%);"></div>
-                                <div class="content w-75 ms-3">
+                                <div class="content w-75 ms-3 mb-3 p-4 border rounded shadow-sm bg-white">
                                     <h5 class="card-text mt-3"><?php echo htmlspecialchars($kontens[0]['title']); ?></h5>
                                     <div class="d-flex flex-column align-items-center mt-3">
                                         <?php foreach ($kontens as $konten) : ?>
@@ -200,10 +200,10 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
                                                     <a href="<?php echo htmlspecialchars($konten['konten']); ?>" target="_blank" class="btn btn-info" style="width: 150px;">Lihat Link</a>
                                                 <?php endif; ?>
                                                 <p class="mt-2 small"><?php echo nl2br(htmlspecialchars($konten['caption'])); ?></p>
+                                                <p class="card-text mt-3"><small class="text-muted">Diupload pada: <?php echo $kontens[0]['tanggal']; ?></small></p>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
-                                    <p class="card-text mt-3"><small class="text-muted">Diupload pada: <?php echo $kontens[0]['tanggal']; ?></small></p>
                                 </div>
                                 <div class="line position-absolute bg-dark" style="width: 2px; height: 100%; left: 0px; top: 0;"></div>
                             </div>
