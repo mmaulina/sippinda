@@ -31,9 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $error_message = "Username sudah terdaftar!";
             } else {
                 // Query untuk menambahkan user baru
-                $sql = "INSERT INTO users (username, email, password, no_hp, role, status) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO users (username, email, password, no_telp, role, status) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->execute([$username, $email, $password, $no_hp, $role, $status]);
+                $stmt->execute([$username, $email, $password, $no_telp, $role, $status]);
 
                 echo "<script>alert('Pendaftaran berhasil!'); window.location='login.php';</script>";
                 exit; // Pastikan untuk keluar setelah redirect
