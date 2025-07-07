@@ -74,8 +74,8 @@ try {
     // DASHBOARD PERIZINAN
     // Ambil id_user yang sudah upload
     $queryIzin = "SELECT DISTINCT id_user FROM perizinan WHERE upload_berkas IS NOT NULL AND upload_berkas != '' AND jenis_laporan = 'SNI'";
-    $stmtIzin = $conn->prepare($queryUpload);
-    // $stmtUpload->execute([':tw' => "$triwulan $tahun"]);
+    $stmtIzin = $conn->prepare($queryIzin);
+    $stmtIzin->execute();
 
     $sudahIzinIds = $stmtIzin->fetchAll(PDO::FETCH_COLUMN);
     $sudahIzin = count($sudahIzinIds);

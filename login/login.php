@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Ambil kontak admin
-            $sqlkontak = "SELECT email, no_telp FROM users WHERE id_user = 1";
+            $sqlkontak = "SELECT email, no_telp FROM users WHERE role = 'superadmin' AND status = 'diverifikasi' LIMIT 1";
             $stmtkontak = $pdo->prepare($sqlkontak);
             $stmtkontak->execute();
             $kontak = $stmtkontak->fetch(PDO::FETCH_ASSOC);
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $nomor_hp = "62" . substr($nomor_hp, 1);
                         }
                         $wa_link = "https://wa.me/" . $nomor_hp;
-                        $error = "Akun Anda belum diverifikasi. Silakan hubungi admin di <a href='$wa_link' target='_blank'>WhatsApp</a>.";
+                        $error = "Akun Anda belum diverifikasi. Silakan hubungi admin di <a href='$wa_link' style='color: brown; target='_blank'>WhatsApp</a>.";
                     } else {
                         $error = "Nomor HP admin tidak ditemukan.";
                     }
