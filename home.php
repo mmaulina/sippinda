@@ -73,7 +73,7 @@ try {
 
     // DASHBOARD PERIZINAN
     // Ambil id_user yang sudah upload
-    $queryIzin = "SELECT DISTINCT id_user FROM perizinan WHERE upload_berkas IS NOT NULL AND upload_berkas != '' AND jenis_laporan = 'SNI'";
+    $queryIzin = "SELECT DISTINCT id_user FROM perizinan WHERE upload_berkas IS NOT NULL AND upload_berkas != '' AND jenis_laporan = 'PERIZINAN USAHA SEKTOR INDUSTRI'";
     $stmtIzin = $conn->prepare($queryIzin);
     $stmtIzin->execute();
 
