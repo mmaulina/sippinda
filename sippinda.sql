@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 08, 2025 at 12:25 PM
+-- Generation Time: Jul 08, 2025 at 01:14 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -30,9 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `bidang_perusahaan` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `nama_perusahaan` varchar(225) NOT NULL,
-  `bidang` varchar(225) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `nama_perusahaan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `bidang` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bidang_perusahaan`
@@ -51,11 +51,11 @@ INSERT INTO `bidang_perusahaan` (`id`, `id_user`, `nama_perusahaan`, `bidang`) V
 CREATE TABLE `data_khusus` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `nama_perusahaan` varchar(225) NOT NULL,
-  `nama_penanda_tangan_laporan` varchar(100) NOT NULL,
-  `jabatan` varchar(225) NOT NULL,
-  `nama_perusahaan_induk` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `nama_perusahaan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_penanda_tangan_laporan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `jabatan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_perusahaan_induk` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `data_khusus`
@@ -74,14 +74,14 @@ INSERT INTO `data_khusus` (`id`, `id_user`, `nama_perusahaan`, `nama_penanda_tan
 CREATE TABLE `data_sinas` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `nama_perusahaan` varchar(225) NOT NULL,
-  `upload` varchar(225) NOT NULL,
-  `triwulan` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `tahun` varchar(225) NOT NULL,
-  `jenis_pelaporan` enum('Tahap Konstruksi','Tahap Produksi') NOT NULL,
-  `status` enum('diterima','diajukan','dikembalikan') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `keterangan` varchar(225) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `nama_perusahaan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `upload` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `triwulan` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tahun` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_pelaporan` enum('Tahap Konstruksi','Tahap Produksi') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('diterima','diajukan','dikembalikan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `keterangan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `data_sinas`
@@ -99,16 +99,16 @@ INSERT INTO `data_sinas` (`id`, `id_user`, `nama_perusahaan`, `upload`, `triwula
 CREATE TABLE `data_umum` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `nama_perusahaan` varchar(225) NOT NULL,
-  `periode_laporan` varchar(100) NOT NULL,
-  `nilai_investasi_mesin` varchar(225) NOT NULL,
-  `nilai_investasi_lainnya` varchar(225) NOT NULL,
-  `modal_kerja` varchar(225) NOT NULL,
-  `investasi_tanpa_tanah_bangunan` varchar(225) NOT NULL,
-  `status` varchar(225) NOT NULL,
-  `menggunakan_maklon` enum('iya','tidak') NOT NULL,
-  `menyediakan_maklon` enum('iya','tidak') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `nama_perusahaan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `periode_laporan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nilai_investasi_mesin` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nilai_investasi_lainnya` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `modal_kerja` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `investasi_tanpa_tanah_bangunan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `menggunakan_maklon` enum('iya','tidak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `menyediakan_maklon` enum('iya','tidak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `data_umum`
@@ -861,15 +861,15 @@ INSERT INTO `djih_dilihat` (`id`, `id_user`, `konten_id`, `tanggal`) VALUES
 CREATE TABLE `investasi` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `nama_perusahaan` varchar(225) NOT NULL,
-  `pemerintah_pusat` varchar(225) NOT NULL,
-  `pemerintah_daerah` varchar(225) NOT NULL,
-  `swasta_nasional` varchar(225) NOT NULL,
-  `asing` varchar(225) NOT NULL,
-  `negara_asal` varchar(225) NOT NULL,
-  `nilai_investasi_tanah` varchar(225) NOT NULL,
-  `nilai_investasi_bangunan` varchar(225) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `nama_perusahaan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pemerintah_pusat` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pemerintah_daerah` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `swasta_nasional` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `asing` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `negara_asal` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nilai_investasi_tanah` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nilai_investasi_bangunan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `investasi`
@@ -2078,7 +2078,7 @@ INSERT INTO `news` (`id`, `id_title`, `title`, `jenis_konten`, `konten`, `captio
 CREATE TABLE `pekerja` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `nama_perusahaan` varchar(225) NOT NULL,
+  `nama_perusahaan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `laki_laki_pro_tetap` int NOT NULL,
   `perempuan_pro_tetap` int NOT NULL,
   `laki_laki_pro_tidak_tetap` int NOT NULL,
@@ -2092,7 +2092,7 @@ CREATE TABLE `pekerja` (
   `s1_d4` int NOT NULL,
   `s2` int NOT NULL,
   `s3` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pekerja`
@@ -2111,15 +2111,15 @@ INSERT INTO `pekerja` (`id`, `id_user`, `nama_perusahaan`, `laki_laki_pro_tetap`
 CREATE TABLE `perizinan` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `nama_perusahaan` varchar(225) NOT NULL,
-  `jenis_laporan` enum('KKPR','PERSETUJUAN LINGKUNGAN','SURAT LAIK FUNGSI','PERSETUJUAN BANGUNAN DAN GEDUNG','NOMOR INDUK BERUSAHA','NPWP','PERIZINAN USAHA SEKTOR INDUSTRI','SERTIFIKAT HALAL','TKDN','SNI','ISO','SERTIFIKAT INDUSTRI HIJAU','PELAPORAN S1 S2 SINAS','KEPEMILIKAN AKUN SINAS','KESESUAIAN KEGIATAN USAHA DENGAN BIDANG USAHA PERIZINAN PERUSAHAAN','KESESUAIAN FASILITAS PRODUKSI DAN KAPASITAS SESUAI DENGAN PERIZINAN PERUSAHAAN','IZIN USAHA INDUSTRI','IZIN PERLUASAN INDUSTRI','IZIN KAWASAN INDUSTRI','IZIN PERLUASAN KAWASAN INDUSTRI','IZIN EDAR (BPOM)') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `no_izin` varchar(100) NOT NULL,
+  `nama_perusahaan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_laporan` enum('KKPR','PERSETUJUAN LINGKUNGAN','SURAT LAIK FUNGSI','PERSETUJUAN BANGUNAN DAN GEDUNG','NOMOR INDUK BERUSAHA','NPWP','PERIZINAN USAHA SEKTOR INDUSTRI','SERTIFIKAT HALAL','TKDN','SNI','ISO','SERTIFIKAT INDUSTRI HIJAU','PELAPORAN S1 S2 SINAS','KEPEMILIKAN AKUN SINAS','KESESUAIAN KEGIATAN USAHA DENGAN BIDANG USAHA PERIZINAN PERUSAHAAN','KESESUAIAN FASILITAS PRODUKSI DAN KAPASITAS SESUAI DENGAN PERIZINAN PERUSAHAAN','IZIN USAHA INDUSTRI','IZIN PERLUASAN INDUSTRI','IZIN KAWASAN INDUSTRI','IZIN PERLUASAN KAWASAN INDUSTRI','IZIN EDAR (BPOM)') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `no_izin` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_dokumen` date NOT NULL,
-  `upload_berkas` varchar(225) NOT NULL,
-  `verifikasi` enum('diterima','diajukan','dikembalikan') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `keterangan` varchar(225) NOT NULL,
+  `upload_berkas` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `verifikasi` enum('diterima','diajukan','dikembalikan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `keterangan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_verif` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `perizinan`
@@ -2137,14 +2137,14 @@ INSERT INTO `perizinan` (`id`, `id_user`, `nama_perusahaan`, `jenis_laporan`, `n
 CREATE TABLE `profil_perusahaan` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `nama_perusahaan` varchar(225) NOT NULL,
-  `alamat_kantor` varchar(225) NOT NULL,
-  `alamat_pabrik` varchar(225) NOT NULL,
-  `no_telpon` varchar(15) NOT NULL,
-  `no_fax` varchar(15) NOT NULL,
-  `jenis_lokasi_pabrik` varchar(225) NOT NULL,
-  `jenis_kuisioner` varchar(225) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `nama_perusahaan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `alamat_kantor` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `alamat_pabrik` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `no_telpon` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `no_fax` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_lokasi_pabrik` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_kuisioner` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `profil_perusahaan`
@@ -2163,12 +2163,12 @@ INSERT INTO `profil_perusahaan` (`id`, `id_user`, `nama_perusahaan`, `alamat_kan
 CREATE TABLE `proposal` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
-  `nama_perusahaan` varchar(100) NOT NULL,
+  `nama_perusahaan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tahun` year NOT NULL,
-  `upload` varchar(225) NOT NULL,
-  `status` enum('diajukan','dikembalikan','diterima') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `keterangan` varchar(225) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `upload` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('diajukan','dikembalikan','diterima') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `keterangan` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `proposal`
@@ -2188,10 +2188,10 @@ CREATE TABLE `users` (
   `username` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `password` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `no_telp` varchar(15) NOT NULL,
+  `no_telp` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `role` enum('superadmin','admin','umum') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('diajukan','diverifikasi','ditolak') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `status` enum('diajukan','diverifikasi','ditolak') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
