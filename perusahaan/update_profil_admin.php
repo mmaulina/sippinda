@@ -26,10 +26,10 @@ $stmt->execute([$id]);
 $profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-function sanitize_input($data)
-{
-    return trim(strip_tags($data)); // Tidak mengubah karakter seperti &
-}
+    function sanitize_input($data)
+    {
+        return trim(strip_tags($data)); // Tidak mengubah karakter seperti &
+    }
 
     $nama_perusahaan = sanitize_input($_POST['nama_perusahaan']);
     $alamat_kantor = sanitize_input($_POST['alamat_kantor']);
@@ -39,24 +39,45 @@ function sanitize_input($data)
     $jenis_lokasi_pabrik = sanitize_input($_POST['jenis_lokasi_pabrik']);
     $jenis_kuisioner = sanitize_input($_POST['jenis_kuisioner']);
 
-     if (!preg_match('/^[0-9\+]+$/', $no_telpon && $no_fax)) {
-        echo "<script>alert('Kontak hanya boleh berisi angka dan tanda +!');</script>";
-    } else {
-        $sql = "UPDATE profil_perusahaan SET nama_perusahaan=?, alamat_kantor=?, alamat_pabrik=?, no_telpon=?, no_fax=?, jenis_lokasi_pabrik=?, jenis_kuisioner=? WHERE id=?";
-        $stmt = $pdo->prepare($sql);
-        $success = $stmt->execute([$nama_perusahaan, $alamat_kantor, $alamat_pabrik, $no_telpon, $no_fax, $jenis_lokasi_pabrik, $jenis_kuisioner, $id]);
+    // Nomor telepon: wajib diisi & hanya angka dan +
+    if (empty($no_telpon) || !preg_match('/^[0-9\+]+$/', $no_telpon)) {
+        echo "<script>
+        alert('Nomor telepon wajib diisi dan hanya boleh berisi angka dan tanda +!');
+        window.history.back();
+    </script>";
+        exit();
+    }
 
-        if ($success) {
-            echo "<script>alert('Profil berhasil diperbarui!'); window.location.href='?page=profil_admin';</script>";
-        } else {
-            echo "<script>alert('Gagal memperbarui profil. Silakan coba lagi.');</script>";
-        }
+    // Nomor fax: boleh kosong, tapi kalau diisi hanya angka dan +
+    if (!empty($no_fax) && !preg_match('/^[0-9\+]+$/', $no_fax)) {
+        echo "<script>
+        alert('Nomor fax hanya boleh berisi angka dan tanda +!');
+        window.history.back();
+    </script>";
+        exit();
+    }
+
+    // Jika semua validasi lolos, lakukan update
+    $sql = "UPDATE profil_perusahaan SET nama_perusahaan=?, alamat_kantor=?, alamat_pabrik=?, no_telpon=?, no_fax=?, jenis_lokasi_pabrik=?, jenis_kuisioner=? WHERE id=?";
+    $stmt = $pdo->prepare($sql);
+    $success = $stmt->execute([$nama_perusahaan, $alamat_kantor, $alamat_pabrik, $no_telpon, $no_fax, $jenis_lokasi_pabrik, $jenis_kuisioner, $id]);
+
+    if ($success) {
+        echo "<script>
+        alert('Profil berhasil diperbarui!');
+        window.location.href='?page=profil_admin';
+    </script>";
+    } else {
+        echo "<script>
+        alert('Gagal memperbarui profil. Silakan coba lagi.');
+        window.history.back();
+    </script>";
     }
 }
 ?>
 
 <!-- UPDATE PROFIL PERUSAHAAN -->
- <?php
+<?php
 $role = $_SESSION['role'];
 $page = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
 ?>
@@ -98,6 +119,7 @@ $page = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
                 <div class="form-group mb-2">
                     <label>Nomor Fax</label>
                     <input type="text" class="form-control" name="no_fax" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+" value="<?php echo $profil['no_fax']; ?>">
+                    <small class="text-muted">Jika tidak memiliki nomor fax, kosongkan saja.</small>
                 </div>
                 <div class="form-group mb-2">
                     <label>Jenis Lokasi Pabrik</label>

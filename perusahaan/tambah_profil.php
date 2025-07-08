@@ -31,10 +31,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $jenis_kuisioner = sanitize_input($_POST['jenis_kuisioner']);
 
     // Validasi nomor telepon hanya angka dan tanda +
-    if (!preg_match('/^[0-9\+]+$/', $no_telpon && $no_fax)) {
-        echo "<script>alert('Kontak hanya boleh berisi angka dan tanda +!');</script>";
+    // Nomor telepon: wajib diisi & hanya angka dan +
+    if (empty($no_telpon) || !preg_match('/^[0-9\+]+$/', $no_telpon)) {
+        echo "<script>
+        alert('Nomor telepon wajib diisi dan hanya boleh berisi angka dan tanda +!');
+        window.history.back();
+    </script>";
         exit();
     }
+
+    // Nomor fax: boleh kosong, tapi kalau diisi hanya angka dan +
+    if (!empty($no_fax) && !preg_match('/^[0-9\+]+$/', $no_fax)) {
+        echo "<script>
+        alert('Nomor fax hanya boleh berisi angka dan tanda +!');
+        window.history.back();
+    </script>";
+        exit();
+    }
+
 
     try {
         $db = new Database();
@@ -105,11 +119,12 @@ $page = ($role === 'superadmin') ? 'profil_admin' : 'profil_perusahaan';
                 </div>
                 <div class="form-group mb-2">
                     <label>Nomor Telepon</label>
-                    <input type="text" class="form-control" name="no_telpon" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+">
+                    <input type="text" class="form-control" name="no_telpon" placeholder="Contoh : 081234567890" required maxlength="15" pattern="[0-9]+">
                 </div>
                 <div class="form-group mb-2">
                     <label>Nomor Fax</label>
                     <input type="text" class="form-control" name="no_fax" placeholder="Contoh : 081234567890" maxlength="15" pattern="[0-9]+">
+                    <small class="text-muted">Jika tidak memiliki nomor fax, kosongkan saja.</small>
                 </div>
                 <div class="form-group mb-2">
                     <label>Jenis Lokasi Pabrik</label>
