@@ -50,8 +50,13 @@ try {
     $queryTahun = "SELECT DISTINCT SUBSTRING(triwulan, -4) AS tahun FROM data_sinas ORDER BY tahun DESC";
     $stmtTahun = $conn->query($queryTahun);
     $tahunList = $stmtTahun->fetchAll(PDO::FETCH_COLUMN);
-
     $triwulanList = ["Triwulan I", "Triwulan II", "Triwulan III", "Triwulan IV"];
+
+    // Tentukan dashboard aktif
+    $dashboard = 'Perizinan'; // default buka dashboard perizinan
+    if (isset($_GET['tahun']) || isset($_GET['triwulan'])) {
+        $dashboard = 'SIINas'; // kalau ada filter, buka dashboard SIINas
+    }
 
     // DASHBOARD UPLOAD DATA SIINas
     // Ambil semua perusahaan
@@ -102,113 +107,115 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
         <p class="text-muted mb-4">Sistem Informasi Pengawasan Pengendalian Industri Daerah yang Menjadi Kewenangan Provinsi</p>
     </div>
 
-    <!-- DASHBOARD -->
-    <!-- BUTTON SWITCH -->
-    <div class="mb-3 text-center">
-        <button id="btnPerizinan" class="btn btn-success me-2">Dashboard Perizinan Perusahaan</button>
-        <button id="btnSIINas" class="btn btn-outline-success">Dashboard Upload Data SIINas</button>
-    </div>
+    <?php if ($role == 'admin' || $role == 'superadmin'): ?>
+        <!-- DASHBOARD -->
+        <!-- BUTTON SWITCH -->
+        <div class="mb-3 text-center">
+            <button id="btnPerizinan" class="btn <?= $dashboard == 'Perizinan' ? 'btn-success' : 'btn-outline-success' ?> me-2">Dashboard Perizinan Perusahaan</button>
+            <button id="btnSIINas" class="btn <?= $dashboard == 'SIINas' ? 'btn-success' : 'btn-outline-success' ?>">Dashboard Upload Data SIINas</button>
+        </div>
 
-    <!-- DASHBOARD PERIZINAN -->
-    <div id="dashboardPerizinan">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Dashboard Perizinan Perusahaan</h6>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <!-- Card 1 -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalTotalPerusahaan" style="cursor:pointer;">
-                            <div class="card-body">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Perusahaan Terdaftar</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalPerusahaan ?></div>
+        <!-- DASHBOARD PERIZINAN -->
+        <div id="dashboardPerizinan" style="display: <?= $dashboard == 'Perizinan' ? 'block' : 'none' ?>;">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Dashboard Perizinan Perusahaan</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Card 1 -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalTotalPerusahaan" style="cursor:pointer;">
+                                <div class="card-body">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Perusahaan Terdaftar</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalPerusahaan ?></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalSudahIzin" style="cursor:pointer;">
-                            <div class="card-body">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Perusahaan Sudah Berizin</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $sudahIzin ?></div>
+                        <!-- Card 2 -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalSudahIzin" style="cursor:pointer;">
+                                <div class="card-body">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Perusahaan Sudah Berizin</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $sudahIzin ?></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                        <div class="card border-left-danger shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalBelumIzin" style="cursor:pointer;">
-                            <div class="card-body">
-                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Perusahaan Belum Berizin</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $belumIzin ?></div>
+                        <!-- Card 3 -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalBelumIzin" style="cursor:pointer;">
+                                <div class="card-body">
+                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Perusahaan Belum Berizin</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $belumIzin ?></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- DASHBOARD SIINAS -->
-    <div id="dashboardSIINas" style="display: none;">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Dashboard Upload Data SIINas</h6>
-            </div>
-            <div class="card-body">
-                <form method="get" class="row g-3 mb-3">
-                    <div class="col-md-5">
-                        <label for="tahun" class="form-label">Pilih Tahun</label>
-                        <select name="tahun" id="tahun" class="form-control">
-                            <?php foreach ($tahunList as $th): ?>
-                                <option value="<?= $th ?>" <?= $th == $tahun ? 'selected' : '' ?>><?= $th ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <label for="triwulan" class="form-label">Pilih Triwulan</label>
-                        <select name="triwulan" id="triwulan" class="form-control">
-                            <?php foreach ($triwulanList as $tw): ?>
-                                <option value="<?= $tw ?>" <?= $tw == $triwulan ? 'selected' : '' ?>><?= $tw ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary w-100">Filter</button>
-                    </div>
-                </form>
-                <div class="row">
-                    <!-- Total Perusahaan -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalTotalPerusahaan" style="cursor:pointer;">
-                            <div class="card-body">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Perusahaan Terdaftar</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalPerusahaan ?></div>
+        <!-- DASHBOARD SIINAS -->
+        <div id="dashboardSIINas" style="display: <?= $dashboard == 'SIINas' ? 'block' : 'none' ?>;">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Dashboard Upload Data SIINas</h6>
+                </div>
+                <div class="card-body">
+                    <form method="get" action="?page=home#dashboardSIINas" class="row g-3 mb-3">
+                        <div class="col-md-5">
+                            <label for="tahun" class="form-label">Pilih Tahun</label>
+                            <select name="tahun" id="tahun" class="form-control">
+                                <?php foreach ($tahunList as $th): ?>
+                                    <option value="<?= $th ?>" <?= $th == $tahun ? 'selected' : '' ?>><?= $th ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="triwulan" class="form-label">Pilih Triwulan</label>
+                            <select name="triwulan" id="triwulan" class="form-control">
+                                <?php foreach ($triwulanList as $tw): ?>
+                                    <option value="<?= $tw ?>" <?= $tw == $triwulan ? 'selected' : '' ?>><?= $tw ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">Filter</button>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <!-- Total Perusahaan -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalTotalPerusahaan" style="cursor:pointer;">
+                                <div class="card-body">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Perusahaan Terdaftar</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalPerusahaan ?></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Sudah Upload -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalSudahUpload" style="cursor:pointer;">
-                            <div class="card-body">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Perusahaan Sudah Upload</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $sudahUpload ?></div>
+                        <!-- Sudah Upload -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalSudahUpload" style="cursor:pointer;">
+                                <div class="card-body">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Perusahaan Sudah Upload</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $sudahUpload ?></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Belum Upload -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                        <div class="card border-left-danger shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalBelumUpload" style="cursor:pointer;">
-                            <div class="card-body">
-                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Perusahaan Belum Upload</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $belumUpload ?></div>
+                        <!-- Belum Upload -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalBelumUpload" style="cursor:pointer;">
+                                <div class="card-body">
+                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Perusahaan Belum Upload</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $belumUpload ?></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 
     <!-- NEWS -->
     <div class="card shadow mb-4">
