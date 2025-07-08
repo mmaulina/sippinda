@@ -4,9 +4,9 @@ if (!class_exists('Database')) {
 
         //hosting
         // private $host = "localhost";
-        // private $db_name = "ewab5183_d-esdm";
-        // private $username = "ewab5183_root";
-        // private $password = "d-esdm123*";
+        // private $db_name = "sipe6645_sippinda";
+        // private $username = "sipe6645_sippinda";
+        // private $password = "Sippinda*123";
 
         //hostlaptop
         private $host = "localhost";
