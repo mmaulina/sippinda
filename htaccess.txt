@@ -1,0 +1,67 @@
+RewriteEngine On
+
+# Redirect HTTP ke HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Tambahan keamanan lainnya (opsional tapi direkomendasikan)
+<IfModule mod_headers.c>
+    # Mencegah MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Mencegah clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Mengatur HTTP Strict Transport Security (HSTS)
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+    
+    # Mengatur Referrer-Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Mengatur Permissions-Policy
+    Header set Permissions-Policy "geolocation=(), microphone=()"
+    
+    # Mengatur cookie agar hanya dapat dikirim melalui HTTPS
+    Header always edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure;SameSite=Strict
+</IfModule>
+
+# Pencegahan DDoS sederhana dengan pembatasan rate request
+<IfModule mod_rewrite.c>
+    # Membatasi user agent yang mencurigakan (contoh)
+    RewriteCond %{HTTP_USER_AGENT} ^.*(bot|crawl|spider|slurp|fetch|loader|checker).*$ [NC]
+    RewriteRule .* - [F,L]
+
+    # Membatasi jumlah request dari IP yang sama menggunakan environment variables
+    RewriteCond %{ENV:LIMITED} =1
+    RewriteRule .* - [F,L]
+
+    RewriteCond %{REQUEST_URI} ^(.*)$
+    RewriteCond %{REMOTE_ADDR} (.+)
+    RewriteCond expr "%{ENV:LIMIT_COUNT_%{REMOTE_ADDR}} >= 20"
+    RewriteRule .* - [E=LIMITED:1]
+
+    # Increment hit count per IP 
+    RewriteCond %{REQUEST_URI} ^(.*)$
+    RewriteCond %{REMOTE_ADDR} (.+)
+    RewriteRule .* - [E=LIMIT_COUNT_%{REMOTE_ADDR}:%{ENV:LIMIT_COUNT_%{REMOTE_ADDR}}+1]
+</IfModule>
+
+# Membatasi bandwidth rate limit (jika mod_ratelimit aktif)
+<IfModule mod_ratelimit.c>
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit 600
+</IfModule>
+
+# Mengizinkan akses ke file PHP dan JavaScript
+<FilesMatch "\.(php|js)$">
+    Require all granted
+</FilesMatch>
+
+# Mengizinkan akses ke file CSS dari CDN
+<FilesMatch "\.(css|woff|woff2|ttf|svg|eot)$">
+    Require all granted
+</FilesMatch>
+
+# Enkripsi link saat masuk ke sistem
+RewriteCond %{REQUEST_URI} ^/login$ [NC]
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/secure-login?token=%{REMOTE_ADDR} [L,R=302]
