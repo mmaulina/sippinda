@@ -47,6 +47,15 @@ if ($role == 'admin' || $role == 'superadmin') {
 
 if ($role == 'admin' || $role == 'superadmin') {
     // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
+    $queryproposal = "SELECT COUNT(*) as total FROM proposal WHERE status = 'diajukan'";
+    $stmtproposal = $conn->prepare($queryproposal);
+    $stmtproposal->execute();
+    $resultproposal = $stmtproposal->fetch(PDO::FETCH_ASSOC);
+    $jumlahproposalDiajukan = $resultproposal['total'];
+}
+
+if ($role == 'admin' || $role == 'superadmin') {
+    // Query untuk menghitung jumlah laporan_semester yang berstatus 'diajukan'
     $querypengguna = "SELECT COUNT(*) as total FROM users WHERE status = 'diajukan'";
     $stmtpengguna = $conn->prepare($querypengguna);
     $stmtpengguna->execute();
@@ -202,11 +211,11 @@ if ($role == 'admin' || $role == 'superadmin') {
             <i class="fas fa-upload fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Proposal Kegiatan
-                <?php if (($role == 'admin' && $jumlahsinasDiajukan > 0) || ($role == 'superadmin' && $jumlahsinasDiajukan > 0)): ?>
+                <?php if (($role == 'admin' && $jumlahproposalDiajukan > 0) || ($role == 'superadmin' && $jumlahproposalDiajukan > 0)): ?>
                     <span class="position-relative ml-2">
                         <i class="fas fa-bell text-light"></i>
                         <span class="badge badge-success badge-counter position-absolute" style="top: -5px; right: -8px;">
-                            <?= $jumlahsinasDiajukan; ?>
+                            <?= $jumlahproposalDiajukan; ?>
                         </span>
                     </span>
                 <?php endif; ?>
