@@ -10,6 +10,8 @@ if (!isset($_SESSION['id_user'])) {
     exit();
 }
 
+$currentPage = isset($_GET['page']) ? $_GET['page'] : 'home';
+
 $id_user = $_SESSION['id_user'];
 $role = $_SESSION['role'];
 $database = new Database();
@@ -109,8 +111,8 @@ if ($role == 'admin' || $role == 'superadmin') {
 
     <?php if ($role == 'umum'): ?>
         <!-- ROLE UMUM -->
-        <li class="nav-item">
-            <a class="nav-link" href="?page=profil_perusahaan">
+        <li class="nav-item <?= $currentPage == 'profil_perusahaan' ? 'active' : '' ?>">
+            <a class="nav-link <?= $currentPage == 'profil_perusahaan' ? 'active' : '' ?>" href="?page=profil_perusahaan">
                 <i class="fas fa-fw fa-building"></i>
                 <span>Profil Perusahaan</span>
             </a>
@@ -156,8 +158,8 @@ if ($role == 'admin' || $role == 'superadmin') {
     <div class="sidebar-heading">
         Data II
     </div>
-    <li class="nav-item">
-        <a class="nav-link" href="?page=perizinan_tampil">
+    <li class="nav-item <?= $currentPage == 'perizinan_tampil' ? 'active' : '' ?>">
+        <a class="nav-link <?= $currentPage == 'perizinan_tampil' ? 'active' : '' ?>" href="?page=perizinan_tampil">
             <i class="fas fa-file-signature fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Perizinan
@@ -182,8 +184,8 @@ if ($role == 'admin' || $role == 'superadmin') {
         Data III
     </div>
 
-    <li class="nav-item">
-        <a class="nav-link" href="?page=data_siinas_tampil">
+    <li class="nav-item <?= $currentPage == 'data_siinas_tampil' ? 'active' : '' ?>">
+        <a class="nav-link <?= $currentPage == 'data_siinas_tampil' ? 'active' : '' ?>" href="?page=data_siinas_tampil">
             <i class="fas fa-upload fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Data SIINas
@@ -206,8 +208,8 @@ if ($role == 'admin' || $role == 'superadmin') {
         Data Pendukung
     </div>
 
-    <li class="nav-item">
-        <a class="nav-link" href="?page=proposal_tampil">
+    <li class="nav-item <?= $currentPage == 'proposal_tampil' ? 'active' : '' ?>">
+        <a class="nav-link <?= $currentPage == 'proposal_tampil' ? 'active' : '' ?>" href="?page=proposal_tampil">
             <i class="fas fa-upload fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Proposal Kegiatan
@@ -222,8 +224,8 @@ if ($role == 'admin' || $role == 'superadmin') {
             </span>
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="?page=jdih_tampil">
+    <li class="nav-item <?= $currentPage == 'jdih_tampil' ? 'active' : '' ?>">
+        <a class="nav-link <?= $currentPage == 'jdih_tampil' ? 'active' : '' ?>" href="?page=jdih_tampil">
             <i class="fas fa-upload fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Jaringan Dokumentasi <br> dan Informasi Hukum
@@ -249,8 +251,8 @@ if ($role == 'admin' || $role == 'superadmin') {
             Data Pengguna
         </div>
 
-        <li class="nav-item">
-            <a class="nav-link" href="?page=pengguna_tampil">
+        <li class="nav-item <?= $currentPage == 'pengguna_tampil' ? 'active' : '' ?>">
+            <a class="nav-link <?= $currentPage == 'pengguna_tampil' ? 'active' : '' ?>" href="?page=pengguna_tampil">
                 <i class="fas fa-users fa-fw mr-2"></i>
                 <span class="d-inline-flex align-items-center">
                     Pengguna
