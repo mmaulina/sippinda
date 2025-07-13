@@ -23,7 +23,7 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([$id]);
 $users = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
+$redirect_url = ($role == 'umum') ? '?page=home' : '?page=pengguna_tampil';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     function sanitize_input($users)
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $success = $stmt->execute([$username, $email, $no_telp, $role, $status, $id]);
 
     if ($success) {
-        echo "<script>alert('data berhasil diperbarui!'); window.location.href='?page=pengguna_tampil';</script>";
+        echo "<script>alert('data berhasil diperbarui!'); window.location.href='<?= $redirect_url ?>';</script>";
     } else {
         echo "<script>alert('Gagal memperbarui data. Silakan coba lagi.');</script>";
     }
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="card shadow">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Edit Pengguna</h6>
-            <a href="?page=pengguna_tampil" class="btn btn-primary btn-icon-split btn-sm">
+            <a href="<?= $redirect_url ?>" class="btn btn-primary btn-icon-split btn-sm">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left" style="vertical-align: middle; margin-top: 5px;"></i>
                 </span>

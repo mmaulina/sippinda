@@ -21,14 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$email]);
 
         if ($stmt->rowCount() > 0) {
-            $error_message = "Email sudah terdaftar!";
+            $error = "Email sudah terdaftar!";
         } else {
             // Cek apakah username sudah terdaftar
             $stmt = $conn->prepare("SELECT username FROM users WHERE username = ?");
             $stmt->execute([$username]);
 
             if ($stmt->rowCount() > 0) {
-                $error_message = "Username sudah terdaftar!";
+                $error = "Username sudah terdaftar!";
             } else {
                 // Query untuk menambahkan user baru
                 $sql = "INSERT INTO users (username, email, password, no_telp, role, status) VALUES (?, ?, ?, ?, ?, ?)";
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     } catch (PDOException $e) {
-        $error_message = 'Gagal mendaftar: ' . $e->getMessage();
+        $error = 'Gagal mendaftar: ' . $e->getMessage();
     }
 }
 ?>
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </head>
 
-<body class="d-flex justify-content-center align-items-center vh-100">
+<body class="d-flex justify-content-center align-items-center vh-100" style="overflow-y: auto;">
     <div class="card shadow p-4" style="width: 500px;">
         <div class="d-flex justify-content-between mb-3">
             <img src="../assets/img/kalsel.png" alt="Logo Kalsel" style="width: 50px;">
@@ -68,12 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <h3 class="text-center"><i class="me-1">Daftar SIPPINDA</h3>
         <hr>
-        <?php if (!empty($error)) : ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $error; ?>
-            </div>
-        <?php endif; ?>
-
         <form method="POST" action="">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>

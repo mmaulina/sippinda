@@ -11,6 +11,7 @@ if (!isset($_SESSION['id_user'])) {
 
 $id_user = $_SESSION['id_user'];
 $role = $_SESSION['role'];
+$error = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -18,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     {
         return trim(strip_tags($data));
     }
+
     $db = new Database();
     $conn = $db->getConnection();
 
@@ -26,25 +28,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = password_hash(htmlspecialchars($_POST['password']), PASSWORD_BCRYPT);
     $no_telp = sanitize_input($_POST['no_telp']);
     $role = sanitize_input($_POST['role']);
-    $status = 'diverifikasi' ;
+    $status = 'diverifikasi';
 
-    $sql = "INSERT INTO users (username, email, password, no_telp, role, status) 
-                    VALUES (:username, :email, :password, :no_telp, :role, :status)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-            $stmt->bindParam(':password', $password, PDO::PARAM_STR);
-            $stmt->bindParam(':no_telp', $no_telp, PDO::PARAM_STR);
-            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-            $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+    // Cek apakah username atau email sudah terdaftar
+    $cekQuery = "SELECT * FROM users WHERE username = :username OR email = :email";
+    $cekStmt = $conn->prepare($cekQuery);
+    $cekStmt->bindParam(':username', $username);
+    $cekStmt->bindParam(':email', $email);
+    $cekStmt->execute();
 
-            if ($stmt->execute()) {
-                echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=pengguna_tampil';</script>";
-            } else {
-                echo "<script>alert('Gagal menambahkan Data.');</script>";
-            }
+    if ($cekStmt->rowCount() > 0) {
+        $data = $cekStmt->fetch(PDO::FETCH_ASSOC);
+        if ($data['username'] == $username) {
+            $error = "Username sudah terdaftar!";
+        } else if ($data['email'] == $email) {
+            $error = "Email sudah terdaftar!";
+        }
+    } else {
+        // Jika belum ada, lanjutkan insert
+        $sql = "INSERT INTO users (username, email, password, no_telp, role, status) 
+                VALUES (:username, :email, :password, :no_telp, :role, :status)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+        $stmt->bindParam(':no_telp', $no_telp, PDO::PARAM_STR);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='?page=pengguna_tampil';</script>";
+            exit;
+        } else {
+            $error = "Gagal menambahkan data.";
+        }
+    }
 }
 ?>
+
 
 
 
@@ -60,6 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </a>
         </div>
         <div class="card-body">
+            <?php if (!empty($error)) : ?>
+                <div class="alert alert-danger"><?php echo $error; ?></div>
+            <?php endif; ?>
             <form method="POST">
                 <div class="form-group mb-2">
                     <label>Username</label>
