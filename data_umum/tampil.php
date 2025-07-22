@@ -93,7 +93,9 @@ try {
                             <th class="align-middle" onclick="sortTable(7)">Status <i class="fa fa-sort"></i></th>
                             <th class="align-middle" onclick="sortTable(8)">Menggunakan Maklon <i class="fa fa-sort"></i></th>
                             <th class="align-middle" onclick="sortTable(9)">Menyediakan Maklon <i class="fa fa-sort"></i></th>
-                            <th class="align-middle">Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th class="align-middle">Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
 
@@ -112,16 +114,18 @@ try {
                                     <td><?= htmlspecialchars($row['status']); ?></td>
                                     <td><?= htmlspecialchars($row['menggunakan_maklon']); ?></td>
                                     <td><?= htmlspecialchars($row['menyediakan_maklon']); ?></td>
-                                    <td>
-                                        <a href="?page=update_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                            <span class="text">Edit</span>
-                                        </a>
-                                        <a href="?page=delete_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                            <span class="text">Hapus</span>
-                                        </a>
-                                    </td>
+                                    <?php if ($role == 'superadmin'): ?>
+                                        <td>
+                                            <a href="?page=update_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Edit</span>
+                                            </a>
+                                            <a href="?page=delete_data_umum&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Hapus</span>
+                                            </a>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -144,7 +148,9 @@ try {
                             <th>Status</th>
                             <th>Menggunakan Maklon</th>
                             <th>Menyediakan Maklon</th>
-                            <th>Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th>Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </tfoot>
                 </table>

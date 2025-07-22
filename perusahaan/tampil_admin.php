@@ -98,7 +98,7 @@ try {
 
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
-                    <thead>
+                    <thead class="text-center">
                         <tr>
                             <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
@@ -108,31 +108,36 @@ try {
                             <th rowspan="2" onclick="sortTable(5)">No Fax<i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(6)">Jenis Lokasi Pabrik<i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(7)">Jenis Kuisioner<i class="fa fa-sort"></i></th>
+                            <?php if ($role == 'superadmin'): ?>
                             <th rowspan="2">Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (count($profiles) > 0): ?>
                             <?php $no = 1;
                             foreach ($profiles as $row): ?>
-                                <td><?= $no++; ?></td>
-                                <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                <td><?= htmlspecialchars($row['alamat_kantor']); ?></td>
-                                <td><?= htmlspecialchars($row['alamat_pabrik']); ?></td>
-                                <td><?= htmlspecialchars($row['no_telpon']); ?></td>
-                                <td><?= htmlspecialchars($row['no_fax']); ?></td>
-                                <td><?= htmlspecialchars($row['jenis_lokasi_pabrik']); ?></td>
-                                <td><?= htmlspecialchars($row['jenis_kuisioner']); ?></td>
-                                <td>
-                                    <a href="?page=update_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Edit</span>
-                                    </a>
-                                    <a href="?page=delete_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Hapus</span>
-                                    </a>
-                                </td>
+                                <tr>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
+                                    <td><?= htmlspecialchars($row['alamat_kantor']); ?></td>
+                                    <td><?= htmlspecialchars($row['alamat_pabrik']); ?></td>
+                                    <td><?= htmlspecialchars($row['no_telpon']); ?></td>
+                                    <td><?= htmlspecialchars($row['no_fax']); ?></td>
+                                    <td><?= htmlspecialchars($row['jenis_lokasi_pabrik']); ?></td>
+                                    <td><?= htmlspecialchars($row['jenis_kuisioner']); ?></td>
+                                    <?php if ($role == 'superadmin'): ?>
+                                        <td>
+                                            <a href="?page=update_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Edit</span>
+                                            </a>
+                                            <a href="?page=delete_profil_admin&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Hapus</span>
+                                            </a>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -141,7 +146,7 @@ try {
                             </tr>
                         <?php endif; ?>
                     </tbody>
-                    <tfoot>
+                    <tfoot class="text-center">
                         <tr>
                             <th rowspan="2" style="width: 5%;">No. </th>
                             <th rowspan="2">Nama Perusahaan </th>
@@ -151,7 +156,9 @@ try {
                             <th rowspan="2">No Fax</th>
                             <th rowspan="2">Jenis Lokasi Pabrik</th>
                             <th rowspan="2">Jenis Kuisioner</th>
-                            <th rowspan="2">Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th rowspan="2">Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </tfoot>
                 </table>
@@ -160,13 +167,15 @@ try {
             <!-- TABEL BIDANG PERUSAHAAN -->
             <h6 class="mt-4 font-weight-bold text-primary">Bidang Perusahaan</h6>
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
-                    <thead>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 800px; white-space: nowrap;">
+                    <thead class="text-center">
                         <tr>
                             <th rowspan="2" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
                             <th rowspan="2" onclick="sortTable(2)">Bidang Perusahaan<i class="fa fa-sort"></i></th>
-                            <th rowspan="2">Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th rowspan="2">Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
 
@@ -174,19 +183,22 @@ try {
                         <?php if (count($bidang) > 0): ?>
                             <?php $no = 1;
                             foreach ($bidang as $row): ?>
-                                <td><?= $no++; ?></td>
-                                <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                <td><?= htmlspecialchars($row['bidang']); ?></td>
-                                <td>
-                                    <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Edit</span>
-                                    </a>
-                                    <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Hapus</span>
-                                    </a>
-                                </td>
+                                <tr>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
+                                    <td><?= htmlspecialchars($row['bidang']); ?></td>
+                                    <?php if ($role == 'superadmin'): ?>
+                                        <td>
+                                            <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Edit</span>
+                                            </a>
+                                            <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Hapus</span>
+                                            </a>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -196,12 +208,14 @@ try {
                         <?php endif; ?>
                     </tbody>
 
-                    <tfoot>
+                    <tfoot class="text-center">
                         <tr>
                             <th rowspan="2" style="width: 5%;">No.</th>
                             <th rowspan="2">Nama Perusahaan</th>
                             <th rowspan="2">Bidang Perusahaan</th>
-                            <th rowspan="2">Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th rowspan="2">Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </tfoot>
                 </table>

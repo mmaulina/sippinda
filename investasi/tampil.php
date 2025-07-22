@@ -86,7 +86,9 @@ try {
                             <th rowspan="2" class="align-middle" style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
                             <th rowspan="2" class="align-middle" onclick="sortTable(1)">Nama Perusahaan <i class="fa fa-sort"></i></th>
                             <th colspan="7" class="align-middle">Persentasi Kepemilikan</th>
-                            <th rowspan="2" class="align-middle">Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th rowspan="2" class="align-middle">Aksi</th>
+                            <?php endif; ?>
                         </tr>
                         <tr>
                             <th class="align-middle" onclick="sortTable(2)">Pemerintah Pusat <i class="fa fa-sort"></i></th>
@@ -112,16 +114,18 @@ try {
                                 <td><?= htmlspecialchars($row['negara_asal']); ?></td>
                                 <td><?= htmlspecialchars($row['nilai_investasi_tanah']); ?></td>
                                 <td><?= htmlspecialchars($row['nilai_investasi_bangunan']); ?></td>
-                                <td>
-                                    <a href="?page=update_investasi&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Edit</span>
-                                    </a>
-                                    <a href="?page=delete_investasi&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Hapus</span>
-                                    </a>
-                                </td>
+                                <?php if ($role == 'superadmin'): ?>
+                                    <td>
+                                        <a href="?page=update_investasi&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                            <span class="text">Edit</span>
+                                        </a>
+                                        <a href="?page=delete_investasi&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                            <span class="text">Hapus</span>
+                                        </a>
+                                    </td>
+                                <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -142,7 +146,9 @@ try {
                             <th class="align-middle">Negara Asal</th>
                             <th class="align-middle">Nilai Investasi Tanah</th>
                             <th class="align-middle">Nilai Investasi Bangunan</th>
-                            <th class="align-middle">Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th class="align-middle">Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </tfoot>
                 </table>

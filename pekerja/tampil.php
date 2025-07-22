@@ -89,7 +89,9 @@ try {
                             <th colspan="2" class="align-middle">Produksi (Tidak Tetap)</th>
                             <th colspan="2" class="align-middle">Lainnya (Tidak Tetap)</th>
                             <th colspan="7" class="align-middle">Berdasarkan Tingkat Pendidikan</th>
-                            <th rowspan="2" class="align-middle">Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th rowspan="2" class="align-middle">Aksi</th>
+                            <?php endif; ?>
                         </tr>
                         <tr>
                             <th class="align-middle" onclick="sortTable(2)">Laki-Laki <i class="fa fa-sort"></i></th>
@@ -112,31 +114,34 @@ try {
                         <?php if (count($pekerja) > 0): ?>
                             <?php $no = 1;
                             foreach ($pekerja as $row): ?>
-                                <td><?= $no++; ?></td>
-                                <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                <td><?= htmlspecialchars($row['laki_laki_pro_tetap']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['perempuan_pro_tetap']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['laki_laki_pro_tidak_tetap']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['perempuan_pro_tidak_tetap']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['laki_laki_lainnya']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['perempuan_lainnya']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['sd']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['smp']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['sma']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['d1_d2_d3']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['s1_d4']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['s2']); ?> orang</td>
-                                <td><?= htmlspecialchars($row['s3']); ?> orang</td>
-                                <td>
-                                    <a href="?page=update_pekerja&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Edit</span>
-                                    </a>
-                                    <a href="?page=delete_pekerja&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Hapus</span>
-                                    </a>
-                                </td>
+                                <tr>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
+                                    <td><?= htmlspecialchars($row['laki_laki_pro_tetap']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['perempuan_pro_tetap']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['laki_laki_pro_tidak_tetap']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['perempuan_pro_tidak_tetap']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['laki_laki_lainnya']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['perempuan_lainnya']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['sd']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['smp']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['sma']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['d1_d2_d3']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['s1_d4']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['s2']); ?> orang</td>
+                                    <td><?= htmlspecialchars($row['s3']); ?> orang</td>
+                                    <?php if ($role == 'superadmin'): ?>
+                                        <td>
+                                            <a href="?page=update_pekerja&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Edit</span>
+                                            </a>
+                                            <a href="?page=delete_pekerja&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Hapus</span>
+                                            </a>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -163,7 +168,9 @@ try {
                             <th class="align-middle">S1/D4</th>
                             <th class="align-middle">S2</th>
                             <th class="align-middle">S3</th>
-                            <th class="align-middle">Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th class="align-middle">Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </tfoot>
                 </table>

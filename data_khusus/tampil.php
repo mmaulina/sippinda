@@ -79,8 +79,8 @@ try {
                 </a>
             </div>
 
-            <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 800px; white-space: nowrap;">
                     <thead class="text-center">
                         <tr>
                             <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
@@ -88,28 +88,33 @@ try {
                             <th onclick="sortTable(2)">Nama Penanda Tangan Laporan <i class="fa fa-sort"></i></th>
                             <th onclick="sortTable(3)">jabatan <i class="fa fa-sort"></i></th>
                             <th onclick="sortTable(4)">Nama Perusahaan Induk <i class="fa fa-sort"></i></th>
-                            <th>Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th>Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (count($data_khusus) > 0): ?>
                             <?php $no = 1;
                             foreach ($data_khusus as $row): ?>
-                                <td><?= $no++; ?></td>
-                                <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                <td><?= htmlspecialchars($row['nama_penanda_tangan_laporan']); ?></td>
-                                <td><?= htmlspecialchars($row['jabatan']); ?></td>
-                                <td><?= htmlspecialchars($row['nama_perusahaan_induk']); ?></td>
-                                <td>
-                                    <a href="?page=update_data_khusus&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Edit</span>
-                                    </a>
-                                    <a href="?page=delete_data_khusus&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                        <span class="text">Hapus</span>
-                                    </a>
-                                </td>
+                                <tr>
+                                    <td><?= $no++; ?></td>
+                                    <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
+                                    <td><?= htmlspecialchars($row['nama_penanda_tangan_laporan']); ?></td>
+                                    <td><?= htmlspecialchars($row['jabatan']); ?></td>
+                                    <td><?= htmlspecialchars($row['nama_perusahaan_induk']); ?></td>
+                                    <?php if ($role == 'superadmin'): ?>
+                                        <td>
+                                            <a href="?page=update_data_khusus&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Edit</span>
+                                            </a>
+                                            <a href="?page=delete_data_khusus&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                                <span class="text">Hapus</span>
+                                            </a>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -125,7 +130,9 @@ try {
                             <th>Nama Penanda Tangan Laporan</th>
                             <th>jabatan</th>
                             <th>Nama Perusahaan Induk</th>
-                            <th>Aksi</th>
+                            <?php if ($role == 'superadmin'): ?>
+                                <th>Aksi</th>
+                            <?php endif; ?>
                         </tr>
                     </tfoot>
                 </table>
