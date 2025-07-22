@@ -65,77 +65,77 @@ try {
             </div>
 
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
-                    <thead>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px;">
+                    <thead class="text-center">
                         <tr>
                             <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(1)">ID TITLE <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(2)">Title <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(3)">Jenis Konten <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Konten <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Caption <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Tanggal <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(1)" style="width: 7%;">ID TITLE <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(2)" style="width: 10%;">Title <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(3)" style="width: 8%;">Jenis Konten <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(4)" style="width: 7%;">Konten <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(5)">Caption <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(6)" style="width: 7%;">Tanggal <i class="fa fa-sort"></i></th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tfoot>
+                    <tbody>
+                        <?php if (count($konten_list) > 0): ?>
+                            <?php $no = 1;
+                            foreach ($konten_list as $row): ?>
+                                <td><?= $no++; ?></td>
+                                <td><?= htmlspecialchars($row['id_title']); ?></td>
+                                <td><?= htmlspecialchars($row['title']); ?></td>
+                                <td><?= htmlspecialchars($row['jenis_konten']); ?></td>
+                                <td>
+                                    <?php
+                                    if ($row['jenis_konten'] === 'gambar') : ?>
+                                        <img src="<?php echo htmlspecialchars($row['konten']); ?>" alt="Gambar Konten" width="100">
+                                    <?php elseif ($row['jenis_konten'] === 'link') : ?>
+                                        <a href="<?php echo htmlspecialchars($row['konten']); ?>" target="_blank">
+                                            🌐 Lihat Link
+                                        </a>
+                                    <?php elseif ($row['jenis_konten'] === 'file') : ?>
+                                        <a href="<?php echo htmlspecialchars($row['konten']); ?>" target="_blank" class="btn btn-sm btn-info">
+                                            <i class="fas fa-file-alt"></i> Lihat
+                                        </a>
+                                    <?php else : ?>
+                                        <p class="text-muted">Tidak ada konten</p>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?= htmlspecialchars($row['caption']); ?></td>
+                                <td><?= htmlspecialchars($row['tanggal']); ?></td>
+                                <td>
+                                    <a href="?page=update_konten&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                                        <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                        <span class="text">Edit</span>
+                                    </a>
+                                    <a href="?page=delete_konten&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                        <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
+                                        <span class="text">Hapus</span>
+                                    </a>
+                                </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="14" class="text-center">Data tidak ditemukan</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                    <tfoot class="text-center">
                         <tr>
                             <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(1)">ID TITLE <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(2)">Title <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(3)">Jenis Konten <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Konten <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Caption <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">Tanggal <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(1)" style="width: 7%;">ID TITLE <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(2)" style="width: 10%;">Title <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(3)" style="width: 8%;">Jenis Konten <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(4)" style="width: 7%;">Konten <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(5)">Caption <i class="fa fa-sort"></i></th>
+                            <th onclick="sortTable(6)" style="width: 7%;">Tanggal <i class="fa fa-sort"></i></th>
                             <th>Aksi</th>
                         </tr>
-                        <tbody>
-                            <?php if (count($konten_list) > 0): ?>
-                                <?php $no = 1;
-                                foreach ($konten_list as $row): ?>
-                                    <td><?= $no++; ?></td>
-                                    <td><?= htmlspecialchars($row['id_title']); ?></td>
-                                    <td><?= htmlspecialchars($row['title']); ?></td>
-                                    <td><?= htmlspecialchars($row['jenis_konten']); ?></td>
-                                    <td>
-                                        <?php
-                                        if ($row['jenis_konten'] === 'gambar') : ?>
-                                            <img src="<?php echo htmlspecialchars($row['konten']); ?>" alt="Gambar Konten" width="100">
-                                        <?php elseif ($row['jenis_konten'] === 'link') : ?>
-                                            <a href="<?php echo htmlspecialchars($row['konten']); ?>" target="_blank">
-                                                🌐 Lihat Link
-                                            </a>
-                                        <?php elseif ($row['jenis_konten'] === 'file') : ?>
-                                            <a href="<?php echo htmlspecialchars($row['konten']); ?>" target="_blank" class="btn btn-sm btn-info">
-                                                <i class="fas fa-file-alt"></i> Lihat
-                                            </a>
-                                        <?php else : ?>
-                                            <p class="text-muted">Tidak ada konten</p>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td><?= htmlspecialchars($row['caption']); ?></td>
-                                    <td><?= htmlspecialchars($row['tanggal']); ?></td>
-                                    <td>
-                                        <a href="?page=update_konten&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                            <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                            <span class="text">Edit</span>
-                                        </a>
-                                        <a href="?page=delete_konten&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                            <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                            <span class="text">Hapus</span>
-                                        </a>
-                                    </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="14" class="text-center">Data tidak ditemukan</td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
+                    </tfoot>
                 </table>
             </div>
         </div>
     </div>
-
 </div>

@@ -226,7 +226,7 @@ if ($role == 'admin' || $role == 'superadmin') {
     </li>
     <li class="nav-item <?= $currentPage == 'jdih_tampil' ? 'active' : '' ?>">
         <a class="nav-link <?= $currentPage == 'jdih_tampil' ? 'active' : '' ?>" href="?page=jdih_tampil">
-            <i class="fas fa-upload fa-fw mr-2"></i>
+            <i class="far fa-newspaper fa-fw mr-2"></i>
             <span class="d-inline-flex align-items-center">
                 Jaringan Dokumentasi <br> dan Informasi Hukum
                 <?php if ($djih_baru > 0): ?>

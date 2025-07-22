@@ -152,12 +152,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="min-width: 1800px; white-space: nowrap;">
                     <thead class="text-center">
                         <tr>
-                            <th style="width: 5%;" onclick="sortTable(0)">No. <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(1)">Nama Perusahaan (Asosiasi)<i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(2)">Tahun Usulan Kegiatan <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(3)">Upload Berkas <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(4)">status <i class="fa fa-sort"></i></th>
-                            <th onclick="sortTable(5)">Keterangan <i class="fa fa-sort"></i></th>
+                            <th style="width: 5%;">No.</th>
+                            <th>Nama Perusahaan (Asosiasi)</th>
+                            <th>Tahun Usulan Kegiatan</th>
+                            <th>Upload Berkas</th>
+                            <th>status</th>
+                            <th>Keterangan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
