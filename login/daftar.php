@@ -62,11 +62,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body class="d-flex justify-content-center align-items-center vh-100" style="overflow-y: auto;">
     <div class="card shadow p-4" style="width: 500px;">
-        <div class="d-flex justify-content-between mb-3">
-            <img src="../assets/img/kalsel.png" alt="Logo Kalsel" style="width: 50px;">
-            <img src="../assets/img/kemenperin.png" alt="Logo Kementerian Perindustrian" style="width: 80px;">
+        <div class="d-flex align-items-center justify-content-between mb-3 mt-2">
+            <img src="../assets/img/kalsel.png" alt="Logo Kalsel" style="width: 70px;">
+            <h3 class="text-center"><strong>DAFTAR SIPPINDA</strong></h3>
+            <img src="../assets/img/kemenperin.png" alt="Logo Kemenperin" style="width: 80px;">
         </div>
-        <h3 class="text-center"><i class="me-1">Daftar SIPPINDA</h3>
         <hr>
         <form method="POST" action="">
             <div class="mb-3">
@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn custom-btn w-100">Daftar</button>
         </form>
 
-        <div class="text-center mt-3">
+        <div class="text-center">
             <a href="login.php">Sudah punya akun?</a>
         </div>
     </div>

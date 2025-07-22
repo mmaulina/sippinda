@@ -92,6 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -103,13 +104,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </head>
 
-<body class="d-flex justify-content-center align-items-center vh-100">
-    <div class="card shadow p-4" style="width: 400px;">
-        <div class="d-flex justify-content-between mb-3">
-            <img src="../assets/img/kalsel.png" alt="Logo Kalsel" style="width: 50px;">
-            <img src="../assets/img/kemenperin.png" alt="Logo Kementerian Perindustrian" style="width: 80px;">
+<body class="d-flex justify-content-center align-items-center vh-100" style="overflow-y: auto;">
+    <div class="card shadow p-4" style="width: 440px;">
+        <div class="d-flex align-items-center justify-content-between mb-3 mt-2">
+            <img src="../assets/img/kalsel.png" alt="Logo Kalsel" style="width: 70px;">
+            <h3 class="text-center"><strong>LOGIN SIPPINDA</strong></h3>
+            <img src="../assets/img/kemenperin.png" alt="Logo Kemenperin" style="width: 80px;">
         </div>
-        <h3 class="text-center"><i class="me-1">Login SIPPINDA</h3>
         <hr>
         <?php if (!empty($error)) : ?>
             <div class="alert alert-danger" role="alert">
@@ -134,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn custom-btn w-100">Login</button>
         </form>
 
-        <div class="text-center mt-3">
+        <div class="text-center">
             <a href="daftar.php">Belum punya akun?</a>
         </div>
     </div>
