@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <option value="superadmin">SuperAdmin</option>
                         <?php } ?>
                         <option value="admin">Admin</option>
-                        <option value="umum">Tidak</option>
+                        <option value="umum">Umum</option>
                     </select>
                 </div>
                 <!-- Tombol Simpan dan Batal -->
