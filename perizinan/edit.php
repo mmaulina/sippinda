@@ -29,12 +29,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $jenis_laporan = sanitizeInput($_POST['jenis_laporan']);
     $no_izin = sanitizeInput($_POST['no_izin']);
     $tgl_dokumen = sanitizeInput($_POST['tgl_dokumen']);
-    $upload_berkas = uploadFile('upload_berkas', $jenis_laporan, $nama_perusahaan, $no_izin);
+    $upload_berkas = null;
+    if (!empty($_FILES['upload_berkas']['name'])) {
+        $upload_berkas = uploadFile('upload_berkas', $jenis_laporan, $nama_perusahaan, $no_izin);
+        
+        if ($upload_berkas === null) {
+            echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/doc/docx/xls/xlsx) dan ukuran maksimal 10MB.'); history.back();</script>";
+            exit;
+        }
+    }
 
-    if ($upload_berkas === null) {
-    echo "<script>alert('Upload file gagal! Pastikan memilih file dengan format yang benar (pdf/doc/docx/xls/xlsx) dan ukuran maksimal 10MB.'); history.back();</script>";
-    exit;
-}
 
     $verifikasi = 'diajukan';
     $keterangan = '-';
@@ -72,6 +76,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($upload_berkas !== null) {
         $stmt->bindParam(':upload_berkas', $upload_berkas);
     }
+
+    if ($upload_berkas !== null && !empty($data['upload_berkas']) && file_exists($data['upload_berkas'])) {
+    unlink($data['upload_berkas']); // hapus file lama
+}
 
     if ($stmt->execute()) {
         $_SESSION['hasil'] = true;
