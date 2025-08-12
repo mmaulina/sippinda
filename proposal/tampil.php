@@ -14,7 +14,7 @@ if (isset($_GET['keyword'])) {
 
 $query = "SELECT * FROM proposal WHERE 1=1";
 $params = [];
-if ($role != 'admin' && $role != 'superadmin') {
+if ($role != 'admin' && $role != 'superadmin' && $role != 'kadis') {
     $query .= " AND id_user = :id_user";
     $params[':id_user'] = $id_user;
 }

@@ -88,12 +88,12 @@ try {
                     </span>
                     <span class="text">Tambah Bidang Perusahaan</span>
                 </a> -->
-                <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
+                <!-- <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
                     <span class="icon text-white-50">
                         <i class="fas fa-download" style="vertical-align: middle; margin-top: 5px;"></i>
                     </span>
                     <span class="text">Export Excel</span>
-                </a>
+                </a> -->
             </div>
 
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
@@ -180,33 +180,53 @@ try {
                     </thead>
 
                     <tbody>
-                        <?php if (count($bidang) > 0): ?>
-                            <?php $no = 1;
-                            foreach ($bidang as $row): ?>
-                                <tr>
-                                    <td><?= $no++; ?></td>
-                                    <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                    <td><?= htmlspecialchars($row['bidang']); ?></td>
-                                    <?php if ($role == 'superadmin'): ?>
-                                        <td>
-                                            <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
-                                                <span class="icon text-white-50"><i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                                <span class="text">Edit</span>
-                                            </a>
-                                            <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                <span class="icon text-white-50"><i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i></span>
-                                                <span class="text">Hapus</span>
-                                            </a>
-                                        </td>
-                                    <?php endif; ?>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="14" class="text-center">Data tidak ditemukan</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
+    <?php if (count($bidang) > 0): ?>
+        <?php
+        $groupedData = [];
+        foreach ($bidang as $row) {
+            if (isset($row['id_user'])) {
+                $groupedData[$row['id_user']][] = $row;
+            } else {
+                echo "id_user tidak ditemukan untuk baris: " . json_encode($row);
+            }
+        }
+
+        foreach ($groupedData as $id_user => $rows):
+            $no = 1;
+            $nama_perusahaan = htmlspecialchars($rows[0]['nama_perusahaan']);
+            echo "<tr><td colspan='16' class='fw-bold bg-light'>NAMA PERUSAHAAN = ($nama_perusahaan)</td></tr>";
+
+            foreach ($rows as $row):
+        ?>
+            <tr>
+                <td><?= $no++; ?></td>
+                <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
+                <td><?= htmlspecialchars($row['bidang']); ?></td>
+                <?php if ($role == 'superadmin'): ?>
+                    <td>
+                        <a href="?page=edit_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-warning btn-icon-split btn-sm">
+                            <span class="icon text-white-50">
+                                <i class="fa fa-pencil-alt" style="vertical-align: middle; margin-top: 5px;"></i>
+                            </span>
+                            <span class="text">Edit</span>
+                        </a>
+                        <a href="?page=hapus_bidang&id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-danger btn-icon-split btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                            <span class="icon text-white-50">
+                                <i class="fa fa-trash" style="vertical-align: middle; margin-top: 5px;"></i>
+                            </span>
+                            <span class="text">Hapus</span>
+                        </a>
+                    </td>
+                <?php endif; ?>
+            </tr>
+        <?php endforeach; // end foreach rows ?>
+        <?php endforeach; // end foreach groupedData ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="14" class="text-center">Data tidak ditemukan</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
 
                     <tfoot class="text-center">
                         <tr>

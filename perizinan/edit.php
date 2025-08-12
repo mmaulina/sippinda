@@ -170,7 +170,7 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
                         $jenis_list = [
                             "KKPR", "PERSETUJUAN LINGKUNGAN", "SURAT LAIK FUNGSI", "PERSETUJUAN BANGUNAN DAN GEDUNG", "NOMOR INDUK BERUSAHA", "NPWP",
                             "PERIZINAN USAHA SEKTOR INDUSTRI", "SERTIFIKAT HALAL", "TKDN",
-                            "SNI", "SERTIFIKAT INDUSTRI HIJAU", "PELAPORAN S1 S2 SINAS",
+                            "SNI", "SERTIFIKAT INDUSTRI HIJAU",
                             "KEPEMILIKAN AKUN SINAS", "KESESUAIAN KEGIATAN USAHA DENGAN BIDANG USAHA PERIZINAN PERUSAHAAN", "KESESUAIAN FASILITAS PRODUKSI DAN KAPASITAS SESUAI DENGAN PERIZINAN PERUSAHAAN",
                             "IZIN USAHA INDSUTRI", "IZIN PERLUASAN INDUSTRI", "IZIN KAWASAN INDUSTRI",
                             "IZIN PERLUASAN KAWASAN INDUSTRI"

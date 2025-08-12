@@ -154,7 +154,6 @@ function uploadFile($input_name, $jenis_laporan, $nama_perusahaan, $no_izin)
                         <option value="SNI">SNI</option>
                         <option value="ISO">ISO</option>
                         <option value="SERTIFIKAT INDUSTRI HIJAU">SERTIFIKAT INDUSTRI HIJAU</option>
-                        <option value="PELAPORAN S1 S2 SINAS">PELAPORAN S.11/S.2(SINAS)</option>
                         <option value="KEPEMILIKAN AKUN SINAS">KEPEMILIKAN AKUN SINAS</option>
                         <option value="KESESUAIAN KEGIATAN USAHA DENGAN BIDANG USAHA PERIZINAN PERUSAHAAN">KESESUAIAN KEGIATAN USAHA DENGAN BIDANG USAHA PERIZINAN PERUSAHAAN</option>
                         <option value="KESESUAIAN FASILITAS PRODUKSI DAN KAPASITAS SESUAI DENGAN PERIZINAN PERUSAHAAN">KESESUAIAN FASILITAS PRODUKSI DAN KAPASITAS SESUAI DENGAN PERIZINAN PERUSAHAAN</option>

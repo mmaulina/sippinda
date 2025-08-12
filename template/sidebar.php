@@ -75,10 +75,14 @@ if ($role == 'admin' || $role == 'superadmin') {
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="?page=home">
         <div class="sidebar-brand-icon">
-            <img src="assets/img/kemenperin.png" alt="Logo Kemenperin"
+            <img src="assets/img/kalsel.png" alt="Logo Kemenperin"
                 style="height: 40px; width: auto; background-color: white; padding: 5px; border-radius: 20px;">
         </div>
         <div class="sidebar-brand-text mx-3">SIPPINDA</div>
+        <div class="sidebar-brand-icon">
+            <img src="assets/img/kemenperin.png" alt="Logo Kemenperin"
+                style="height: 40px; width: auto; background-color: white; padding: 5px; border-radius: 20px;">
+        </div>
     </a>
 
     <!-- Divider -->
@@ -119,7 +123,7 @@ if ($role == 'admin' || $role == 'superadmin') {
         </li>
     <?php endif; ?>
 
-    <?php if ($role == 'admin' || $role == 'superadmin'): ?>
+    <?php if ($role == 'admin' || $role == 'superadmin' ||$role == 'kadis'): ?>
         <!-- ROLE ADMIN & SUPERADMIN -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfil"

@@ -17,7 +17,7 @@ $query = "SELECT * FROM perizinan WHERE 1=1";
 $params = [];
 
 // Filter role
-if ($role != 'admin' && $role != 'superadmin') {
+if ($role != 'admin' && $role != 'superadmin' && $role != 'kadis') {
     $query .= " AND id_user = :id_user";
     $params[':id_user'] = $id_user;
 }

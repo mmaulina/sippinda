@@ -115,6 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php } ?>
                         <option value="admin">Admin</option>
                         <option value="umum">Umum</option>
+                        <option value="kadis">Kadis</option>
                     </select>
                 </div>
                 <!-- Tombol Simpan dan Batal -->
