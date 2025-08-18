@@ -71,12 +71,12 @@ try {
                         <span class="text">Tambah Data</span>
                     </a>
                 <?php endif; ?>
-                <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
+                <!-- <a href="?page=excel_profil" class="btn btn-success btn-icon-split btn-sm">
                     <span class="icon text-white-50">
                         <i class="fas fa-download" style="vertical-align: middle; margin-top: 5px;"></i>
                     </span>
                     <span class="text">Export Excel</span>
-                </a>
+                </a> -->
             </div>
 
             <div class="table-responsive" style="max-height: 500px; overflow-x: auto; overflow-y: auto;">
