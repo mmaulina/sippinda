@@ -127,7 +127,7 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
                         <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#modalTotalPerusahaan" style="cursor:pointer;">
                                 <div class="card-body">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Perusahaan Terdaftar</div>
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Perusahaan yang Menjadi Kewenangan Provinsi</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalPerusahaan ?></div>
                                 </div>
                             </div>
@@ -279,7 +279,7 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalTotalLabel">Daftar Seluruh Perusahaan Terdaftar</h5>
+                <h5 class="modal-title" id="modalTotalLabel">Daftar Seluruh Perusahaan yang Menjadi Kewenangan Provinsi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
@@ -372,7 +372,7 @@ $belumUploadList = array_filter($perusahaanList, fn($p) => !in_array($p['id_user
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalSudahUploadLabel">Perusahaan yang Sudah Upload</h5>
+                <h5 class="modal-title" id="modalSudahUploadLabel">Perusahaan yang Sudah Melaporkan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
             <div class="modal-body">
