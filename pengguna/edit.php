@@ -85,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php } ?>
                         <option value="admin" <?= $users['role'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
                         <option value="umum" <?= $users['role'] == 'umum' ? 'selected' : ''; ?>>Umum</option>
+                        <option value="kadis" <?= $users['role'] == 'kadis' ? 'selected' : ''; ?>>Kadis</option>
                     </select>
                 </div>
                 <div class="mb-3">
