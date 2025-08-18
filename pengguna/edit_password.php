@@ -9,7 +9,7 @@ include "koneksi.php";
 $database = new Database();
 $conn = $database->getConnection();
 
-$id_user = $_SESSION['id_user']; 
+$id_user = $_SESSION['id_user'];
 
 // Periksa jika tombol simpan diklik
 if (isset($_POST['btn_simpan'])) {
@@ -28,7 +28,7 @@ if (isset($_POST['btn_simpan'])) {
         if ($data && password_verify($password_lama, $data['password'])) {
             // Hash password baru menggunakan Bcrypt
             $hashed_password_baru = password_hash($password_baru, PASSWORD_BCRYPT);
-            
+
             $stmt = $conn->prepare("UPDATE users SET password = :password WHERE id_user = :id_user");
             $stmt->bindParam(":password", $hashed_password_baru, PDO::PARAM_STR);
             $stmt->bindParam(":id_user", $id_user, PDO::PARAM_INT);
@@ -37,7 +37,7 @@ if (isset($_POST['btn_simpan'])) {
             if ($query) {
                 $_SESSION['hasil'] = true;
                 $_SESSION['pesan'] = "Berhasil Memperbarui Data";
-                echo "<meta http-equiv='refresh' content='0;url=?page=home'>";
+                echo "<meta http-equiv='refresh' content='0;url=login/login.php'>";
                 exit;
             } else {
                 $_SESSION['hasil'] = false;

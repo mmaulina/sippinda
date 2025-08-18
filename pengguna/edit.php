@@ -42,10 +42,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $success = $stmt->execute([$username, $email, $no_telp, $role, $status, $id]);
 
     if ($success) {
-        echo "<script>alert('data berhasil diperbarui!'); window.location.href='<?= $redirect_url ?>';</script>";
-    } else {
-        echo "<script>alert('Gagal memperbarui data. Silakan coba lagi.');</script>";
-    }
+    echo "<script>
+        alert('Data berhasil diperbarui!');
+        window.location.href='login/login.php';
+    </script>";
+} else {
+    echo "<script>
+        alert('Gagal memperbarui data. Silakan coba lagi.');
+    </script>";
+}
+
 }
 ?>
 
