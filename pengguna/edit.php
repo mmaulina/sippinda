@@ -32,26 +32,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $username = sanitize_input($_POST['username']);
-    $email = sanitize_input($_POST['email']);
-    $no_telp = sanitize_input($_POST['no_telp']);
-    $role = sanitize_input($_POST['role']);
-    $status = sanitize_input($_POST['status']);
+    $email    = sanitize_input($_POST['email']);
+    $no_telp  = sanitize_input($_POST['no_telp']);
+    $role     = sanitize_input($_POST['role']);
+    $status   = sanitize_input($_POST['status']);
 
-    $sql = "UPDATE users SET username = ?, email = ?, no_telp = ?, role = ?, status = ? WHERE id_user = ?";
-    $stmt = $pdo->prepare($sql);
-    $success = $stmt->execute([$username, $email, $no_telp, $role, $status, $id]);
+    // ambil role dari user yang login
+    $current_role = $_SESSION['role'];
+
+    if ($current_role === 'admin' || $current_role === 'superadmin') {
+        // admin & superadmin boleh update semuanya
+        $sql = "UPDATE users 
+            SET username = ?, email = ?, no_telp = ?, role = ?, status = ? 
+            WHERE id_user = ?";
+        $stmt = $pdo->prepare($sql);
+        $success = $stmt->execute([$username, $email, $no_telp, $role, $status, $id]);
+    } else {
+        // umum & kadis hanya boleh update data dasar
+        $sql = "UPDATE users 
+            SET username = ?, email = ?, no_telp = ? 
+            WHERE id_user = ?";
+        $stmt = $pdo->prepare($sql);
+        $success = $stmt->execute([$username, $email, $no_telp, $id]);
+    }
+
 
     if ($success) {
-    echo "<script>
+        echo "<script>
         alert('Data berhasil diperbarui!');
         window.location.href='login/login.php';
     </script>";
-} else {
-    echo "<script>
+    } else {
+        echo "<script>
         alert('Gagal memperbarui data. Silakan coba lagi.');
     </script>";
-}
-
+    }
 }
 ?>
 
@@ -82,27 +97,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" class="form-control" name="no_telp" placeholder="Masukkan No. Telp" required maxlength="200" value="<?php echo $users['no_telp']; ?>"></input>
                 </div>
                 <?php if ($_SESSION['role'] != 'umum') : ?>
-                <div class="mb-3">
-                    <label class="form-label">Role</label>
-                    <select name="role" class="form-control" required>
-                        <option value="">-- Pilih Role --</option>
-                        <?php if ($_SESSION['role'] == 'superadmin') { ?>
-                            <option value="superadmin" <?= $users['role'] == 'superadmin' ? 'selected' : ''; ?>>SuperAdmin</option>
-                        <?php } ?>
-                        <option value="admin" <?= $users['role'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
-                        <option value="umum" <?= $users['role'] == 'umum' ? 'selected' : ''; ?>>Umum</option>
-                        <option value="kadis" <?= $users['role'] == 'kadis' ? 'selected' : ''; ?>>Kadis</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-control" required>
-                        <option value="">-- Pilih Status --</option>
-                        <option value="diajukan" <?= $users['status'] == 'diajukan' ? 'selected' : ''; ?>>Diajukan</option>
-                        <option value="diverifikasi" <?= $users['status'] == 'diverifikasi' ? 'selected' : ''; ?>>Diverifikasi</option>
-                        <option value="ditolak" <?= $users['status'] == 'ditolak' ? 'selected' : ''; ?>>Ditolak</option>
-                    </select>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <select name="role" class="form-control" required>
+                            <option value="">-- Pilih Role --</option>
+                            <?php if ($_SESSION['role'] == 'superadmin') { ?>
+                                <option value="superadmin" <?= $users['role'] == 'superadmin' ? 'selected' : ''; ?>>SuperAdmin</option>
+                            <?php } ?>
+                            <option value="admin" <?= $users['role'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
+                            <option value="umum" <?= $users['role'] == 'umum' ? 'selected' : ''; ?>>Umum</option>
+                            <option value="kadis" <?= $users['role'] == 'kadis' ? 'selected' : ''; ?>>Kadis</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-control" required>
+                            <option value="">-- Pilih Status --</option>
+                            <option value="diajukan" <?= $users['status'] == 'diajukan' ? 'selected' : ''; ?>>Diajukan</option>
+                            <option value="diverifikasi" <?= $users['status'] == 'diverifikasi' ? 'selected' : ''; ?>>Diverifikasi</option>
+                            <option value="ditolak" <?= $users['status'] == 'ditolak' ? 'selected' : ''; ?>>Ditolak</option>
+                        </select>
+                    </div>
                 <?php endif; ?>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-success">Simpan</button>
